@@ -50,11 +50,11 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 #gate.gone{display:none}#gate.open{opacity:0;transition:opacity .45s}
 #gate.boom{animation:flick .07s linear infinite}
 #gate.boom .box{opacity:0;pointer-events:none}
-.gterm{position:absolute;color:#39ff14;font-size:.62rem;line-height:1.35;white-space:pre-wrap;overflow:hidden;opacity:0;text-shadow:0 0 8px #39ff14;pointer-events:none;z-index:3;background:rgba(0,8,2,.72)}
-.gterm.L{left:0;top:0;bottom:0;width:28%;border-right:1px solid #2a8;transform:translateX(-110%)}
-.gterm.R{right:0;top:0;bottom:0;width:28%;border-left:1px solid #2a8;transform:translateX(110%)}
-.gterm.T{left:0;right:0;top:0;height:22%;border-bottom:1px solid #2a8;transform:translateY(-110%)}
-.gterm.B{left:0;right:0;bottom:0;height:22%;border-top:1px solid #2a8;transform:translateY(110%)}
+.gterm{position:absolute;color:#39ff14;font-size:clamp(.95rem,2.1vw,1.25rem);line-height:1.45;font-weight:700;padding:12px;white-space:pre-wrap;overflow:hidden;opacity:0;text-shadow:0 0 8px #39ff14;pointer-events:none;z-index:3;background:rgba(0,8,2,.72)}
+.gterm.L{left:0;top:0;bottom:0;width:30%;border-right:1px solid #2a8;transform:translateX(-110%)}
+.gterm.R{right:0;top:0;bottom:0;width:30%;border-left:1px solid #2a8;transform:translateX(110%)}
+.gterm.T{left:0;right:0;top:0;height:24%;border-bottom:1px solid #2a8;transform:translateY(-110%)}
+.gterm.B{left:0;right:0;bottom:0;height:24%;border-top:1px solid #2a8;transform:translateY(110%)}
 #gate.boom .gterm{opacity:1;transform:none;transition:transform 0.9s cubic-bezier(.22,1,.36,1),opacity .4s}
 .mask{position:absolute;width:min(320px,70vw);aspect-ratio:3/4;opacity:0;z-index:5;pointer-events:none;filter:drop-shadow(0 0 24px #39ff14)}
 #gate.boom .mask{opacity:1;animation:maskPulse .28s steps(2) infinite}
@@ -79,7 +79,7 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 @keyframes pageIn{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:none}}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes maskPulse{50%{filter:drop-shadow(0 0 40px #39ff14) brightness(1.4)}}
-@media(max-width:900px){.hero,.row,.grid,.mods{grid-template-columns:1fr}.monitor{margin:12px auto}.gterm.L,.gterm.R{width:22%}.gterm{font-size:.5rem}}
+@media(max-width:900px){.hero,.row,.grid,.mods{grid-template-columns:1fr}.monitor{margin:12px auto}.gterm.L,.gterm.R{width:26%}.gterm{font-size:.78rem}}
 </style>
 </head>
 <body class="locked">
@@ -172,7 +172,7 @@ function clickFx(){
 document.addEventListener("pointerdown",function(e){if(!mainReady)return;if(e.target&&e.target.id==="cmd")return;clickFx();},true);
 var lines=["breach.sh","handshake fail","decrypt shadow","port 22 open","port 443 open","payload in","I SEE YOU","osint map","root yes","session hijack","camera /dev/video0","YOU CLICKED"];
 function fillSide(el,max){var b=[],i=0;(function step(){if(!opened)return;b.push(lines[i++%lines.length]+" "+Math.random().toString(16).slice(2,7));if(b.length>max)b.shift();el.textContent=b.join("\n");setTimeout(step,80)})()}
-function dumpRun(){fillSide(document.getElementById("gtL"),26);fillSide(document.getElementById("gtR"),26);fillSide(document.getElementById("gtT"),8);fillSide(document.getElementById("gtB"),8)}
+function dumpRun(){fillSide(document.getElementById("gtL"),22);fillSide(document.getElementById("gtR"),22);fillSide(document.getElementById("gtT"),6);fillSide(document.getElementById("gtB"),6)}
 function goMain(){g.classList.add("open");document.body.classList.remove("locked","quake");setTimeout(function(){g.classList.add("gone");mainReady=true;try{fx.pause();fx.currentTime=0}catch(e){}},450)}
 document.getElementById("door").onclick=function(){
   if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");dumpRun();
