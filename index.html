@@ -4,41 +4,44 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>OSINTrahat</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@800;900&display=swap" rel="stylesheet"/>
 <style>
-:root{--g:#39ff14;--c:#00e5ff}
+:root{--g:#39ff14}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Share Tech Mono",monospace;background:#000;color:#9dffb0;min-height:100vh;overflow-x:hidden}
+body{font-family:"Share Tech Mono",monospace;background:#000;color:#b8ffc4;min-height:100vh;overflow-x:hidden}
 body.locked{overflow:hidden}
 body.quake{animation:quake .12s linear infinite}
-#matrix{position:fixed;inset:0;z-index:0;opacity:.28;pointer-events:none}
-.scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.35) 3px);opacity:.45}
-.wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:28px 22px 80px}
-.top{display:flex;justify-content:space-between;color:#5f9;font-size:.72rem;margin-bottom:18px;letter-spacing:.14em}
-h1{font-family:Orbitron,sans-serif;font-size:clamp(2.8rem,8vw,5.6rem);line-height:.86;color:#f3fff4;text-shadow:0 0 18px #39ff14,0 0 40px rgba(0,229,255,.25);animation:glitch 2.1s infinite}
-h1 b{color:var(--g);display:block}
-.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;align-items:center}
-.termbox{border:1px solid #1f6;background:rgba(0,20,8,.72);box-shadow:0 0 30px rgba(57,255,20,.08)}
-.bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #163;color:#6c6;font-size:.7rem}
-.screen{height:168px;position:relative;overflow:hidden;background:#001407}
-.crt{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(57,255,20,.08));}
-.cursor{position:absolute;left:14px;bottom:14px;color:var(--g)}
-.row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:22px 0}
-.btn{min-height:86px;padding:14px;border:1px solid #2f8;color:var(--g);text-decoration:none;background:#031a0c;position:relative;overflow:hidden}
-.btn:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(57,255,20,.18),transparent 70%);animation:shine 2.3s infinite}
-.btn:hover{box-shadow:0 0 22px rgba(57,255,20,.35);transform:translateY(-4px)}
-.btn span{display:block;margin-top:6px;color:#8fa;font-size:.72rem}
+#matrix{position:fixed;inset:0;z-index:0;opacity:.34;pointer-events:none}
+.scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.4) 3px);animation:scan 8s linear infinite}
+.wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:30px 22px 90px}
+.top{display:flex;justify-content:space-between;color:#5f9;font-size:.72rem;letter-spacing:.2em;margin-bottom:16px;font-weight:700}
+h1{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(3.1rem,9vw,6.4rem);line-height:.8;color:#f6fff6;letter-spacing:-.03em;text-shadow:0 0 8px #39ff14,0 0 28px #39ff14,0 0 60px rgba(0,255,80,.35);animation:glitch 1.8s infinite}
+h1 b{display:block;color:var(--g);-webkit-text-stroke:.5px #063}
+#tw{margin-top:14px;color:#7dff9a;font-size:1.05rem;font-weight:700;min-height:1.4em;text-shadow:0 0 10px #39ff14}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:center}
+.termbox{border:1px solid #2a8;background:rgba(0,16,6,.82);box-shadow:0 0 24px rgba(57,255,20,.08),inset 0 0 30px rgba(57,255,20,.04)}
+.bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #174;color:#6c6;font-size:.7rem;font-weight:700}
+.screen{height:176px;position:relative;overflow:hidden;background:#001205}
+.crt{position:absolute;inset:0;background:linear-gradient(180deg,rgba(57,255,20,.07),transparent 40%,rgba(57,255,20,.1));animation:crt 2.8s ease-in-out infinite}
+.cursor{position:absolute;left:14px;bottom:14px;color:var(--g);font-weight:700}
+.row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:26px 0}
+.btn{min-height:108px;padding:16px;border:1px solid #39ff14;color:# hum;color:var(--g);text-decoration:none;background:linear-gradient(180deg,#04210c,#001406);position:relative;overflow:hidden;font-weight:800;letter-spacing:.04em;box-shadow:0 0 0 1px #062 inset,0 0 18px rgba(57,255,20,.12);animation:cell 3.2s ease-in-out infinite}
+.btn:nth-child(2){animation-delay:.2s}.btn:nth-child(3){animation-delay:.4s}.btn:nth-child(4){animation-delay:.6s}.btn:nth-child(5){animation-delay:.8s}
+.btn:after{content:"▶ CONNECT";position:absolute;right:10px;bottom:8px;font-size:.62rem;opacity:.55}
+.btn:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(57,255,20,.28),transparent 80%);transform:translateX(-120%);animation:shine 2.4s infinite}
+.btn:hover{transform:translateY(-7px) scale(1.03);box-shadow:0 0 32px rgba(57,255,20,.45);background:#063}
+.btn strong{display:block;font-family:Orbitron,sans-serif;font-size:1.02rem;text-shadow:0 0 10px #39ff14}
+.btn span{display:block;margin-top:8px;color:#9f9;font-size:.75rem;font-weight:600}
 .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}
-pre{padding:14px;color:var(--g);line-height:1.55}
+pre{padding:16px;color:var(--g);line-height:1.62;font-weight:700;text-shadow:0 0 6px rgba(57,255,20,.35)}
 .mods{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
-.mod{border:1px solid #174;padding:12px;background:#021108}
-.mod h3{color:#eaffea;margin-bottom:6px}
+.mod{border:1px solid #185;padding:14px;background:#021108}
+.mod h3{color:#f3fff3;margin-bottom:6px;font-family:Orbitron,sans-serif;text-shadow:0 0 8px #39ff14}
 .mod p{color:#8fb;font-size:.8rem}
-.feed{height:150px;overflow:hidden;padding:10px 12px}
-.sh .out{height:180px;overflow:auto;padding:10px;white-space:pre-wrap}
+.feed{height:150px;overflow:hidden;padding:10px 12px;font-weight:700}
+.sh .out{height:180px;overflow:auto;padding:10px;white-space:pre-wrap;font-weight:700}
 .sh .line{display:flex;gap:8px;padding:8px;border-top:1px solid #163}
-.sh input{flex:1;background:#001208;border:1px solid var(--g);color:var(--g);font:inherit;padding:8px;outline:none}
-#tw{margin-top:10px;color:var(--c);min-height:1.3em}
+.sh input{flex:1;background:#001208;border:1px solid var(--g);color:var(--g);font:inherit;padding:8px;outline:none;font-weight:700}
 #gate{position:fixed;inset:0;z-index:90;background:#050000;display:flex;align-items:center;justify-content:center}
 #gate.gone{display:none}#gate.open{opacity:0;transition:opacity .5s}
 #gate.boom{animation:flick .08s linear infinite}
@@ -50,14 +53,17 @@ pre{padding:14px;color:var(--g);line-height:1.55}
 .box span,#status{color:#ffb3b3;font-size:.72rem;letter-spacing:.2em}
 .warn{position:absolute;top:8%;width:100%;text-align:center;color:#ff3b3b;letter-spacing:.28em;font-size:.72rem;animation:blink .65s steps(2) infinite}
 #door{position:absolute;inset:0;z-index:97;border:0;background:transparent;cursor:pointer}
-@keyframes shine{0%{transform:translateX(-120%)}70%,100%{transform:translateX(120%)}}
-@keyframes glitch{0%,88%,100%{transform:none}92%{transform:translate(-2px,1px);text-shadow:-3px 0 #f00,3px 0 #0ff}}
+@keyframes shine{0%{transform:translateX(-120%)}55%,100%{transform:translateX(130%)}}
+@keyframes cell{0%,100%{border-color:#39ff14}50%{border-color:#9dff9a;box-shadow:0 0 22px rgba(57,255,20,.28)}}
+@keyframes glitch{0%,86%,100%{transform:none}90%{transform:translate(-3px,1px);text-shadow:-4px 0 #f00,4px 0 #0ff}94%{transform:translate(3px,-1px)}}
 @keyframes quake{0%,100%{transform:none}25%{transform:translate(-12px,8px)}50%{transform:translate(14px,-8px)}75%{transform:translate(-7px,5px)}}
 @keyframes pulse{50%{box-shadow:0 0 110px rgba(255,0,0,.8)}}
 @keyframes unlock{to{transform:scale(0) rotate(16deg);opacity:0}}
 @keyframes blink{50%{opacity:.25}}
 @keyframes rp{50%{opacity:.22}}
 @keyframes flick{50%{filter:contrast(1.3) brightness(1.15)}}
+@keyframes crt{50%{opacity:.65}}
+@keyframes scan{to{background-position:0 36px}}
 @media(max-width:900px){.hero,.row,.grid,.mods{grid-template-columns:1fr}}
 </style>
 </head>
@@ -83,14 +89,14 @@ pre{padding:14px;color:var(--g);line-height:1.55}
       <h1>HACKER<br><b>OSINT RAHAT</b></h1>
       <p id="tw"></p>
     </div>
-    <div class="termbox"><div class="bar"><span>tty0 · exploit</span><span>LIVE</span></div><div class="screen"><div class="crt"></div><div class="cursor">_ waiting payload</div></div></div>
+    <div class="termbox"><div class="bar"><span>tty0 · exploit</span><span>LIVE</span></div><div class="screen"><div class="crt"></div><div class="cursor">_ payload ready</div></div></div>
   </section>
   <div class="row">
-    <a class="btn" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener">X / TWITTER<span>@Rahatirtaza</span></a>
-    <a class="btn" href="https://t.me/Rahatirtaza" target="_blank" rel="noopener">TELEGRAM<span>t.me/Rahatirtaza</span></a>
-    <a class="btn" href="https://discord.com/users/1111896493599768589" target="_blank" rel="noopener">DISCORD<span>@rahatirtaza</span></a>
-    <a class="btn" href="mailto:rahatearningyt@gmail.com">EMAIL<span>rahatearningyt@gmail.com</span></a>
-    <a class="btn" href="https://github.com/OSINTrahat" target="_blank" rel="noopener">GITHUB<span>OSINTrahat</span></a>
+    <a class="btn" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener"><strong>X / TWITTER</strong><span>@Rahatirtaza</span></a>
+    <a class="btn" href="https://t.me/Rahatirtaza" target="_blank" rel="noopener"><strong>TELEGRAM</strong><span>t.me/Rahatirtaza</span></a>
+    <a class="btn" href="https://discord.com/users/1111896493599768589" target="_blank" rel="noopener"><strong>DISCORD</strong><span>@rahatirtaza</span></a>
+    <a class="btn" href="mailto:rahatearningyt@gmail.com"><strong>EMAIL</strong><span>rahatearningyt@gmail.com</span></a>
+    <a class="btn" href="https://github.com/OSINTrahat" target="_blank" rel="noopener"><strong>GITHUB</strong><span>OSINTrahat</span></a>
   </div>
   <div class="grid">
     <div class="termbox">
@@ -130,14 +136,14 @@ print("root shell ready");
 document.getElementById("shell").onclick=function(){cmd.focus()};
 cmd.addEventListener("keydown",function(e){if(e.key!=="Enter")return;var raw=cmd.value.trim();cmd.value="";if(!raw)return;print("$ "+raw);var a=raw.split(/\s+/)[0];if(a==="clear"){out.textContent="";return}print(cmds[a]||("bash: "+a+": not found"))});
 var el=document.getElementById("tw"),twl=["root access · public source","OSINT + crypto CM + MOD","OG science // 2021"],li=0,ci=0,del=false;
-(function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,38)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,18)}del=false;li=(li+1)%twl.length;setTimeout(tick,160)})();
+(function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,36)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,16)}del=false;li=(li+1)%twl.length;setTimeout(tick,150)})();
 var feed=document.getElementById("feed"),logs=["[kern] packet sniff idle","[ok] socmint mapped","[warn] unknown probe dropped","[ok] node heartbeat"],fi=0;
-(function push(){var d=document.createElement("div");d.textContent=logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>7)feed.lastChild.remove();setTimeout(push,1200)})();
+(function push(){var d=document.createElement("div");d.textContent=logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>7)feed.lastChild.remove();setTimeout(push,1100)})();
 var cnv=document.getElementById("matrix"),x=cnv.getContext("2d");
 function sz(){cnv.width=innerWidth;cnv.height=innerHeight}sz();addEventListener("resize",sz);
 var gg="01アイウエ$#HACK",f=15,cols,drops;
 function reset(){cols=Math.ceil(innerWidth/f);drops=Array.from({length:cols},function(){return Math.random()*-40})}reset();
-(function draw(){x.fillStyle="rgba(0,0,0,.14)";x.fillRect(0,0,cnv.width,cnv.height);x.fillStyle="#39ff14";x.font=f+"px monospace";for(var i=0;i<cols;i++){x.fillText(gg[Math.floor(Math.random()*gg.length)],i*f,drops[i]*f);if(drops[i]*f>cnv.height&&Math.random()>0.975)drops[i]=0;drops[i]++}requestAnimationFrame(draw)})();
+(function draw(){x.fillStyle="rgba(0,0,0,.12)";x.fillRect(0,0,cnv.width,cnv.height);x.fillStyle="#39ff14";x.font=f+"px monospace";for(var i=0;i<cols;i++){x.fillText(gg[Math.floor(Math.random()*gg.length)],i*f,drops[i]*f);if(drops[i]*f>cnv.height&&Math.random()>0.975)drops[i]=0;drops[i]++}requestAnimationFrame(draw)})();
 </script>
 </body>
 </html>
