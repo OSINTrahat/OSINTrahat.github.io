@@ -8,82 +8,59 @@
 <style>
 :root{--g:#39ff14;--g2:#00ffc3}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Share Tech Mono",monospace;background:radial-gradient(900px 500px at 80% 10%,rgba(0,255,120,.08),transparent 50%),#010302;color:#b7ffc4;min-height:100vh}
-#matrix{position:fixed;inset:0;z-index:0;opacity:.16;pointer-events:none}
-.sweep{position:fixed;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent);z-index:3;animation:sweep 5.5s linear infinite;opacity:.45;pointer-events:none}
+body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4;min-height:100vh}
+#matrix{position:fixed;inset:0;z-index:0;opacity:.14;pointer-events:none}
 .hud{position:fixed;inset:12px;z-index:1;pointer-events:none;border:1px solid rgba(57,255,20,.18)}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;font-size:.75rem;letter-spacing:.16em;color:#6fbb7d}
-.live{display:flex;align-items:center;gap:8px;color:var(--g)}
-.live i{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 10px var(--g);animation:blink 1s infinite}
-.hero{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center}
-.kicker{color:var(--g2);letter-spacing:.28em;font-size:.72rem;margin-bottom:10px}
-h1{font-family:Orbitron,sans-serif;font-size:clamp(2.8rem,8vw,5.6rem);line-height:.9;color:#edffef;text-shadow:0 0 18px rgba(57,255,20,.45)}
+.top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;letter-spacing:.16em;color:#6fbb7d}
+.live{color:var(--g)}
+h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef}
 h1 em{font-style:normal;color:var(--g)}
-.sub{margin:14px 0 10px;color:#86e89a;letter-spacing:.08em}
-.typed{min-height:1.4em;color:var(--g)}
+.sub,.typed{margin:10px 0;color:#86e89a}
+.hero{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center}
 .monitor{width:176px;margin-left:auto;background:#0a120d;border:1px solid #2a3d2e;border-radius:8px;padding:6px}
-.screen{position:relative;aspect-ratio:16/10;border-radius:4px;overflow:hidden;background:#020805;border:1px solid rgba(57,255,20,.28)}
-.radar{position:absolute;inset:-20%;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 70%,rgba(57,255,20,.18) 100%);animation:spin 3.2s linear infinite;pointer-events:none}
-.globe{position:absolute;width:52%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;border:1px solid rgba(57,255,20,.4)}
-.map{width:200%;height:100%;background:url("https://unpkg.com/three-globe/example/img/earth-night.jpg") repeat-x center/auto 100%;filter:sepia(1) hue-rotate(75deg) saturate(3.4) brightness(1.2);animation:pan 20s linear infinite}
-.scanline{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.16) 3px);pointer-events:none}
-.osint{margin-top:5px;min-height:1em;color:var(--g);letter-spacing:.18em;font-size:.62rem;text-align:center}
-.row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:36px 0 44px}
-.btn{min-height:92px;padding:16px;border:1px solid rgba(57,255,20,.45);background:linear-gradient(180deg,rgba(57,255,20,.16),rgba(0,20,8,.7));color:var(--g);text-decoration:none;font-weight:700}
-.btn span{display:block;margin-top:8px;color:#8cff9f;font-weight:400;font-size:.75rem}
-.btn:hover{background:linear-gradient(180deg,#39ff14,#12b33a);color:#021208}
-.term,.skill,.panel,.stat,.op,.chip,.mterm{background:rgba(2,12,7,.72);border:1px solid rgba(57,255,20,.22)}
-.bar{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
-pre{padding:18px;color:var(--g);line-height:1.8}
-.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
-.skill{padding:18px;min-height:160px}
-.tag{display:inline-block;margin-bottom:10px;font-size:.65rem;letter-spacing:.16em;border:1px solid var(--g);padding:3px 7px;color:var(--g)}
-.skill h3{font-family:Orbitron,sans-serif;color:#edffef;margin-bottom:8px}
-h2{margin:8px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.9rem}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0}
-.stat{padding:16px;text-align:center}
-.stat b{display:block;font-family:Orbitron,sans-serif;font-size:1.6rem;color:var(--g)}
-.stat span{font-size:.7rem;letter-spacing:.14em;color:#6fbb7d}
+.screen{position:relative;aspect-ratio:16/10;overflow:hidden;background:#020805}
+.globe{position:absolute;width:52%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden}
+.map{width:200%;height:100%;background:url("https://unpkg.com/three-globe/example/img/earth-night.jpg") repeat-x center/auto 100%;filter:sepia(1) hue-rotate(75deg) saturate(3.2) brightness(1.2);animation:pan 20s linear infinite}
+.row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:32px 0}
+.btn{min-height:88px;padding:14px;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.12);color:var(--g);text-decoration:none;font-weight:700}
+.btn span{display:block;margin-top:6px;font-size:.75rem;font-weight:400;color:#8cff9f}
+.btn:hover{background:#39ff14;color:#021208}
+.term,.skill,.panel,.stat,.op,.chip,.sh{background:rgba(2,12,7,.75);border:1px solid rgba(57,255,20,.22)}
+.bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
+pre{padding:16px;color:var(--g);line-height:1.7}
+.skills,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.skill,.stat{padding:16px}
+.stat{text-align:center}
+.stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:7px 10px;font-size:.75rem;color:var(--g)}
-.feed{height:180px;overflow:hidden;padding:12px 14px;font-size:.78rem;line-height:1.7;color:#86e89a}
+.chip{padding:6px 10px;color:var(--g);font-size:.75rem;border:1px solid rgba(57,255,20,.3)}
+.feed{height:150px;overflow:hidden;padding:12px;font-size:.78rem}
 .ops{display:grid;gap:8px}
-.op{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:10px 12px;font-size:.8rem}
-.op b{color:var(--g)}
-.ok{color:var(--g);font-size:.7rem}
-.mterm .out{height:150px;overflow:auto;padding:12px;font-size:.82rem;line-height:1.6}
-.mterm .line{display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid rgba(57,255,20,.15)}
-.mterm input{flex:1;background:transparent;border:0;color:var(--g);font:inherit;outline:none}
-footer{margin-top:40px;opacity:.6;font-size:.75rem;letter-spacing:.12em}
+.op{display:grid;grid-template-columns:90px 1fr auto;gap:10px;padding:10px;font-size:.8rem}
+h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
+.sh .out{height:280px;overflow:auto;padding:12px;white-space:pre-wrap;line-height:1.55;font-size:.82rem}
+.sh .line{display:flex;gap:8px;padding:8px 12px;border-top:1px solid rgba(57,255,20,.15)}
+.sh input{flex:1;background:transparent;border:0;color:var(--g);font:inherit;outline:none}
+.prompt{color:var(--g);white-space:nowrap}
+footer{margin-top:36px;opacity:.6;font-size:.75rem}
 @keyframes pan{to{transform:translateX(-50%)}}
-@keyframes blink{50%{opacity:.25}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes sweep{from{top:-2%}to{top:110%}}
-@media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:16px auto}.op{grid-template-columns:1fr}}
+@media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}.op{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <canvas id="matrix"></canvas>
-<div class="sweep"></div>
 <div class="hud"></div>
 <div class="wrap">
-  <div class="top"><span>NODE // OSINTrahat</span><span class="live"><i></i> LINK ACTIVE</span><span>LAT 23.8N / LONG 90.4E</span></div>
+  <div class="top"><span>NODE // OSINTrahat</span><span class="live">LINK ACTIVE</span><span>tty1</span></div>
   <section class="hero">
     <div>
-      <p class="kicker">SECURE CHANNEL</p>
+      <p class="kicker" style="color:var(--g2);letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
       <h1>OSINT<br><em>RAHAT</em></h1>
-      <p class="sub">OSINT OPERATOR &nbsp;·&nbsp; CRYPTO CM &nbsp;·&nbsp; MOD &nbsp;·&nbsp; OG 2021</p>
+      <p class="sub">OSINT OPERATOR · CRYPTO CM · MOD · OG 2021</p>
       <p class="typed" id="tw"></p>
     </div>
-    <div class="monitor">
-      <div class="screen">
-        <div class="radar"></div>
-        <div class="globe"><div class="map"></div></div>
-        <div class="scanline"></div>
-      </div>
-      <div class="osint" id="os">&gt; </div>
-    </div>
+    <div class="monitor"><div class="screen"><div class="globe"><div class="map"></div></div></div></div>
   </section>
   <div class="row">
     <a class="btn" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener">X / TWITTER<span>@Rahatirtaza</span></a>
@@ -99,89 +76,90 @@ footer{margin-top:40px;opacity:.6;font-size:.75rem;letter-spacing:.12em}
     <div class="stat"><b>CLEAR</b><span>PUBLIC SOURCE</span></div>
   </div>
   <h2>// OPERATOR FILE</h2>
-  <div class="term"><div class="bar"><span>root@OSINTrahat:~# cat dossier.txt</span><span>ACCESS_GRANTED</span></div>
+  <div class="term"><div class="bar"><span>cat /etc/operator</span><span>ACCESS_GRANTED</span></div>
 <pre>[+] handle ...... OSINTrahat
 [+] operator .... OS RAHAT
 [+] class ....... OSINT / CRYPTO CM / MOD
-[+] clearance ... OG_2021
-[+] status ...... ONLINE
-[+] protocol .... collect &gt; verify &gt; report</pre></div>
-  <h2 style="margin-top:32px">// MODULES</h2>
+[+] clearance ... OG_2021</pre></div>
+  <h2>// MODULES</h2>
   <div class="skills">
-    <article class="skill"><span class="tag">01</span><h3>OSINT</h3><p>Username trace. Image intel. SOCMINT. Public-source signal only.</p></article>
-    <article class="skill"><span class="tag">02</span><h3>CRYPTO CM</h3><p>Web3 community ops, collabs, member flow, public comms.</p></article>
-    <article class="skill"><span class="tag">03</span><h3>MOD</h3><p>Discord / Telegram control. Cut noise. Hold the room.</p></article>
-    <article class="skill"><span class="tag">04</span><h3>OG 2021</h3><p>In-network since 2021. Long memory. No tourist energy.</p></article>
+    <article class="skill"><h3>OSINT</h3><p>Username trace. Image intel. SOCMINT.</p></article>
+    <article class="skill"><h3>CRYPTO CM</h3><p>Web3 community ops and public comms.</p></article>
+    <article class="skill"><h3>MOD</h3><p>Discord / Telegram control.</p></article>
+    <article class="skill"><h3>OG 2021</h3><p>In-network since 2021.</p></article>
   </div>
-  <h2 style="margin-top:36px">// ARSENAL</h2>
-  <div class="chips">
-    <span class="chip">SHERLOCK</span><span class="chip">MALTEGO</span><span class="chip">THEHARVESTER</span>
-    <span class="chip">WAYBACK</span><span class="chip">GOOGLE DORKS</span><span class="chip">SOCMINT</span>
-    <span class="chip">LINUX</span><span class="chip">BASH</span><span class="chip">PYTHON</span>
-  </div>
-  <h2 style="margin-top:36px">// LIVE TRACELOG</h2>
+  <h2>// ARSENAL</h2>
+  <div class="chips"><span class="chip">SHERLOCK</span><span class="chip">MALTEGO</span><span class="chip">THEHARVESTER</span><span class="chip">WAYBACK</span><span class="chip">LINUX</span><span class="chip">PYTHON</span></div>
+  <h2>// LIVE TRACELOG</h2>
   <div class="panel"><div class="bar"><span>stream://public-sources</span><span>READ_ONLY</span></div><div class="feed" id="feed"></div></div>
-  <h2 style="margin-top:36px">// OPS LOG</h2>
-  <div class="ops">
-    <div class="op"><b>2021</b><span>Entered the network. Started public-source work.</span><span class="ok">OG</span></div>
-    <div class="op"><b>2022-24</b><span>Crypto community + MOD lanes.</span><span class="ok">ACTIVE</span></div>
-    <div class="op"><b>NOW</b><span>OSINT + community ops.</span><span class="ok">ONLINE</span></div>
-  </div>
 
-  <h2 style="margin-top:36px">// AUDIO TERMINAL</h2>
-  <div class="mterm">
-    <div class="bar"><span>root@OSINTrahat:~# play</span><span>ITUNES PREVIEW + YT</span></div>
-    <div class="out" id="mout">type: play song name<br>example: play shape of you<br>official 30s preview plays here. full track opens on YouTube.</div>
-    <div class="line"><span>&gt;</span><input id="minp" autocomplete="off" placeholder="play your song name"/></div>
+  <h2>// tty1 — LINUX SHELL</h2>
+  <div class="sh">
+    <div class="bar"><span>rahat@osint-node:~</span><span>bash 5.2</span></div>
+    <div class="out" id="out"></div>
+    <div class="line"><span class="prompt">rahat@osint-node:~$</span><input id="cmd" autocomplete="off" autofocus/></div>
   </div>
-  <audio id="aud"></audio>
-
-  <footer>END_TRANSMISSION &nbsp;//&nbsp; 0x00FF41</footer>
+  <footer>type help inside the shell</footer>
 </div>
 <script>
-const lines=["collect | verify | connect the dots","OSINT + crypto community + MOD","OG since 2021"];
-const el=document.getElementById("tw");let li=0,ci=0,del=false;
-function tick(){const cur=lines[li];el.textContent="> "+cur.slice(0,ci);
-if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}
-if(!del&&ci===cur.length){del=true;return setTimeout(tick,1200)}
-if(del&&ci>0){ci--;return setTimeout(tick,22)}
-del=false;li=(li+1)%lines.length;setTimeout(tick,200)}
-tick();
-const word="OSINT";const os=document.getElementById("os");let o=0,od=false;
-function typeOs(){os.textContent="> "+word.slice(0,o);if(!od&&o<word.length){o++;return setTimeout(typeOs,160)}if(!od&&o===word.length){od=true;return setTimeout(typeOs,900)}if(od&&o>0){o--;return setTimeout(typeOs,80)}od=false;setTimeout(typeOs,250)}typeOs();
-const logs=["[ok] username cluster mapped","[ok] image reverse complete","[ok] archive hit","[ok] socmint graph updated"];
-const feed=document.getElementById("feed");let fi=0;
-function pushLog(){const d=document.createElement("div");d.textContent="> "+logs[fi%logs.length];feed.prepend(d);while(feed.children.length>7)feed.removeChild(feed.lastChild);fi++;setTimeout(pushLog,1600)}pushLog();
-const mout=document.getElementById("mout");const aud=document.getElementById("aud");
-function say(t){const p=document.createElement("div");p.textContent=t;mout.appendChild(p);mout.scrollTop=mout.scrollHeight}
-async function playSong(q){
-  say("> searching: "+q);
-  try{
-    const r=await fetch("https://itunes.apple.com/search?term="+encodeURIComponent(q)+"&entity=song&limit=1");
-    const d=await r.json();
-    if(d.results&&d.results[0]&&d.results[0].previewUrl){
-      const t=d.results[0];
-      say("[ok] "+t.trackName+" — "+t.artistName);
-      say("[ok] official 30s preview");
-      aud.src=t.previewUrl;aud.play();
-    }else say("[!] no itunes preview. opening YouTube");
-  }catch(e){say("[!] preview blocked. opening YouTube")}
-  window.open("https://www.youtube.com/results?search_query="+encodeURIComponent(q+" official audio"),"_blank","noopener");
-}
-document.getElementById("minp").addEventListener("keydown",e=>{
+const out=document.getElementById("out");
+const cmd=document.getElementById("cmd");
+const hist=[];let hi=-1;
+const neo=`
+      .--.      rahat@osint-node
+     |o_o |     -----------
+     |:_/ |     OS: OSINT Linux x86_64
+    //   \ \    Host: OS RAHAT
+   (|     | )   Kernel: 5.15.0-node
+  /'\\_   _/`\\  Uptime: since 2021
+  \___)=(___/   Shell: bash
+                Role: OSINT / CM / MOD
+                Status: ONLINE`;
+const cmds={
+help:"whoami  id  uname  neofetch  ls  cat  pwd  date  contact  social  skills  echo  clear  history",
+whoami:"OSINTrahat",
+id:"uid=0(rahat) gid=0(osint) groups=osint,crypto,mod,og2021",
+uname:"Linux osint-node 5.15.0-node #1 SMP x86_64 GNU/Linux",
+pwd:"/home/rahat",
+date:()=>new Date().toString(),
+ls:"about.txt  skills/  social/  dossier.log  README.md",
+cat:"use: cat about | cat dossier",
+contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza\nmail rahatearningyt@gmail.com",
+social:"https://x.com/Rahatirtaza\nhttps://t.me/Rahatirtaza\nhttps://discord.com/users/1111896493599768589\nhttps://github.com/OSINTrahat",
+skills:"OSINT\nCrypto Community Manager\nMOD\nOG since 2021",
+neofetch:neo
+};
+function print(t){out.textContent+=(out.textContent?"\n":"")+t;out.scrollTop=out.scrollHeight}
+print(neo+"\n\ntype 'help' to list commands.");
+cmd.addEventListener("keydown",e=>{
+  if(e.key==="ArrowUp"){e.preventDefault();if(hist.length){hi=Math.max(0,hi<0?hist.length-1:hi-1);cmd.value=hist[hi]}return}
+  if(e.key==="ArrowDown"){e.preventDefault();if(hi>=0){hi++;cmd.value=hi<hist.length?hist[hi]:"";if(hi>=hist.length)hi=-1}return}
   if(e.key!=="Enter")return;
-  const raw=e.target.value.trim();e.target.value="";
-  if(!raw)return;say("> "+raw);
-  const m=raw.replace(/^play\s+/i,"").trim();
-  if(/^help$/i.test(raw)){say("play <song> | stop | clear");return}
-  if(/^stop$/i.test(raw)){aud.pause();say("[ok] stopped");return}
-  if(/^clear$/i.test(raw)){mout.textContent="";return}
-  playSong(m||raw);
+  const raw=cmd.value.trim();cmd.value="";if(!raw)return;
+  hist.push(raw);hi=-1;print("rahat@osint-node:~$ "+raw);
+  const [a,...rest]=raw.split(/\s+/);const arg=rest.join(" ");
+  if(a==="clear"){out.textContent="";return}
+  if(a==="history"){print(hist.map((h,i)=>i+"  "+h).join("\n"));return}
+  if(a==="echo"){print(arg);return}
+  if(a==="sudo"){print("rahat is not in the sudoers file. This incident will be reported.");return}
+  if(a==="cat"){
+    if(arg==="about"||arg==="about.txt"){print("OS RAHAT — public-source operator. collect > verify > report.");return}
+    if(arg==="dossier"||arg==="dossier.log"){print(cmds.contact);return}
+    print("cat: "+arg+": No such file");return;
+  }
+  const v=cmds[a];
+  if(typeof v==="function")print(v());
+  else if(v)print(v);
+  else print("bash: "+a+": command not found");
 });
+const el=document.getElementById("tw");const lines=["collect | verify | connect the dots","OG since 2021"];let li=0,ci=0,del=false;
+(function tick(){const cur=lines[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%lines.length;setTimeout(tick,200)})();
+const feed=document.getElementById("feed");const logs=["[ok] public source mapped","[ok] archive hit","[ok] socmint graph updated"];let fi=0;
+(function push(){const d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(push,1600)})();
 const c=document.getElementById("matrix"),x=c.getContext("2d");
 function sz(){c.width=innerWidth;c.height=innerHeight}sz();addEventListener("resize",sz);
-const g="01$#OSINT";const f=14;let cols=Math.ceil(innerWidth/f);let drops=Array.from({length:cols},()=>Math.random()*-40);
-(function draw(){x.fillStyle="rgba(1,3,2,.14)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#39ff14";x.font=f+"px monospace";cols=Math.ceil(c.width/f);if(drops.length<cols)drops=drops.concat(Array(cols-drops.length).fill(0));for(let i=0;i<cols;i++){x.fillText(g[Math.floor(Math.random()*g.length)],i*f,drops[i]*f);if(drops[i]*f>c.height&&Math.random()>0.975)drops[i]=0;drops[i]++}requestAnimationFrame(draw)})();
+const g="01$#OSINT";const f=14;let cols=Math.ceil(innerWidth/f);let d=Array.from({length:cols},()=>0);
+(function draw(){x.fillStyle="rgba(1,3,2,.14)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#39ff14";x.font=f+"px monospace";for(let i=0;i<cols;i++){x.fillText(g[Math.floor(Math.random()*g.length)],i*f,d[i]*f);if(d[i]*f>c.height&&Math.random()>0.975)d[i]=0;d[i]++}requestAnimationFrame(draw)})();
 </script>
 </body>
 </html>
