@@ -40,7 +40,7 @@ footer{margin-top:40px;opacity:.7;font-size:.8rem}
   <div class="row">
     <a class="btn" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener">X / Twitter<span>@Rahatirtaza</span></a>
     <a class="btn" href="https://t.me/Rahatirtaza" target="_blank" rel="noopener">Telegram<span>t.me/Rahatirtaza</span></a>
-    <a class="btn" href="#" id="dc">Discord<span>@rahatirtaza — tap to copy</span></a>
+    <a class="btn" href="https://discord.com/users/1111896493599768589" target="_blank" rel="noopener">Discord<span>@rahatirtaza</span></a>
     <a class="btn" href="mailto:rahatearningyt@gmail.com">Email<span>rahatearningyt@gmail.com</span></a>
     <a class="btn alt" href="https://github.com/OSINTrahat" target="_blank" rel="noopener">GitHub<span>OSINTrahat</span></a>
   </div>
@@ -75,7 +75,6 @@ const c=document.getElementById("matrix"),x=c.getContext("2d");
 function sz(){c.width=innerWidth;c.height=innerHeight}sz();addEventListener("resize",sz);
 const g="01OSINTCRYPTOMOD$#";const f=14;let cols=Math.ceil(innerWidth/f);let d=Array.from({length:cols},()=>Math.random()*-40);
 (function draw(){x.fillStyle="rgba(2,8,5,0.12)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#00ff41";x.font=f+"px monospace";cols=Math.ceil(c.width/f);if(d.length<cols)d=d.concat(Array(cols-d.length).fill(0));for(let i=0;i<cols;i++){x.fillText(g[Math.floor(Math.random()*g.length)],i*f,d[i]*f);if(d[i]*f>c.height&&Math.random()>0.975)d[i]=0;d[i]++}requestAnimationFrame(draw)})();
-document.getElementById("dc").onclick=function(e){e.preventDefault();navigator.clipboard.writeText("rahatirtaza").then(()=>{e.currentTarget.querySelector("span").textContent="copied @rahatirtaza"})};
 </script>
 </body>
 </html>
