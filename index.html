@@ -13,9 +13,16 @@
 body{font-family:"Share Tech Mono",monospace;background:#000;color:#b8ffc4;min-height:100vh;overflow-x:hidden}
 body.locked{overflow:hidden}
 body.quake{animation:quake .11s linear infinite}
+body.rails .wrap{padding-left:188px;padding-right:188px}
 #matrix{position:fixed;inset:0;z-index:0;opacity:.36;pointer-events:none}
 .scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.4) 3px);animation:scan 8s linear infinite}
-.wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:30px 22px 90px;animation:pageIn 1s ease both}
+.rail{position:fixed;top:0;bottom:0;width:168px;z-index:3;background:linear-gradient(90deg,#000c05,#001408 40%,#000a04);border-color:#1a6;color:#7dff9a;font-size:.62rem;line-height:1.45;overflow:hidden;opacity:0;pointer-events:none}
+.rail.L{left:0;border-right:1px solid #2a8;transform:translateX(-110%);box-shadow:12px 0 30px rgba(0,0,0,.5)}
+.rail.R{right:0;border-left:1px solid #2a8;transform:translateX(110%);box-shadow:-12px 0 30px rgba(0,0,0,.5)}
+body.rails .rail{opacity:1;transform:none;transition:transform 1.05s cubic-bezier(.22,1,.36,1),opacity .6s ease}
+.rail .hd{padding:8px 10px;border-bottom:1px solid #174;letter-spacing:.14em;color:#8f8;font-weight:700}
+.rail pre{padding:8px 10px;white-space:pre-wrap;color:var(--g);text-shadow:0 0 6px #39ff14}
+.wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:30px 22px 90px;animation:pageIn 1s ease both;transition:padding 1s ease}
 .top{display:flex;justify-content:space-between;color:#5f9;font-size:.72rem;letter-spacing:.2em;margin-bottom:16px;font-weight:700}
 h1{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(3.2rem,9vw,6.6rem);line-height:.8;color:var(--g);letter-spacing:-.03em;text-shadow:0 0 8px #39ff14,0 0 28px #39ff14;animation:glitch 1.8s infinite}
 h1 .w{color:#fff;text-shadow:0 0 10px #fff,0 0 28px rgba(255,255,255,.35);display:block}
@@ -75,7 +82,8 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 @keyframes pageIn{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:none}}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes maskPulse{50%{filter:brightness(1.5)}}
-@media(max-width:900px){.hero,.row,.grid,.mods{grid-template-columns:1fr}.monitor{margin:12px auto}}
+@media(max-width:1100px){.rail{width:120px}body.rails .wrap{padding-left:132px;padding-right:132px}}
+@media(max-width:900px){.hero,.row,.grid,.mods{grid-template-columns:1fr}.monitor{margin:12px auto}.rail{display:none}body.rails .wrap{padding-left:22px;padding-right:22px}}
 </style>
 </head>
 <body class="locked">
@@ -106,6 +114,8 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 <audio id="fx" src="videoplayback.m4a" preload="auto" playsinline></audio>
 <canvas id="matrix"></canvas>
 <div class="scan"></div>
+<aside class="rail L"><div class="hd">ttyL · LIVE</div><pre id="railL"></pre></aside>
+<aside class="rail R"><div class="hd">ttyR · LIVE</div><pre id="railR"></pre></aside>
 <div class="wrap">
   <div class="top"><span>root@osintrahat:~#</span><span>ACCESS GRANTED</span></div>
   <section class="hero">
@@ -176,7 +186,7 @@ function dumpRun(){
     setTimeout(step,90);
   })();
 }
-function goMain(){g.classList.add("open");document.body.classList.remove("locked","quake");setTimeout(function(){g.classList.add("gone");mainReady=true;try{fx.pause();fx.currentTime=0}catch(e){}},450)}
+function goMain(){g.classList.add("open");document.body.classList.remove("locked","quake");document.body.classList.add("rails");setTimeout(function(){g.classList.add("gone");mainReady=true;try{fx.pause();fx.currentTime=0}catch(e){}},450)}
 document.getElementById("door").onclick=function(){
   if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");dumpRun();
   try{fx.currentTime=0;fx.volume=1;var p=fx.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
@@ -195,6 +205,8 @@ var feed=document.getElementById("feed"),logs=["[kern] packet sniff idle","[ok] 
 (function push(){var d=document.createElement("div");d.textContent=logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>7)feed.lastChild.remove();setTimeout(push,1100)})();
 var mon=document.getElementById("mon"),lines=[],jobs=["$ nmap -sV target.net","PORT   STATE SERVICE","22/tcp open  ssh","443/tcp open https","$ whoami","osintrahat","$ osint --trace rahat","[+] public source mapped","[+] socmint lane idle","$ tail -f /var/log/auth","session open root","probe dropped","heartbeat ok"],ji=0;
 (function runMon(){lines.push(jobs[ji++%jobs.length]);if(lines.length>9)lines.shift();mon.textContent=lines.join("\n");setTimeout(runMon,420)})();
+var L=document.getElementById("railL"),R=document.getElementById("railR"),Lb=[],Rb=[],Ls=["auth ok","probe drop","osint map","ssh 22","https 443","root tty","node beat","socmint"],Rs=["hash 9f2a","scan lan","mod live","cm idle","wire 2021","grant yes","trace rahat","pkt ok"],li2=0,ri2=0;
+(function railTick(){Lb.push("> "+Ls[li2++%Ls.length]+" "+Math.random().toString(16).slice(2,6));Rb.push("> "+Rs[ri2++%Rs.length]+" "+Math.random().toString(16).slice(2,6));if(Lb.length>28)Lb.shift();if(Rb.length>28)Rb.shift();L.textContent=Lb.join("\n");R.textContent=Rb.join("\n");setTimeout(railTick,380)})();
 var cnv=document.getElementById("matrix"),x=cnv.getContext("2d");
 function sz(){cnv.width=innerWidth;cnv.height=innerHeight}sz();addEventListener("resize",sz);
 var gg="01アイウエ$#OSINT",f=15,cols,drops;
