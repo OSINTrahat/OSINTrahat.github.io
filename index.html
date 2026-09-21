@@ -6,13 +6,14 @@
 <title>OSINTrahat // HACKER SCREEN</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
-:root{--g:#39ff14;--c:#2ee9ff}
+:root{--g:#39ff14}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4;min-height:100vh}
+html,body{height:100%}
+body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4}
 body.locked{overflow:hidden;background:#000}
-body.quake{animation:quake 1.6s linear}
-#matrix{position:fixed;inset:0;z-index:0;opacity:.22;pointer-events:none}
-.scanline{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.2) 3px);opacity:.35}
+body.quake{animation:quake 1.4s linear}
+#matrix{position:fixed;inset:0;z-index:0;opacity:.18;pointer-events:none}
+.scanline{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.22) 3px);opacity:.35}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
 .top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;color:#6fbb7d}
 h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef}
@@ -36,49 +37,78 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
 .sh .line{display:flex;gap:8px;padding:10px}
 .sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
-#gate{position:fixed;inset:0;z-index:95;background:#000d12;color:#7dffc2;display:grid;grid-template-rows:auto 1fr auto;padding:8px;gap:6px}
+#gate{position:fixed;inset:0;z-index:95;background:#000;color:#33ff66;display:flex;flex-direction:column;padding:8px;gap:6px}
 #gate.gone{display:none}#gate.open{opacity:0;transition:opacity .4s}
-.hs{display:grid;grid-template-columns:220px 1fr 240px;gap:6px;min-height:0}
+.modes{display:flex;flex-wrap:wrap;gap:4px}
+.modes button{border:1px solid #145c4a;background:#03140f;color:#7dff95;font:inherit;font-size:10px;padding:5px 8px;cursor:pointer}
+.modes button.on{background:#39ff14;color:#011}
+.board{flex:1;min-height:0;display:grid;grid-template-columns:240px minmax(0,1fr) 260px;gap:6px}
 .col{display:flex;flex-direction:column;gap:6px;min-height:0}
 .w{border:1px solid #145c4a;background:#03140f;padding:8px;font-size:11px}
-.w b{display:block;color:#39ff14;letter-spacing:.08em;margin-bottom:6px;font-size:10px}
-.meter{height:8px;background:#062;margin:4px 0}
-.meter i{display:block;height:100%;background:#39ff14;width:45%;animation:fill 2s ease-in-out infinite alternate}
-#code{height:100%;overflow:hidden;white-space:pre-wrap;word-break:break-all;color:#33ff66;font-size:12px;line-height:1.3;text-shadow:0 0 5px #0f0}
-.center{display:flex;flex-direction:column;min-height:0;border:1px solid #145c4a;background:#010a07;padding:8px}
-.center h3{font-family:Orbitron,sans-serif;color:#39ff14;text-align:center;margin-bottom:6px}
+.w b{display:block;color:#39ff14;letter-spacing:.1em;margin-bottom:6px;font-size:10px}
+.meter{height:7px;background:#062;margin:4px 0}
+.meter i{display:block;height:100%;background:#39ff14}
+#hash,#conn,#tel{height:54px;overflow:hidden;font-size:10px;line-height:1.35;color:#7dff95}
+.center{display:flex;flex-direction:column;min-height:0;border:1px solid #145c4a;background:#010a07}
+.center .hd{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid #145c4a}
+.center h3{font-family:Orbitron,sans-serif;color:#39ff14;font-size:18px}
+#code{flex:1;overflow:hidden;padding:10px;white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.32;text-shadow:0 0 5px #0f0}
+.hint{padding:6px 10px;border-top:1px solid #145c4a;font-size:10px;color:#8cff9f;display:flex;justify-content:space-between;gap:8px}
+.go{border:1px solid #39ff14;background:#021;color:#39ff14;font:inherit;padding:6px 10px;cursor:pointer}
+#gmap{width:100%;height:110px;background:#000;display:block}
 .foot{font-size:10px;color:#6fbb7d;white-space:nowrap;overflow:hidden;border:1px solid #145c4a;padding:6px}
-.go{margin-top:6px;border:1px solid #39ff14;background:#021;color:#39ff14;font:inherit;min-height:36px;cursor:pointer}
-@keyframes fill{to{width:92%}}
+#granted{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.72);z-index:99;flex-direction:column;gap:8px}
+#granted.show{display:flex}
+#granted h4{font-family:Orbitron,sans-serif;font-size:clamp(1.6rem,6vw,3.4rem);color:#39ff14;text-shadow:0 0 24px #0f0}
 @keyframes pan{to{transform:translateX(-50%)}}
 @keyframes quake{0%,100%{transform:none}40%{transform:translate(8px,-6px)}}
-@media(max-width:980px){.hero,.row,.skills,.stats,.hs{grid-template-columns:1fr}.col:first-child,.col:last-child{display:none}.monitor{margin:12px auto}}
+@media(max-width:980px){.hero,.row,.skills,.stats,.board{grid-template-columns:1fr}.col:first-child,.col:last-child{display:none}.monitor{margin:12px auto}}
 </style>
 </head>
 <body class="locked">
 <div id="gate">
-  <div class="hs">
+  <div class="modes" id="modes">
+    <button class="on" type="button">HackerTyper</button>
+    <button type="button">NetworkScanner</button>
+    <button type="button">ThreatMap</button>
+    <button type="button">Matrix</button>
+    <button type="button">Radar</button>
+    <button type="button">Hacknet</button>
+  </div>
+  <div class="board">
     <div class="col">
-      <div class="w"><b>◉ THREAT ACTIVITY</b>Attack Level: <span id="atk">45</span>%<div class="meter"><i></i></div></div>
-      <div class="w"><b>◉ PROCESSOR USAGE</b>CPU-1 98%<div class="meter"><i style="width:98%"></i></div>CPU-2 43%<div class="meter"><i style="width:43%"></i></div></div>
-      <div class="w"><b>◉ MEMORY USAGE</b>SWAP |=======| 16GB</div>
-      <div class="w"><b>◉ NETWORK TRAFFIC</b><div id="net">pkt 0</div></div>
-      <div class="w"><b>◉ CONNECTIONS</b>FIREWALL: ACTIVE</div>
+      <div class="w"><b>◉ THREAT ACTIVITY</b>Attack Level: <span id="atk">45</span>%<div class="meter"><i id="atki" style="width:45%"></i></div></div>
+      <div class="w"><b>◉ DATA HASH PROCESSING</b><div id="hash"></div></div>
+      <div class="w"><b>◉ PROCESSOR USAGE</b>CPU-1 <span id="c1">98</span>%<div class="meter"><i id="c1i" style="width:98%"></i></div>CPU-2 <span id="c2">43</span>%<div class="meter"><i id="c2i" style="width:43%"></i></div></div>
+      <div class="w"><b>◉ MEMORY USAGE</b>SWAP |===========================| 16GB<br>PHYS 64GB · CACHED 20GB</div>
+      <div class="w"><b>◉ NETWORK TRAFFIC</b><div id="net">pkt 0 · up 12Mbps</div></div>
+      <div class="w"><b>◉ CONNECTIONS</b><div id="conn"></div></div>
     </div>
     <div class="center">
-      <h3>HACKER TYPER</h3>
-      <div style="font-size:11px;color:#8cff9f;text-align:center;margin-bottom:6px">Press any key to begin</div>
-      <pre id="code"></pre>
-      <button class="go" id="enter" type="button">ENTER NODE</button>
+      <div class="hd"><h3>HACKER TYPER</h3><span>>_ Network Scanner · Scanning</span></div>
+      <pre id="code">Press any key to begin …</pre>
+      <div class="hint">
+        <span>ANY KEY = CODE · SHIFT x3 = ACCESS GRANTED · ESC = PORTFOLIO</span>
+        <button class="go" id="enter" type="button">ENTER NODE</button>
+      </div>
     </div>
     <div class="col">
       <div class="w"><b>◉ CURRENT LOCAL TIME</b><span id="clk"></span></div>
-      <div class="w"><b>◉ GLOBAL NETWORK MAP</b>Range: SAT // OSINT NODE</div>
-      <div class="w"><b>◉ THREAT ASSESSMENT</b>CYBER 71%<div class="meter"><i style="width:71%"></i></div>KINETIC 38%<div class="meter"><i style="width:38%"></i></div>EW / JAM 85%<div class="meter"><i style="width:85%"></i></div></div>
-      <div class="w"><b>◉ TELEMETRY FEED</b><div id="tel">SIGINT: 3 ACTIVE</div></div>
+      <div class="w"><b>◉ GLOBAL NETWORK MAP</b>
+        <canvas id="gmap" width="240" height="110"></canvas>
+        Range: SAT · Firewall: ACTIVE<br>
+        Coord <span id="coord">23.81N 90.41E</span> · SIG <span id="sig">-41dBm</span>
+      </div>
+      <div class="w"><b>◉ THREAT ASSESSMENT</b>
+        CYBER <span id="cy">71</span>%<div class="meter"><i id="cyi" style="width:71%"></i></div>
+        KINETIC <span id="kn">38</span>%<div class="meter"><i id="kni" style="width:38%"></i></div>
+        EW / JAM <span id="ew">85</span>%<div class="meter"><i id="ewi" style="width:85%"></i></div>
+      </div>
+      <div class="w"><b>◉ TELEMETRY FEED</b><div id="tel"></div></div>
     </div>
   </div>
-  <div class="foot" id="tick">HANDLES: 30875  THREADS: 4092  PROCESSES: 86  CPU CORE: 8  MEMORY: 64GB  COMMS: AES-256  UPLINK: NOMINAL</div>
+  <div class="foot" id="tick">▸ HANDLES: 30875 ▸ THREADS: 4092 ▸ PROCESSES: 86 ▸ COMMIT: 98/147GB ▸ CPU CORE: 8 ▸ PHYSICAL MEMORY: 64GB ▸ COMMS: AES-256 ▸ GPS: 4/8 SATS ▸ UPLINK: NOMINAL ▸ DATALINK: ACTIVE ▸ NODE: OSINTrahat</div>
+  <div id="granted"><h4>ACCESS GRANTED</h4><div>public-source node // OSINTrahat</div></div>
 </div>
 <canvas id="matrix"></canvas>
 <div class="scanline"></div>
@@ -86,7 +116,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   <div class="top"><span>NODE // OSINTrahat</span><span>GREEN NODE ONLINE</span></div>
   <section class="hero">
     <div>
-      <p style="color:#00ffc3;letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
+      <p style="color:#00ffc3;letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL // PUBLIC SOURCE ONLY</p>
       <h1>OSINT<br><em>RAHAT</em></h1>
       <p id="tw"></p>
     </div>
@@ -134,16 +164,64 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
-var src="#include <linux/module.h>\nprintk(\"OSINTrahat online\\n\");\nint dump(char *h){xor_stream(h,64,0x3F);return 0;}\n_start: mov $1,%rax; syscall;\nmodule_init(init);\nwhile(1){poll_feed();}\n";
-var pos=0,opened=false,code=document.getElementById("code");
-function chunk(){var n=16+Math.floor(Math.random()*24);code.textContent+=src.substr(pos,n);pos=(pos+n)%src.length;if(code.textContent.length>3800)code.textContent=code.textContent.slice(-2800);}
-function enter(){if(opened)return;opened=true;document.body.classList.add("quake");var g=document.getElementById("gate");setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},400);setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1100);}
-window.addEventListener("keydown",function(e){if(opened)return;if(e.key==="Escape"){enter();return;}e.preventDefault();chunk();});
+var src="#include <linux/module.h>\nstatic int init_node(void){\n printk(KERN_INFO \"OSINTrahat online\\n\");\n return 0;\n}\nvoid xor_stream(unsigned char *b,int n,int k){\n for(int i=0;i<n;i++) b[i]^=k;\n}\nint main(int argc,char **argv){\n char *ch[]={\"x.com/Rahatirtaza\",\"t.me/Rahatirtaza\"};\n for(int i=0;i<2;i++) resolve(ch[i]);\n return 0;\n}\n.section .text\n.global _start\n_start:\n mov $1,%rax\n syscall\nmodule_init(init_node);\nwhile(running){poll_feed();}\n";
+var pos=0,opened=false,shifts=0,lastS=0;
+var code=document.getElementById("code");
+function chunk(){
+  var n=14+Math.floor(Math.random()*26);
+  if(code.textContent.indexOf("Press any key")===0) code.textContent="";
+  code.textContent+=src.substr(pos,n); pos=(pos+n)%src.length;
+  if(code.textContent.length>5000) code.textContent=code.textContent.slice(-3600);
+}
+function enter(){
+  if(opened)return; opened=true;
+  document.body.classList.add("quake");
+  var g=document.getElementById("gate");
+  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},400);
+  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1100);
+}
+window.addEventListener("keydown",function(e){
+  if(opened)return;
+  if(e.key==="Escape"){enter();return;}
+  if(e.key==="Shift"){
+    var t=Date.now(); shifts=(t-lastS<500)?shifts+1:1; lastS=t;
+    if(shifts>=3){document.getElementById("granted").classList.add("show");setTimeout(function(){document.getElementById("granted").classList.remove("show")},1600);shifts=0;}
+    return;
+  }
+  e.preventDefault(); chunk();
+});
 window.addEventListener("touchstart",function(){if(!opened)chunk();});
 document.getElementById("enter").onclick=enter;
-setInterval(function(){document.getElementById("clk").textContent=new Date().toLocaleString();document.getElementById("atk").textContent=30+Math.floor(Math.random()*50);document.getElementById("net").textContent="pkt "+Math.floor(Math.random()*9000);document.getElementById("tel").textContent="SIGINT "+(1+Math.floor(Math.random()*5))+" ACTIVE";},900);
+document.querySelectorAll(".modes button").forEach(function(b){b.onclick=function(){document.querySelectorAll(".modes button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");};});
+function hexline(){var s="";for(var i=0;i<8;i++)s+=(Math.random()*256|0).toString(16).padStart(2,"0")+" ";return s;}
+function push(el,line,max){var d=document.createElement("div");d.textContent=line;el.prepend(d);while(el.children.length>max)el.lastChild.remove();}
+setInterval(function(){
+  document.getElementById("clk").textContent=new Date().toLocaleString();
+  var a=20+Math.floor(Math.random()*70); document.getElementById("atk").textContent=a; document.getElementById("atki").style.width=a+"%";
+  var p=40+Math.floor(Math.random()*55); document.getElementById("c1").textContent=p; document.getElementById("c1i").style.width=p+"%";
+  var q=20+Math.floor(Math.random()*60); document.getElementById("c2").textContent=q; document.getElementById("c2i").style.width=q+"%";
+  document.getElementById("net").textContent="pkt "+(1000+Math.floor(Math.random()*8000))+" · up "+(8+Math.floor(Math.random()*40))+"Mbps";
+  var cy=50+Math.floor(Math.random()*40); document.getElementById("cy").textContent=cy; document.getElementById("cyi").style.width=cy+"%";
+  document.getElementById("sig").textContent=(-20-Math.floor(Math.random()*40))+"dBm";
+  push(document.getElementById("hash"),hexline(),5);
+  push(document.getElementById("conn"),"tcp "+(10+Math.floor(Math.random()*200))+".0.0."+(1+Math.floor(Math.random()*250))+":443 ESTAB",5);
+  push(document.getElementById("tel"),["SIGINT ACTIVE","COMMS AES-256","GPS 4/8 SATS","UPLINK NOMINAL","DATALINK ACTIVE"][Math.floor(Math.random()*5)],5);
+},700);
+var gm=document.getElementById("gmap"),gx=gm.getContext("2d"),dots=[];
+for(var i=0;i<28;i++) dots.push({x:Math.random()*240,y:Math.random()*110});
+(function drawMap(){
+  gx.fillStyle="#000"; gx.fillRect(0,0,240,110);
+  gx.strokeStyle="#0a3"; gx.globalAlpha=.35;
+  for(var i=0;i<6;i++){gx.beginPath();gx.moveTo(0,i*22);gx.lineTo(240,i*22);gx.stroke();}
+  gx.globalAlpha=1; gx.fillStyle="#39ff14";
+  dots.forEach(function(d){gx.fillRect(d.x,d.y,2,2); d.x=(d.x+0.3)%240;});
+  gx.strokeStyle="rgba(57,255,20,.35)";
+  gx.beginPath(); gx.moveTo(dots[0].x,dots[0].y);
+  for(var j=1;j<8;j++) gx.lineTo(dots[j].x,dots[j].y); gx.stroke();
+  requestAnimationFrame(drawMap);
+})();
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
-const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
+const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
 function print(t){out.textContent+=(out.textContent?"\n":"")+t;out.scrollTop=out.scrollHeight}
 print("type help");
 document.getElementById("shell").onclick=function(){cmd.focus()};
@@ -151,7 +229,7 @@ cmd.addEventListener("keydown",function(e){if(e.key!=="Enter")return;var raw=cmd
 const el=document.getElementById("tw"),twl=["collect | verify | connect the dots","OG since 2021"];let li=0,ci=0,del=false;
 (function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%twl.length;setTimeout(tick,200)})();
 const feed=document.getElementById("feed"),logs=["[ok] mapped","[ok] archive"];let fi=0;
-(function push(){var d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(push,1600)})();
+(function pushf(){var d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(pushf,1600)})();
 const cnv=document.getElementById("matrix"),x=cnv.getContext("2d");
 function sz(){cnv.width=innerWidth;cnv.height=innerHeight}sz();addEventListener("resize",sz);
 const gg="01$#OSINT";const f=14;let cols=Math.ceil(innerWidth/f);let drops=Array.from({length:cols},function(){return 0});
