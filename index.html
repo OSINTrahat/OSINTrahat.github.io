@@ -8,34 +8,43 @@
 <style>
 :root{--g:#39ff14}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4;min-height:100vh}
+body{font-family:"Share Tech Mono",monospace;background:radial-gradient(900px 480px at 80% 8%,rgba(57,255,20,.08),transparent 55%),#010302;color:#b7ffc4;min-height:100vh}
 body.locked{overflow:hidden;background:#000}
 body.quake{animation:quake 2s linear}
-#matrix{position:fixed;inset:0;z-index:0;opacity:.16;pointer-events:none}
+#matrix{position:fixed;inset:0;z-index:0;opacity:.2;pointer-events:none}
+.scanline{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.18) 3px);opacity:.35}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
 .top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;color:#6fbb7d}
-h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef}
+.top span:last-child{animation:pulse 1.6s ease-in-out infinite}
+h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef;text-shadow:0 0 18px rgba(57,255,20,.35);animation:glitch 3.2s infinite}
 h1 em{font-style:normal;color:var(--g)}
 .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center}
-.monitor{width:176px;margin-left:auto;border:1px solid #2a3d2e;padding:6px}
+.monitor{width:176px;margin-left:auto;border:1px solid #2a3d2e;padding:6px;box-shadow:0 0 24px rgba(57,255,20,.12);animation:monGlow 2.4s ease-in-out infinite}
 .screen{position:relative;aspect-ratio:16/10;overflow:hidden;background:#020805}
+.screen:after{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0 70%,rgba(57,255,20,.18) 100%);animation:spin 6s linear infinite;mix-blend-mode:screen}
 .globe{position:absolute;width:52%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden}
 .map{width:200%;height:100%;background:url("https://unpkg.com/three-globe/example/img/earth-night.jpg") repeat-x center/auto 100%;filter:sepia(1) hue-rotate(75deg) saturate(3.2);animation:pan 20s linear infinite}
 .row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:32px 0}
-.btn{min-height:88px;padding:14px;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.12);color:var(--g);text-decoration:none;font-weight:700}
+.btn{position:relative;overflow:hidden;min-height:88px;padding:14px;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.12);color:var(--g);text-decoration:none;font-weight:700;transition:transform .2s,box-shadow .2s}
+.btn:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.18) 50%,transparent 80%);transform:translateX(-120%);animation:shine 2.8s infinite}
+.btn:hover{transform:translateY(-3px);box-shadow:0 0 22px rgba(57,255,20,.28)}
 .btn span{display:block;margin-top:6px;font-size:.75rem;font-weight:400;color:#8cff9f}
 .term,.skill,.panel,.stat,.sh{background:rgba(2,12,7,.75);border:1px solid rgba(57,255,20,.22)}
+.skill,.stat{animation:cardIn .6s ease both}
+.stat:nth-child(2),.skill:nth-child(2){animation-delay:.08s}
+.stat:nth-child(3),.skill:nth-child(3){animation-delay:.16s}
+.stat:nth-child(4),.skill:nth-child(4){animation-delay:.24s}
 .bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
 pre{padding:16px;color:var(--g)}
 .skills,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .skill,.stat{padding:16px}
 .stat{text-align:center}
-.stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem}
+.stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem;text-shadow:0 0 10px rgba(57,255,20,.4)}
 .feed{height:150px;overflow:hidden;padding:12px}
-h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
+h2{margin:28px 0 12px;color:var(--g);font-size:.88rem;letter-spacing:.08em}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
 .sh .line{display:flex;gap:8px;padding:10px}
-.sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
+.sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px;caret-color:#39ff14}
 #gate{position:fixed;inset:0;z-index:90;background:#000;overflow:hidden}
 #gate.gone{display:none}
 #gate.open{opacity:0;transition:opacity .45s}
@@ -49,6 +58,12 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 @keyframes blink{50%{opacity:.2}}
 @keyframes shake{50%{transform:translate(3px,-2px)}}
 @keyframes quake{0%,100%{transform:none}20%{transform:translate(-16px,8px)}40%{transform:translate(14px,-10px)}70%{transform:translate(-8px,6px)}}
+@keyframes shine{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
+@keyframes glitch{0%,90%,100%{transform:none;text-shadow:0 0 18px rgba(57,255,20,.35)}92%{transform:translate(-2px,1px);text-shadow:2px 0 #00e5ff,-2px 0 #39ff14}94%{transform:translate(2px,-1px)}}
+@keyframes pulse{50%{opacity:.35}}
+@keyframes monGlow{50%{box-shadow:0 0 36px rgba(57,255,20,.28)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}}
 </style>
 </head>
@@ -69,6 +84,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   <button id="door" type="button"></button>
 </div>
 <canvas id="matrix"></canvas>
+<div class="scanline"></div>
 <div class="wrap">
   <div class="top"><span>NODE // OSINTrahat</span><span>GREEN NODE ONLINE</span></div>
   <section class="hero">
