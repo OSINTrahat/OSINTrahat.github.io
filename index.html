@@ -6,82 +6,106 @@
 <title>OSINTrahat // SECURE NODE</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
-:root{--g:#39ff14}
+:root{--g:#39ff14;--c:#00e8ff;--o:#ff6a00}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Share Tech Mono",monospace;background:radial-gradient(900px 480px at 80% 8%,rgba(57,255,20,.08),transparent 55%),#010302;color:#b7ffc4;min-height:100vh}
-body.locked{overflow:hidden;background:#000}
+body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4;min-height:100vh}
+body.locked,body.hudon{overflow:hidden}
 body.quake{animation:quake 2s linear}
 #matrix{position:fixed;inset:0;z-index:0;opacity:.2;pointer-events:none}
 .scanline{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.18) 3px);opacity:.35}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
 .top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;color:#6fbb7d}
-.top span:last-child{animation:pulse 1.6s ease-in-out infinite}
-h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef;text-shadow:0 0 18px rgba(57,255,20,.35);animation:glitch 3.2s infinite}
+h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef;animation:glitch 3.2s infinite}
 h1 em{font-style:normal;color:var(--g)}
 .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center}
-.monitor{width:176px;margin-left:auto;border:1px solid #2a3d2e;padding:6px;box-shadow:0 0 24px rgba(57,255,20,.12);animation:monGlow 2.4s ease-in-out infinite}
+.monitor{width:176px;margin-left:auto;border:1px solid #2a3d2e;padding:6px}
 .screen{position:relative;aspect-ratio:16/10;overflow:hidden;background:#020805}
-.screen:after{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0 70%,rgba(57,255,20,.18) 100%);animation:spin 6s linear infinite;mix-blend-mode:screen}
 .globe{position:absolute;width:52%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden}
 .map{width:200%;height:100%;background:url("https://unpkg.com/three-globe/example/img/earth-night.jpg") repeat-x center/auto 100%;filter:sepia(1) hue-rotate(75deg) saturate(3.2);animation:pan 20s linear infinite}
 .row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:32px 0}
-.btn{position:relative;overflow:hidden;min-height:88px;padding:14px;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.12);color:var(--g);text-decoration:none;font-weight:700;transition:transform .2s,box-shadow .2s}
-.btn:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.18) 50%,transparent 80%);transform:translateX(-120%);animation:shine 2.8s infinite}
-.btn:hover{transform:translateY(-3px);box-shadow:0 0 22px rgba(57,255,20,.28)}
+.btn{position:relative;overflow:hidden;min-height:88px;padding:14px;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.12);color:var(--g);text-decoration:none;font-weight:700}
 .btn span{display:block;margin-top:6px;font-size:.75rem;font-weight:400;color:#8cff9f}
 .term,.skill,.panel,.stat,.sh{background:rgba(2,12,7,.75);border:1px solid rgba(57,255,20,.22)}
-.skill,.stat{animation:cardIn .6s ease both}
-.stat:nth-child(2),.skill:nth-child(2){animation-delay:.08s}
-.stat:nth-child(3),.skill:nth-child(3){animation-delay:.16s}
-.stat:nth-child(4),.skill:nth-child(4){animation-delay:.24s}
 .bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
 pre{padding:16px;color:var(--g)}
 .skills,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .skill,.stat{padding:16px}
 .stat{text-align:center}
-.stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem;text-shadow:0 0 10px rgba(57,255,20,.4)}
+.stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem}
 .feed{height:150px;overflow:hidden;padding:12px}
-h2{margin:28px 0 12px;color:var(--g);font-size:.88rem;letter-spacing:.08em}
+h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
 .sh .line{display:flex;gap:8px;padding:10px}
-.sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px;caret-color:#39ff14}
-#gate{position:fixed;inset:0;z-index:90;background:#000;overflow:hidden}
+.sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
+#gate{position:fixed;inset:0;z-index:95;background:#000;overflow:hidden}
 #gate.gone{display:none}
 #gate.open{opacity:0;transition:opacity .45s}
 #boot{position:absolute;inset:0;padding:16px;color:#39ff14;font-size:12px;line-height:1.3;overflow:hidden;white-space:pre}
 #skull{position:absolute;inset:0;z-index:94;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);flex-direction:column}
 #skull.show{display:flex}
-#skull svg{width:min(280px,70vw);filter:drop-shadow(0 0 18px #ff1a1a);animation:shake .12s linear infinite}
-#skull p{margin-top:16px;color:#ff2a2a;letter-spacing:.18em;font-family:Orbitron,sans-serif;font-size:clamp(1.1rem,4vw,1.8rem);text-shadow:0 0 14px #ff0000;animation:blink .28s step-end infinite}
+#skull svg{width:min(240px,62vw);filter:drop-shadow(0 0 18px #ff1a1a);animation:shake .12s linear infinite}
+#skull p{margin-top:16px;color:#ff2a2a;letter-spacing:.18em;font-family:Orbitron,sans-serif;font-size:clamp(1.1rem,4vw,1.8rem);animation:blink .28s step-end infinite}
 #door{position:absolute;inset:0;z-index:97;background:transparent;border:0;cursor:pointer}
+#hud{position:fixed;inset:0;z-index:80;background:#021018;color:var(--c);display:grid;grid-template-rows:70px 1fr 70px;padding:12px 18px;gap:8px}
+#hud.out{animation:hudOut 1.8s ease forwards;pointer-events:none}
+#hud.gone{display:none}
+.hud-top{border:1px solid var(--c);clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);display:flex;align-items:center;justify-content:center;gap:14px;background:rgba(0,232,255,.05)}
+.hud-top b{font-family:Orbitron,sans-serif;font-size:clamp(1.2rem,4vw,2rem);color:#fff}
+.hud-top b i{font-style:normal;color:var(--o)}
+.hud-mid{display:grid;grid-template-columns:1fr minmax(260px,42vw) 1fr;gap:16px;align-items:center}
+.side{display:flex;flex-direction:column;gap:12px}
+.card{border:1px solid rgba(0,232,255,.45);padding:8px;background:rgba(0,20,28,.7)}
+.meter{height:10px;background:#03313a;margin-top:6px;position:relative}
+.meter span{display:block;height:100%;background:var(--c);width:62%;animation:fill 2.8s ease-in-out infinite alternate}
+.card:nth-child(2) .meter span{width:48%;animation-delay:.4s}
+.card:nth-child(3) .meter span{width:77%;animation-delay:.8s}
+.ring-wrap{position:relative;aspect-ratio:1;max-height:70vh;margin:0 auto}
+.ring{position:absolute;inset:6%;border:2px solid rgba(0,232,255,.35);border-radius:50%}
+.ring.r2{inset:14%;border-style:dashed;animation:spin 18s linear infinite}
+.ring.r3{inset:24%;border-top-color:var(--o);animation:spin 8s linear infinite reverse}
+.ring.r4{inset:34%;border-left-color:transparent;animation:spin 12s linear infinite}
+.open-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34%;aspect-ratio:1;border-radius:50%;border:2px solid var(--c);background:radial-gradient(circle at 40% 35%,#044,#000);color:#fff;font-family:Orbitron,sans-serif;font-size:clamp(1rem,3vw,1.6rem);letter-spacing:.2em;cursor:pointer;box-shadow:0 0 30px rgba(0,232,255,.35);animation:breath 2s ease-in-out infinite}
+.hud-bot{border:1px solid var(--c);display:flex;align-items:center;justify-content:center;color:rgba(0,232,255,.7);font-size:.72rem;letter-spacing:.16em}
+@keyframes hudOut{0%{opacity:1;clip-path:circle(80% at 50% 50%)}100%{opacity:0;clip-path:circle(0% at 50% 50%)}}
+@keyframes fill{to{filter:brightness(1.4)}}
 @keyframes pan{to{transform:translateX(-50%)}}
 @keyframes blink{50%{opacity:.2}}
 @keyframes shake{50%{transform:translate(3px,-2px)}}
-@keyframes quake{0%,100%{transform:none}20%{transform:translate(-16px,8px)}40%{transform:translate(14px,-10px)}70%{transform:translate(-8px,6px)}}
-@keyframes shine{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
-@keyframes glitch{0%,90%,100%{transform:none;text-shadow:0 0 18px rgba(57,255,20,.35)}92%{transform:translate(-2px,1px);text-shadow:2px 0 #00e5ff,-2px 0 #39ff14}94%{transform:translate(2px,-1px)}}
-@keyframes pulse{50%{opacity:.35}}
-@keyframes monGlow{50%{box-shadow:0 0 36px rgba(57,255,20,.28)}}
+@keyframes quake{0%,100%{transform:none}30%{transform:translate(12px,-8px)}60%{transform:translate(-10px,6px)}}
+@keyframes glitch{0%,90%,100%{transform:none}93%{transform:translate(-2px,1px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}}
+@keyframes breath{50%{box-shadow:0 0 48px rgba(0,232,255,.65)}}
+@media(max-width:980px){.hero,.row,.skills,.stats,.hud-mid{grid-template-columns:1fr}.monitor{margin:12px auto}.side{display:none}}
 </style>
 </head>
-<body class="locked">
+<body class="locked hudon">
 <div id="gate">
   <pre id="boot"></pre>
   <div id="skull">
-    <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="100" cy="88" rx="72" ry="70" fill="#1a1a1a" stroke="#eee" stroke-width="3"/>
-      <ellipse cx="70" cy="88" rx="18" ry="22" fill="#000"/>
-      <ellipse cx="130" cy="88" rx="18" ry="22" fill="#000"/>
-      <polygon points="100,100 88,128 112,128" fill="#000"/>
-      <rect x="58" y="148" width="84" height="36" rx="8" fill="#1a1a1a" stroke="#eee" stroke-width="3"/>
-      <path d="M70 148 v36 M85 148 v36 M100 148 v36 M115 148 v36 M130 148 v36" stroke="#eee" stroke-width="3"/>
-    </svg>
+    <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="88" rx="72" ry="70" fill="#1a1a1a" stroke="#eee" stroke-width="3"/><ellipse cx="70" cy="88" rx="18" ry="22" fill="#000"/><ellipse cx="130" cy="88" rx="18" ry="22" fill="#000"/><polygon points="100,100 88,128 112,128" fill="#000"/><rect x="58" y="148" width="84" height="36" rx="8" fill="#1a1a1a" stroke="#eee" stroke-width="3"/><path d="M70 148 v36 M85 148 v36 M100 148 v36 M115 148 v36 M130 148 v36" stroke="#eee" stroke-width="3"/></svg>
     <p>YOU ARE HACKED</p>
   </div>
   <button id="door" type="button"></button>
+</div>
+<div id="hud">
+  <div class="hud-top"><b>OSINT <i>NODE</i></b></div>
+  <div class="hud-mid">
+    <div class="side">
+      <div class="card">LINK A<div class="meter"><span></span></div></div>
+      <div class="card">SOCMINT<div class="meter"><span></span></div></div>
+      <div class="card">CRYPTO CM<div class="meter"><span></span></div></div>
+    </div>
+    <div class="ring-wrap">
+      <div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div>
+      <button class="open-btn" id="open" type="button">OPEN</button>
+    </div>
+    <div class="side">
+      <div class="card">MOD<div class="meter"><span></span></div></div>
+      <div class="card">OG 2021<div class="meter"><span></span></div></div>
+      <div class="card">STATUS<div class="meter"><span></span></div></div>
+    </div>
+  </div>
+  <div class="hud-bot">SECURE CHANNEL // RAHAT</div>
 </div>
 <canvas id="matrix"></canvas>
 <div class="scanline"></div>
@@ -133,7 +157,7 @@ var AC=window.AudioContext||window.webkitAudioContext,actx=null,ready=false,open
 function ctx(){if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();return actx;}
 function beep(freq,dur,vol){try{var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type="square";o.frequency.value=freq;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0008,t+dur);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}catch(e){}}
 function robotVoice(){
-  try{var u=new SpeechSynthesisUtterance("you are hacked");u.rate=0.55;u.pitch=0.01;u.volume=1;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}
+  try{var u=new SpeechSynthesisUtterance("you are hacked");u.rate=0.55;u.pitch=0.01;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}
   var c=ctx(),t=c.currentTime;
   [0,0.24,0.48,0.76].forEach(function(s,i){
     var o=c.createOscillator(),g=c.createGain();
@@ -142,16 +166,13 @@ function robotVoice(){
     o.connect(g); g.connect(c.destination); o.start(t+s); o.stop(t+s+0.22);
   });
 }
-var lines=["[  OK  ] Started Load Kernel Modules.","[  OK  ] Reached target Local File Systems.","[FAILED] Failed to start Display Manager.","[  OK  ] Started Network Manager.","root@node:~# systemctl stop graphical.target","[ALERT] unauthorized remote session","[ALERT] privilege escalation","root@node:~# chmod 777 /dev/console","[WARN] tty hijack"];
+var lines=["[  OK  ] Started Load Kernel Modules.","[  OK  ] Reached target Local File Systems.","[FAILED] Failed to start Display Manager.","[  OK  ] Started Network Manager.","[ALERT] unauthorized remote session","[ALERT] privilege escalation"];
 var boot=document.getElementById("boot"),log=[],n=0;
 function dump(){log.push(lines[Math.floor(Math.random()*lines.length)]);if(log.length>26)log.shift();boot.textContent=log.join("\n");}
 setInterval(dump,55);
 function alarmTick(){if(!alarmOn)return;beep(880,0.055,0.13);n++;setTimeout(alarmTick,n%3===0?340:150);}
 alarmTick();
-setTimeout(function(){
-  document.getElementById("skull").classList.add("show");
-  ready=true;
-},2500);
+setTimeout(function(){document.getElementById("skull").classList.add("show");ready=true;},2500);
 document.getElementById("door").onclick=function(){
   if(!ready||opened)return; opened=true; alarmOn=false;
   robotVoice();
@@ -159,6 +180,11 @@ document.getElementById("door").onclick=function(){
   var g=document.getElementById("gate");
   setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},900);
   setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1600);
+};
+document.getElementById("open").onclick=function(){
+  var h=document.getElementById("hud");
+  h.classList.add("out");
+  setTimeout(function(){h.classList.add("gone");document.body.classList.remove("hudon")},1800);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
 const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
