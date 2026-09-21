@@ -192,6 +192,34 @@ function clickFx(){
     o.connect(og);og.connect(actx.destination);o.start(t);o.stop(t+0.06);
   }catch(e){}
 }
+function robotBed(){
+  try{
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+    if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();
+    var t=actx.currentTime,o=actx.createOscillator(),o2=actx.createOscillator(),gain=actx.createGain();
+    o.type="sawtooth";o.frequency.value=70;o2.type="square";o2.frequency.value=140;
+    gain.gain.setValueAtTime(0.08,t);gain.gain.exponentialRampToValueAtTime(0.001,t+1.4);
+    o.connect(gain);o2.connect(gain);gain.connect(actx.destination);o.start(t);o2.start(t);o.stop(t+1.4);o2.stop(t+1.4);
+  }catch(e){}
+}
+function speakGrant(){
+  try{fx.volume=0.18}catch(e){}
+  robotBed();
+  try{
+    if(!window.speechSynthesis)return;
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance("Access granted");
+    u.lang="en-US";u.rate=0.72;u.pitch=0.25;u.volume=1;
+    var vs=speechSynthesis.getVoices()||[],pick=null;
+    for(var i=0;i<vs.length;i++){
+      var n=(vs[i].name||"").toLowerCase();
+      if(/daniel|david|fred|male|baritone|english/.test(n)){pick=vs[i];break}
+    }
+    if(pick)u.voice=pick;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+if(window.speechSynthesis){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){speechSynthesis.getVoices()}}
 document.addEventListener("pointerdown",function(e){if(!mainReady)return;if(e.target&&e.target.id==="cmd")return;clickFx();},true);
 var lines=["breach.sh","handshake fail","decrypt shadow","port 22 open","port 443 open","payload in","I SEE YOU","osint map","root yes","session hijack","camera /dev/video0","YOU CLICKED"];
 function fillSide(el,max){var b=[],i=0;(function step(){if(!opened)return;b.push(lines[i++%lines.length]+" "+Math.random().toString(16).slice(2,7));if(b.length>max)b.shift();el.textContent=b.join("\n");setTimeout(step,80)})()}
@@ -199,15 +227,17 @@ function dumpRun(){fillSide(document.getElementById("gtL"),18);fillSide(document
 function goMain(){
   document.body.classList.remove("quake");
   g.classList.add("grant");
+  speakGrant();
   setTimeout(function(){
     g.classList.add("open");
     document.body.classList.remove("locked");
     document.body.classList.add("in");
-    setTimeout(function(){g.classList.add("gone");mainReady=true;try{fx.pause();fx.currentTime=0}catch(e){}},700);
-  },1600);
+    setTimeout(function(){g.classList.add("gone");mainReady=true;try{speechSynthesis.cancel();fx.pause();fx.currentTime=0;fx.volume=1}catch(e){}},700);
+  },1800);
 }
 document.getElementById("door").onclick=function(){
   if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");dumpRun();
+  try{if(window.speechSynthesis)speechSynthesis.getVoices()}catch(e){}
   try{fx.currentTime=0;fx.volume=1;var p=fx.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
   var wait=10400;try{if(fx.duration&&isFinite(fx.duration))wait=Math.max(9000,fx.duration*1000)}catch(e){}
   setTimeout(function(){st.textContent="ACCESS";goMain()},wait);
