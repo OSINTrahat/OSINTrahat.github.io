@@ -22,5 +22,14 @@ section{padding:3rem 0}h2{color:var(--green);margin-bottom:1.2rem;font-size:1.15
 pre{color:var(--green);margin-bottom:1rem;white-space:pre-wrap}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
 .grid h3{color:var(--green);margin-bottom:.5rem;font-size:.95rem}
+.contact-intro{margin:-.4rem 0 1.4rem;color:#9dffb4}
+.channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.channel{display:flex;align-items:center;gap:1rem;text-align:left;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--border);padding:1.1rem 1.15rem;cursor:pointer;font-family:inherit;transition:border-color .2s,transform .2s,box-shadow .2s}
+.channel:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 0 18px rgba(0,255,65,.18)}
+.ch-icon{flex:0 0 48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px solid var(--green);color:var(--green);font-weight:700;font-size:.85rem}
+.ch-meta{display:flex;flex-direction:column;gap:.18rem;min-width:0}
+.ch-label{color:#fff;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.ch-value{color:var(--green);font-size:.95rem;word-break:break-all}
+.ch-hint{color:#6a9a73;font-size:.72rem}
 footer{text-align:center;padding:2rem 1rem 3rem;border-top:1px solid var(--border);color:#4a8a58;font-size:.8rem}
 @media(max-width:720px){nav{display:none}}
