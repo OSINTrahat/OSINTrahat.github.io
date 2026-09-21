@@ -10,7 +10,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Share Tech Mono",monospace;background:#000;color:#b8ffc4;min-height:100vh;overflow-x:hidden}
 body.locked{overflow:hidden}
-body.quake{animation:quake .12s linear infinite}
+body.quake{animation:quake .11s linear infinite}
 #matrix{position:fixed;inset:0;z-index:0;opacity:.36;pointer-events:none}
 .scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.4) 3px);animation:scan 8s linear infinite}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:30px 22px 90px;animation:pageIn 1s ease both}
@@ -44,34 +44,34 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 .sh .line{display:flex;gap:8px;padding:8px;border-top:1px solid #163}
 .sh input{flex:1;background:#001208;border:1px solid var(--g);color:var(--g);font:inherit;padding:8px;outline:none;font-weight:700}
 #gate{position:fixed;inset:0;z-index:90;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
-#gate:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(57,255,20,.05) 4px);animation:scan 4s linear infinite;pointer-events:none}
-#gate.gone{display:none}#gate.open{opacity:0;transition:opacity .5s}
-#gate.boom{animation:flick .08s linear infinite}
-#gate.boom .box{animation:unlock .9s ease-in forwards}
-#gate.boom .flash{opacity:1;animation:rp .16s linear infinite}
-#gate.boom .mask{opacity:1;transform:scale(1);animation:maskPulse .35s steps(2) infinite}
-.flash{position:absolute;inset:0;background:radial-gradient(circle,rgba(57,255,20,.18),transparent 55%);opacity:0;pointer-events:none}
-.mask{position:absolute;width:min(460px,86vw);aspect-ratio:3/4;opacity:0;transform:scale(.82);transition:.45s;z-index:1;pointer-events:none;filter:drop-shadow(0 0 28px #39ff14)}
-.box{width:min(360px,84vw);aspect-ratio:1;border:4px solid #ff1a1a;background:rgba(10,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 80px rgba(255,0,0,.45);animation:pulse .7s ease-in-out infinite;z-index:2}
+#gate.gone{display:none}#gate.open{opacity:0;transition:opacity .45s}
+#gate.boom{animation:flick .07s linear infinite}
+#gate.boom .box{opacity:0;transform:scale(.4)}
+#wall{position:absolute;inset:0;z-index:3;padding:18px 22px;color:#39ff14;font-size:clamp(.62rem,1.7vw,.9rem);line-height:1.35;white-space:pre-wrap;overflow:hidden;opacity:0;text-shadow:0 0 8px #39ff14;pointer-events:none}
+#gate.boom #wall{opacity:1}
+.skullpop{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;color:#7CFF7C;font-size:clamp(.55rem,1.6vw,.85rem);white-space:pre;text-shadow:0 0 16px #39ff14;font-weight:700}
+#gate.boom .skullpop{opacity:1;animation:maskPulse .28s steps(2) infinite}
+.flash{position:absolute;inset:0;background:radial-gradient(circle,rgba(57,255,20,.16),transparent 55%);opacity:0;pointer-events:none;z-index:2}
+#gate.boom .flash{opacity:1;animation:rp .15s linear infinite}
+.box{width:min(360px,84vw);aspect-ratio:1;border:4px solid #ff1a1a;background:rgba(12,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 80px rgba(255,0,0,.45);animation:pulse .7s ease-in-out infinite;z-index:5;transition:.35s}
 .box svg.lock{width:74px;filter:drop-shadow(0 0 16px #f00)}
 .box b{color:#ff2424;font-family:Orbitron,sans-serif;font-weight:900;text-align:center;font-size:clamp(1.05rem,3.6vw,1.4rem);letter-spacing:.06em;text-shadow:0 0 14px #f00;animation:blink .5s steps(2) infinite}
 .box span,#status{color:#ffd0d0;font-size:.78rem;letter-spacing:.2em;font-weight:700}
-.warn{position:absolute;top:6%;width:100%;text-align:center;color:#ff3b3b;letter-spacing:.3em;font-size:clamp(.8rem,3vw,1.1rem);font-family:Orbitron,sans-serif;font-weight:900;animation:blink .55s steps(2) infinite;z-index:3;text-shadow:0 0 16px #f00}
+.warn{position:absolute;top:6%;width:100%;text-align:center;color:#ff3b3b;letter-spacing:.3em;font-size:clamp(.8rem,3vw,1.1rem);font-family:Orbitron,sans-serif;font-weight:900;animation:blink .55s steps(2) infinite;z-index:6;text-shadow:0 0 16px #f00}
 #door{position:absolute;inset:0;z-index:97;border:0;background:transparent;cursor:pointer}
 @keyframes shine{0%{transform:translateX(-120%)}55%,100%{transform:translateX(130%)}}
 @keyframes cell{0%,100%{border-color:#39ff14}50%{box-shadow:0 0 22px rgba(57,255,20,.28)}}
 @keyframes glitch{0%,86%,100%{transform:none}90%{transform:translate(-3px,1px);text-shadow:-4px 0 #f00,4px 0 #0ff}}
 @keyframes quake{0%,100%{transform:none}25%{transform:translate(-12px,8px)}50%{transform:translate(14px,-8px)}75%{transform:translate(-7px,5px)}}
 @keyframes pulse{50%{box-shadow:0 0 110px rgba(255,0,0,.8)}}
-@keyframes unlock{to{transform:scale(0) rotate(16deg);opacity:0}}
 @keyframes blink{50%{opacity:.28}}
-@keyframes rp{50%{opacity:.2}}
-@keyframes flick{50%{filter:contrast(1.35) brightness(1.15)}}
+@keyframes rp{50%{opacity:.18}}
+@keyframes flick{50%{filter:contrast(1.4) brightness(1.2)}}
 @keyframes scan{to{background-position:0 40px}}
 @keyframes mon{50%{box-shadow:0 18px 40px #000,0 0 36px rgba(57,255,20,.35)}}
 @keyframes pageIn{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:none}}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@keyframes maskPulse{50%{filter:drop-shadow(0 0 40px #39ff14) brightness(1.35)}}
+@keyframes maskPulse{50%{filter:brightness(1.5)}}
 @media(max-width:900px){.hero,.row,.grid,.mods{grid-template-columns:1fr}.monitor{margin:12px auto}}
 </style>
 </head>
@@ -79,21 +79,18 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 <div id="gate">
   <div class="warn">⚠ DON'T CLICK · DANGER ⚠</div>
   <div class="flash"></div>
-  <div class="mask" aria-hidden="true">
-    <svg viewBox="0 0 160 210" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="led" width="4" height="4" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1.15" fill="#7CFF7C"/>
-        </pattern>
-        <clipPath id="sk">
-          <path d="M80 8c-34 0-58 26-58 62 0 18 6 32 16 42v18c0 8 6 16 16 20l6 18c2 6 8 10 16 10h8c8 0 14-4 16-10l6-18c10-4 16-12 16-20v-18c10-10 16-24 16-42C138 34 114 8 80 8z"/>
-        </clipPath>
-      </defs>
-      <rect width="160" height="210" fill="url(#led)" clip-path="url(#sk)"/>
-      <path d="M52 78l18 8-20 10zM108 78l-18 8 20 10z" fill="#000"/>
-      <path d="M58 128h44v6H58zM62 136h6v10h-6zM72 136h6v12h-6zM82 136h6v12h-6zM92 136h6v10h-6z" fill="#000"/>
-    </svg>
-  </div>
+  <pre id="wall"></pre>
+  <pre class="skullpop">
+      .ed$$$$ee.
+    e$$$$$$$$$$$$$e
+   $$$$$$"   "$$$$$$ 
+  $$$$$  .xX.  $$$$$ 
+  $$$$  $$XX$$  $$$$ 
+  $$$$  ' XX '  $$$$ 
+   $$$$   ||   $$$$ 
+    $$$$ |||| $$$$ 
+     "$$$$$$$$$$"
+        ||||||</pre>
   <div class="box">
     <svg class="lock" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg"><path d="M35 62 V40 a25 25 0 0 1 50 0 v22" fill="none" stroke="#ff2a2a" stroke-width="8"/><rect x="22" y="60" width="76" height="62" rx="8" fill="#1a0000" stroke="#ff2a2a" stroke-width="4"/><circle cx="60" cy="88" r="8" fill="#ff2a2a"/><rect x="57" y="88" width="6" height="18" fill="#ff2a2a"/></svg>
     <b>DON'T CLICK HERE<br>IT'S DANGER</b>
@@ -148,10 +145,21 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
   </div>
 </div>
 <script>
-var g=document.getElementById("gate"),st=document.getElementById("status"),fx=document.getElementById("fx"),opened=false;
-function goMain(){g.classList.add("open");document.body.classList.remove("locked","quake");setTimeout(function(){g.classList.add("gone");try{fx.pause();fx.currentTime=0}catch(e){}},500)}
+var g=document.getElementById("gate"),st=document.getElementById("status"),fx=document.getElementById("fx"),wall=document.getElementById("wall"),opened=false;
+var dump=["root@node:~# ./breach.sh","[!] unauthorized handshake","decrypting shadow ...","0x7ffe9a11  41 43 43 45 53 53","port 22 open","port 443 open","injecting payload ....","kernel panic avoided","watching camera /dev/video0","YOU SHOULD NOT HAVE CLICKED","session hijack ok","writing /etc/host.own","trace: OSINT RAHAT","socmint mapped","I SEE YOU","access root .............. yes"];
+function dumpRun(){
+  var i=0,buf=[];
+  (function step(){
+    if(!opened)return;
+    buf.push(dump[i++%dump.length]+"  "+Math.random().toString(16).slice(2,8));
+    if(buf.length>22)buf.shift();
+    wall.textContent=buf.join("\n");
+    setTimeout(step,90);
+  })();
+}
+function goMain(){g.classList.add("open");document.body.classList.remove("locked","quake");setTimeout(function(){g.classList.add("gone");try{fx.pause();fx.currentTime=0}catch(e){}},450)}
 document.getElementById("door").onclick=function(){
-  if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");
+  if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");dumpRun();
   try{fx.currentTime=0;fx.volume=1;var p=fx.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
   var wait=10400;try{if(fx.duration&&isFinite(fx.duration))wait=Math.max(9000,fx.duration*1000)}catch(e){}
   setTimeout(function(){st.textContent="ACCESS";goMain()},wait);
