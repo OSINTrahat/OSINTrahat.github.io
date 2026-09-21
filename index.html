@@ -139,18 +139,28 @@ h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
 function doorSound(){
   var A=window.AudioContext||window.webkitAudioContext; if(!A)return;
   var ctx=new A(); var t=ctx.currentTime;
-  function beep(freq,start,dur,type,gain){
+  function tone(freq,start,dur,type,vol){
     var o=ctx.createOscillator(),g=ctx.createGain();
-    o.type=type||"square"; o.frequency.setValueAtTime(freq,t+start);
-    g.gain.setValueAtTime(gain||0.08,t+start);
-    g.gain.exponentialRampToValueAtTime(0.001,t+start+dur);
+    o.type=type; o.frequency.setValueAtTime(freq,t+start);
+    g.gain.setValueAtTime(vol,t+start);
+    g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
     o.connect(g); g.connect(ctx.destination); o.start(t+start); o.stop(t+start+dur);
   }
-  beep(180,0,0.08,"square",0.1);
-  beep(90,0.08,0.35,"sawtooth",0.07);
-  beep(70,0.12,0.5,"triangle",0.06);
-  beep(880,0.45,0.12,"square",0.05);
-  beep(1320,0.58,0.18,"square",0.04);
+  function noiseClick(start,dur,vol){
+    var n=ctx.createBufferSource(); var buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
+    var d=buf.getChannelData(0); for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/200);
+    n.buffer=buf; var g=ctx.createGain(); var f=ctx.createBiquadFilter(); f.type="highpass"; f.frequency.value=1800;
+    g.gain.setValueAtTime(vol,t+start); g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
+    n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t+start);
+  }
+  for(var i=0;i<18;i++){
+    noiseClick(i*0.028,0.04,0.22);
+    tone(1200+Math.random()*1800,i*0.028,0.035,"square",0.035);
+  }
+  tone(90,0.52,0.18,"sawtooth",0.08);
+  tone(1400,0.62,0.07,"square",0.06);
+  tone(1900,0.70,0.08,"square",0.05);
+  tone(2400,0.80,0.22,"triangle",0.06);
 }
 document.getElementById("door").onclick=function(){
   doorSound();
