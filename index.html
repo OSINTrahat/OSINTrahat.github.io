@@ -78,7 +78,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
   <button id="door" type="button"></button>
 </div>
-<audio id="fx" src="click.mp3" preload="auto" playsinline></audio>
+<audio id="fx" src="videoplayback.m4a" preload="auto" playsinline></audio>
 <canvas id="matrix"></canvas>
 <div class="scanline"></div>
 <div class="wrap">
@@ -133,34 +133,21 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
-var g=document.getElementById("gate"),st=document.getElementById("status"),fx=document.getElementById("fx"),opened=false,actx=null;
-function ctx(){var AC=window.AudioContext||window.webkitAudioContext;if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();return actx;}
-function tone(f,d,v,type,t0){var c=ctx(),o=c.createOscillator(),gn=c.createGain(),t=t0||c.currentTime;o.type=type||"sawtooth";o.frequency.setValueAtTime(f,t);gn.gain.setValueAtTime(v,t);gn.gain.exponentialRampToValueAtTime(0.0008,t+d);o.connect(gn);gn.connect(c.destination);o.start(t);o.stop(t+d);}
-function breachSound(){
-  try{
-    var c=ctx(),t=c.currentTime;
-    tone(70,0.45,0.32,"sawtooth",t);
-    tone(40,0.7,0.22,"square",t);
-    for(var i=0;i<18;i++){tone(880-(i%3)*220,0.07,0.16,"square",t+0.12+i*0.18);}
-    tone(55,1.2,0.2,"sawtooth",t+3.4);
-    tone(30,1.6,0.18,"square",t+3.4);
-    tone(1200,0.2,0.12,"square",t+5.2);
-    tone(80,0.8,0.25,"sawtooth",t+5.4);
-  }catch(e){}
-  try{fx.currentTime=0;var p=fx.play();if(p&&p.catch)p.catch(function(){});}catch(e){}
-}
+var g=document.getElementById("gate"),st=document.getElementById("status"),fx=document.getElementById("fx"),opened=false;
 function goMain(){
   g.classList.add("open");
   document.body.classList.remove("locked","quake");
-  setTimeout(function(){g.classList.add("gone");try{fx.pause();}catch(e){}},700);
+  setTimeout(function(){g.classList.add("gone");try{fx.pause();fx.currentTime=0;}catch(e){}},700);
 }
 document.getElementById("door").onclick=function(){
   if(opened)return; opened=true;
   st.textContent="BREACHING...";
   document.body.classList.add("quake");
   g.classList.add("boom");
-  breachSound();
-  setTimeout(function(){st.textContent="ACCESS";goMain();},6200);
+  try{fx.currentTime=0;fx.volume=1;var p=fx.play();if(p&&p.catch)p.catch(function(){});}catch(e){}
+  var wait=10400;
+  try{if(fx.duration&&isFinite(fx.duration))wait=Math.max(9000,fx.duration*1000);}catch(e){}
+  setTimeout(function(){st.textContent="ACCESS";goMain();},wait);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
 const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat // OS RAHAT",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza\nrahatearningyt@gmail.com",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD / OG 2021"};
