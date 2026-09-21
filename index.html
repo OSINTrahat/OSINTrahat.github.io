@@ -10,7 +10,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4;min-height:100vh}
 body.locked{overflow:hidden;background:#000}
-body.quake{animation:quake 2.2s linear}
+body.quake{animation:quake 2s linear}
 #matrix{position:fixed;inset:0;z-index:0;opacity:.16;pointer-events:none}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
 .top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;color:#6fbb7d}
@@ -38,23 +38,37 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
 #gate{position:fixed;inset:0;z-index:90;background:#000;overflow:hidden}
 #gate.gone{display:none}
-#gate.open{opacity:0;transition:opacity .4s .6s}
-#boot{position:absolute;inset:0;padding:18px;color:#39ff14;font-size:12px;line-height:1.35;overflow:hidden;white-space:pre;opacity:.85}
-#alert{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);z-index:95;text-align:center;color:#ff2a2a;pointer-events:none}
-#alert b{display:block;font-family:Orbitron,sans-serif;font-size:clamp(1.4rem,6vw,3rem);letter-spacing:.12em;text-shadow:0 0 18px #ff0000;animation:blink 0.28s step-end infinite}
-#alert span{display:block;margin-top:10px;color:#ffb3b3;letter-spacing:.2em;font-size:.75rem}
-#door{position:absolute;inset:0;z-index:96;background:transparent;border:0;cursor:pointer}
+#gate.open{opacity:0;transition:opacity .45s}
+#boot{position:absolute;inset:0;padding:16px;color:#39ff14;font-size:12px;line-height:1.3;overflow:hidden;white-space:pre}
+#alert{position:absolute;left:50%;top:18%;transform:translateX(-50%);z-index:95;color:#ff2a2a;text-align:center;pointer-events:none;font-family:Orbitron,sans-serif;letter-spacing:.14em;font-size:clamp(1.1rem,4.5vw,2rem);text-shadow:0 0 16px #ff0000;animation:blink .25s step-end infinite}
+#skull{position:absolute;inset:0;z-index:94;display:none;align-items:center;justify-content:center;background:#000;flex-direction:column}
+#skull.show{display:flex}
+#skull svg{width:min(280px,70vw);filter:drop-shadow(0 0 18px #ff1a1a);animation:shake .12s linear infinite}
+#skull p{margin-top:16px;color:#ff2a2a;letter-spacing:.2em}
+#door{position:absolute;inset:0;z-index:97;background:transparent;border:0;cursor:pointer}
 @keyframes pan{to{transform:translateX(-50%)}}
-@keyframes blink{50%{opacity:.15}}
-@keyframes quake{0%,100%{transform:none}12%{transform:translate(-18px,10px)}28%{transform:translate(16px,-12px)}48%{transform:translate(14px,6px)}70%{transform:translate(-8px,6px)}}
+@keyframes blink{50%{opacity:.2}}
+@keyframes shake{50%{transform:translate(3px,-2px)}}
+@keyframes quake{0%,100%{transform:none}20%{transform:translate(-16px,8px)}40%{transform:translate(14px,-10px)}70%{transform:translate(-8px,6px)}}
 @media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}}
 </style>
 </head>
 <body class="locked">
 <div id="gate">
-  <pre id="boot">TAP SCREEN TO START ALERT</pre>
-  <div id="alert"><b>HACKING ALERT</b><span>DON'T CLICK // DANGER</span></div>
-  <button id="door" type="button" aria-label="enter"></button>
+  <pre id="boot">CLICK ONCE</pre>
+  <div id="alert">HACKING ALERT</div>
+  <div id="skull">
+    <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="100" cy="88" rx="72" ry="70" fill="#1a1a1a" stroke="#eee" stroke-width="3"/>
+      <ellipse cx="70" cy="88" rx="18" ry="22" fill="#000"/>
+      <ellipse cx="130" cy="88" rx="18" ry="22" fill="#000"/>
+      <polygon points="100,100 88,128 112,128" fill="#000"/>
+      <rect x="58" y="148" width="84" height="36" rx="8" fill="#1a1a1a" stroke="#eee" stroke-width="3"/>
+      <path d="M70 148 v36 M85 148 v36 M100 148 v36 M115 148 v36 M130 148 v36" stroke="#eee" stroke-width="3"/>
+    </svg>
+    <p>ACCESS GRANTED</p>
+  </div>
+  <button id="door" type="button"></button>
 </div>
 <canvas id="matrix"></canvas>
 <div class="wrap">
@@ -101,28 +115,36 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
-var AC=window.AudioContext||window.webkitAudioContext,actx=null,alarmOn=false,alarmT=null,armed=false;
+var AC=window.AudioContext||window.webkitAudioContext,actx=null,done=false;
 function ctx(){if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();return actx;}
 function beep(freq,dur,vol,type){var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type=type||"square";o.frequency.value=freq;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0008,t+dur);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}
-function startAlarm(){if(alarmOn)return;alarmOn=true;var n=0;function tick(){if(!alarmOn)return;beep(880,0.06,0.16,"square");n++;alarmT=setTimeout(tick,n%3===0?380:150);}tick();}
-function stopAlarm(){alarmOn=false;clearTimeout(alarmT);}
-function sayGranted(){try{var u=new SpeechSynthesisUtterance("access granted");u.rate=0.7;u.pitch=0.3;u.volume=1;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
-function quakeSound(){var c=ctx(),t=c.currentTime;function sub(f,s,d,v){var o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.setValueAtTime(f,t+s);g.gain.setValueAtTime(v,t+s);g.gain.exponentialRampToValueAtTime(0.0008,t+s+d);o.connect(g);g.connect(c.destination);o.start(t+s);o.stop(t+s+d);}function brown(s,d,v){var n=c.createBufferSource(),len=c.sampleRate*d,buf=c.createBuffer(1,len,c.sampleRate),data=buf.getChannelData(0),last=0;for(var i=0;i<len;i++){last=(last+0.02*(Math.random()*2-1))/1.02;data[i]=last*4;}n.buffer=buf;var f=c.createBiquadFilter();f.type="lowpass";f.frequency.value=90;var g=c.createGain();g.gain.setValueAtTime(v,t+s);g.gain.exponentialRampToValueAtTime(0.0008,t+s+d);n.connect(f);f.connect(g);g.connect(c.destination);n.start(t+s);}brown(0,2.2,0.95);sub(28,0,2.1,0.8);sub(70,0,0.3,0.7);sub(70,0.4,0.3,0.7);}
-var lines=["[  OK  ] Started Load Kernel Modules.","[  OK  ] Reached target Local File Systems.","[  OK  ] Started udev Kernel Device Manager.","[FAILED] Failed to start Display Manager.","[  OK  ] Started Network Manager.","root@node:~# sudo systemctl stop graphical.target","[ALERT] unauthorized remote session","[ALERT] privilege escalation detected","root@node:~# chmod 777 /dev/console","[WARN] tty hijack in progress","[ALERT] HACKING ALERT","root@node:~# wall ACCESS DENIED","[  OK  ] Dropped to emergency shell."];
-var boot=document.getElementById("boot"),log=[];
-function dump(){log.push(lines[Math.floor(Math.random()*lines.length)]);if(log.length>28)log.shift();boot.textContent=log.join("\n");}
-var dumpT=null;
-function arm(){if(armed)return;armed=true;startAlarm();dumpT=setInterval(dump,70);}
+function robotLaugh(){
+  var c=ctx(),t=c.currentTime;
+  [0,0.22,0.44,0.7,0.95].forEach(function(s,i){
+    var o=c.createOscillator(),g=c.createGain();
+    o.type="sawtooth"; o.frequency.setValueAtTime(140-i*12,t+s); o.frequency.linearRampToValueAtTime(70-i*6,t+s+0.16);
+    g.gain.setValueAtTime(0.001,t+s); g.gain.exponentialRampToValueAtTime(0.35,t+s+0.03); g.gain.exponentialRampToValueAtTime(0.0008,t+s+0.18);
+    o.connect(g); g.connect(c.destination); o.start(t+s); o.stop(t+s+0.2);
+  });
+}
+function sayGranted(){try{var u=new SpeechSynthesisUtterance("access granted");u.rate=0.68;u.pitch=0.25;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+var lines=["[  OK  ] Started Load Kernel Modules.","[  OK  ] Reached target Local File Systems.","[FAILED] Failed to start Display Manager.","[  OK  ] Started Network Manager.","root@node:~# systemctl stop graphical.target","[ALERT] unauthorized remote session","[ALERT] privilege escalation","root@node:~# chmod 777 /dev/console","[WARN] tty hijack","[ALERT] HACKING ALERT"];
+var boot=document.getElementById("boot"),log=[],nBeep=0,alarmT,dumpT;
+function dump(){log.push(lines[Math.floor(Math.random()*lines.length)]);if(log.length>26)log.shift();boot.textContent=log.join("\n");}
+function alarmTick(){beep(880,0.055,0.14);nBeep++;if(nBeep<18)alarmT=setTimeout(alarmTick,nBeep%3===0?320:140);}
 document.getElementById("door").onclick=function(){
-  if(!armed){arm();return;}
-  stopAlarm();clearInterval(dumpT);
-  document.getElementById("alert").innerHTML="<b>ACCESS GRANTED</b><span>OSINT NODE ONLINE</span>";
-  document.getElementById("alert").style.color="#39ff14";
-  beep(1400,0.05,0.2);sayGranted();quakeSound();
-  document.body.classList.add("quake");
-  var g=document.getElementById("gate");
-  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},700);
-  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},2200);
+  if(done)return; done=true;
+  dumpT=setInterval(dump,55); alarmTick();
+  setTimeout(function(){
+    clearInterval(dumpT); clearTimeout(alarmT);
+    document.getElementById("skull").classList.add("show");
+    document.getElementById("alert").style.display="none";
+    robotLaugh(); sayGranted();
+    document.body.classList.add("quake");
+    var g=document.getElementById("gate");
+    setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},1100);
+    setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1800);
+  },900);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
 const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
