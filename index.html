@@ -45,7 +45,6 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .fog{background:radial-gradient(circle at 50% 50%,transparent 20%,rgba(0,0,0,.75) 100%)}
 .scan{background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.28) 3px)}
 .beam{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#ff1a1a,transparent);box-shadow:0 0 16px #ff1a1a;animation:beam 2.8s linear infinite;z-index:93;pointer-events:none}
-.beam.b2{animation-delay:1.4s;opacity:.7}
 .corners:before,.corners:after,.corners span:before,.corners span:after{content:"";position:absolute;width:48px;height:48px;border:2px solid #ff1a1a;z-index:93}
 .corners:before{top:24px;left:24px;border-right:0;border-bottom:0}
 .corners:after{top:24px;right:24px;border-left:0;border-bottom:0}
@@ -59,7 +58,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 #gate.open .door-hit{opacity:0;transition:.3s;pointer-events:none}
 @keyframes pan{to{transform:translateX(-50%)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes flick{0%,86%,100%{opacity:.15}88%{opacity:.7}93%{opacity:.55}}
+@keyframes flick{0%,86%,100%{opacity:.15}88%{opacity:.7}}
 @keyframes beam{from{top:-2%}to{top:102%}}
 @keyframes marq{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
 @keyframes breath{50%{box-shadow:0 0 70px rgba(255,0,0,.7)}}
@@ -70,14 +69,13 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 <body class="locked">
 <div id="gate">
   <div class="siren"></div><div class="flick"></div><div class="fog"></div><div class="scan"></div>
-  <div class="beam"></div><div class="beam b2"></div>
-  <div class="corners"><span></span></div>
-  <div class="warn-run">DANGER &nbsp; DO NOT ENTER &nbsp; HIGH RISK &nbsp; DON'T CLICK &nbsp; RESTRICTED ZONE</div>
+  <div class="beam"></div><div class="corners"><span></span></div>
+  <div class="warn-run">DANGER &nbsp; DO NOT ENTER &nbsp; HIGH RISK &nbsp; DON'T CLICK</div>
   <button class="door-hit" id="door" type="button">
     <small>ALERT // LIVE</small>
     <b>DON'T CLICK HERE<br>IT'S DANGER</b>
     <em>RESTRICTED · HIGH RISK · NO ENTRY</em>
-    <i>CLICK = EARTHQUAKE</i>
+    <i>TAP PAGE = ALARM &nbsp; BOX = ENTER</i>
   </button>
 </div>
 <canvas id="matrix"></canvas>
@@ -125,41 +123,64 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
+var AC=window.AudioContext||window.webkitAudioContext; var actx=null; var alarmOn=false; var alarmT=null;
+function ctx(){ if(!actx) actx=new AC(); if(actx.state==="suspended") actx.resume(); return actx; }
+function beep(freq,dur,vol,type){
+  var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;
+  o.type=type||"square"; o.frequency.value=freq;
+  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.0008,t+dur);
+  o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+dur);
+}
+function startAlarm(){
+  if(alarmOn) return; alarmOn=true; var n=0;
+  function tick(){ if(!alarmOn) return; beep(980,0.07,0.12,"square"); n++; alarmT=setTimeout(tick, n%3===0?420:160); }
+  tick();
+}
+function stopAlarm(){ alarmOn=false; clearTimeout(alarmT); }
+function clickBlip(){ beep(1600,0.04,0.2,"square"); beep(900,0.06,0.14,"square"); }
+function sayGranted(){
+  try{
+    var u=new SpeechSynthesisUtterance("access granted");
+    u.rate=0.72; u.pitch=0.35; u.volume=1;
+    var vs=speechSynthesis.getVoices();
+    for(var i=0;i<vs.length;i++){ if(/en/i.test(vs[i].lang)) { u.voice=vs[i]; break; } }
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
 function quakeSound(){
-  var A=window.AudioContext||window.webkitAudioContext; if(!A)return;
-  var ctx=new A(); var t=ctx.currentTime;
+  var c=ctx(); var t=c.currentTime;
   function sub(freq,start,dur,vol){
-    var o=ctx.createOscillator(),g=ctx.createGain(),l=ctx.createOscillator(),lg=ctx.createGain();
+    var o=c.createOscillator(),g=c.createGain(),l=c.createOscillator(),lg=c.createGain();
     o.type="sine"; o.frequency.setValueAtTime(freq,t+start);
-    l.type="sine"; l.frequency.value=6.5; lg.gain.value=freq*0.18;
-    l.connect(lg); lg.connect(o.frequency);
-    g.gain.setValueAtTime(0.001,t+start);
-    g.gain.exponentialRampToValueAtTime(vol,t+start+0.08);
-    g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
-    o.connect(g); g.connect(ctx.destination); o.start(t+start); o.stop(t+start+dur); l.start(t+start); l.stop(t+start+dur);
+    l.type="sine"; l.frequency.value=6.5; lg.gain.value=freq*0.18; l.connect(lg); lg.connect(o.frequency);
+    g.gain.setValueAtTime(0.001,t+start); g.gain.exponentialRampToValueAtTime(vol,t+start+0.08); g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
+    o.connect(g); g.connect(c.destination); o.start(t+start); o.stop(t+start+dur); l.start(t+start); l.stop(t+start+dur);
   }
   function brown(start,dur,vol){
-    var n=ctx.createBufferSource(); var len=ctx.sampleRate*dur; var buf=ctx.createBuffer(1,len,ctx.sampleRate);
-    var d=buf.getChannelData(0),last=0;
-    for(var i=0;i<len;i++){ last=(last+0.02*(Math.random()*2-1))/1.02; d[i]=last*4; }
-    n.buffer=buf; var f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=90;
-    var g=ctx.createGain(); g.gain.setValueAtTime(vol,t+start); g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
-    n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t+start);
+    var n=c.createBufferSource(); var len=c.sampleRate*dur; var buf=c.createBuffer(1,len,c.sampleRate);
+    var d=buf.getChannelData(0),last=0; for(var i=0;i<len;i++){ last=(last+0.02*(Math.random()*2-1))/1.02; d[i]=last*4; }
+    n.buffer=buf; var f=c.createBiquadFilter(); f.type="lowpass"; f.frequency.value=90;
+    var g=c.createGain(); g.gain.setValueAtTime(vol,t+start); g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
+    n.connect(f); f.connect(g); g.connect(c.destination); n.start(t+start);
   }
   function thump(start){
-    var o=ctx.createOscillator(),g=ctx.createGain();
+    var o=c.createOscillator(),g=c.createGain();
     o.type="sine"; o.frequency.setValueAtTime(70,t+start); o.frequency.exponentialRampToValueAtTime(22,t+start+0.35);
     g.gain.setValueAtTime(0.9,t+start); g.gain.exponentialRampToValueAtTime(0.0008,t+start+0.4);
-    o.connect(g); g.connect(ctx.destination); o.start(t+start); o.stop(t+start+0.4);
+    o.connect(g); g.connect(c.destination); o.start(t+start); o.stop(t+start+0.4);
   }
   brown(0,2.3,0.95); sub(28,0,2.2,0.85); sub(41,0.02,2.0,0.55);
   thump(0); thump(0.35); thump(0.72); thump(1.15); thump(1.55);
 }
+document.getElementById("gate").addEventListener("pointerdown",function(e){
+  if(e.target.id==="door") return;
+  startAlarm();
+});
 document.getElementById("door").onclick=function(){
-  quakeSound();
+  stopAlarm(); clickBlip(); sayGranted(); quakeSound();
   document.body.classList.add("quake");
   var g=document.getElementById("gate");
-  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},400);
+  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},500);
   setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},2400);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
