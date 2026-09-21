@@ -6,13 +6,14 @@
 <title>OSINTrahat // SECURE NODE</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
-:root{--g:#39ff14;--g2:#00ffc3;--r:#ff2a2a}
+:root{--g:#39ff14}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4;min-height:100vh}
 body.locked{overflow:hidden}
+body.quake{animation:quake 1.4s linear}
 #matrix{position:fixed;inset:0;z-index:0;opacity:.16;pointer-events:none}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
-.top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;letter-spacing:.16em;color:#6fbb7d}
+.top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;color:#6fbb7d}
 h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef}
 h1 em{font-style:normal;color:var(--g)}
 .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center}
@@ -25,35 +26,43 @@ h1 em{font-style:normal;color:var(--g)}
 .btn span{display:block;margin-top:6px;font-size:.75rem;font-weight:400;color:#8cff9f}
 .term,.skill,.panel,.stat,.chip,.sh{background:rgba(2,12,7,.75);border:1px solid rgba(57,255,20,.22)}
 .bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
-pre{padding:16px;color:var(--g);line-height:1.7}
+pre{padding:16px;color:var(--g)}
 .skills,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .skill,.stat{padding:16px}
 .stat{text-align:center}
 .stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:6px 10px;color:var(--g);font-size:.75rem}
-.feed{height:150px;overflow:hidden;padding:12px;font-size:.78rem}
-h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
+.feed{height:150px;overflow:hidden;padding:12px}
+h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
-.sh .line{display:flex;gap:8px;align-items:center;padding:10px}
+.sh .line{display:flex;gap:8px;padding:10px}
 .sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
-#gate{position:fixed;inset:0;z-index:90;display:flex;background:#000}
+#gate{position:fixed;inset:0;z-index:90;display:flex;background:#050303}
 #gate.open .leaf-l{transform:translateX(-110%)}
 #gate.open .leaf-r{transform:translateX(110%)}
 #gate.gone{display:none}
-.leaf{flex:1;background:#050805;transition:transform 1.6s cubic-bezier(.15,.8,.1,1)}
-.leaf-l{border-right:3px solid #39ff14}
-.leaf-r{border-left:3px solid #39ff14}
-.door-hit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:92;width:min(420px,88vw);height:min(420px,88vw);border-radius:50%;border:8px solid #1b1b1b;background:radial-gradient(circle at 35% 30%,#2a2a2a,#111 55%,#000);box-shadow:0 0 0 14px #0b0b0b,0 0 80px rgba(255,0,0,.25),inset 0 0 40px #000;cursor:pointer;color:#fff;font-family:inherit;animation:shake 2.4s ease-in-out infinite}
-.door-hit:before{content:"";position:absolute;inset:18px;border-radius:50%;border:3px dashed rgba(255,42,42,.45);animation:spin 8s linear infinite}
-.door-hit b{position:relative;z-index:2;display:block;font-family:Orbitron,sans-serif;font-size:clamp(1.1rem,4vw,1.7rem);letter-spacing:.08em;color:#ff2a2a;text-shadow:0 0 18px #ff0000;animation:warn 1s step-end infinite}
-.door-hit span{position:relative;z-index:2;display:block;margin-top:10px;font-size:.72rem;letter-spacing:.16em;color:#ffb3b3}
-.wheel{position:absolute;inset:22%;border-radius:50%;border:6px solid #333;background:conic-gradient(#222 0 12%,#111 0 25%,#222 0 37%,#111 0 50%,#222 0 62%,#111 0 75%,#222 0 87%,#111 0 100%);animation:spin 6s linear infinite;opacity:.9}
-#gate.open .door-hit{opacity:0;transform:translate(-50%,-50%) scale(.7);transition:.4s;pointer-events:none}
+.leaf{flex:1;background:#120404;transition:transform 1.4s ease-in}
+.leaf-l{border-right:3px solid #ff2a2a}
+.leaf-r{border-left:3px solid #ff2a2a}
+.door-hit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:92;width:min(340px,86vw);aspect-ratio:1;background:#140000;border:4px solid #ff2a2a;box-shadow:0 0 40px rgba(255,0,0,.35),inset 0 0 40px rgba(80,0,0,.6);color:#ff2a2a;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;animation:boxpulse 1.2s ease-in-out infinite}
+.door-hit b{font-family:Orbitron,sans-serif;font-size:clamp(1.05rem,4.2vw,1.55rem);line-height:1.25;letter-spacing:.04em;text-shadow:0 0 16px #ff0000}
+.door-hit span{margin-top:12px;font-size:.78rem;letter-spacing:.16em;color:#ffb3b3}
+#gate.open .door-hit{opacity:0;transition:.25s;pointer-events:none}
 @keyframes pan{to{transform:translateX(-50%)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes shake{0%,100%{transform:translate(-50%,-50%)}20%{transform:translate(-51%,-50%) rotate(-.4deg)}40%{transform:translate(-49%,-50%) rotate(.4deg)}60%{transform:translate(-50.5%,-50%)}}
-@keyframes warn{50%{opacity:.35}}
+@keyframes boxpulse{0%,100%{box-shadow:0 0 20px rgba(255,0,0,.25)}50%{box-shadow:0 0 48px rgba(255,0,0,.55)}}
+@keyframes quake{
+  0%,100%{transform:translate(0,0)}
+  8%{transform:translate(-18px,10px) rotate(-1deg)}
+  16%{transform:translate(16px,-12px) rotate(1deg)}
+  24%{transform:translate(-14px,8px)}
+  32%{transform:translate(18px,6px) rotate(-.8deg)}
+  40%{transform:translate(-10px,-10px)}
+  48%{transform:translate(12px,8px)}
+  56%{transform:translate(-16px,4px)}
+  64%{transform:translate(10px,-6px)}
+  72%{transform:translate(-8px,8px)}
+  80%{transform:translate(6px,-4px)}
+  90%{transform:translate(-3px,2px)}
+}
 @media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}}
 </style>
 </head>
@@ -62,9 +71,8 @@ h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
   <div class="leaf leaf-l"></div>
   <div class="leaf leaf-r"></div>
   <button class="door-hit" id="door" type="button">
-    <div class="wheel"></div>
-    <b>DON'T CLICK HERE</b>
-    <span>RESTRICTED VAULT</span>
+    <b>DON'T CLICK HERE<br>IT'S DANGER</b>
+    <span>WARNING</span>
   </button>
 </div>
 <canvas id="matrix"></canvas>
@@ -72,7 +80,7 @@ h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
   <div class="top"><span>NODE // OSINTrahat</span><span>LINK ACTIVE</span></div>
   <section class="hero">
     <div>
-      <p style="color:var(--g2);letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
+      <p style="color:#00ffc3;letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
       <h1>OSINT<br><em>RAHAT</em></h1>
       <p id="tw"></p>
     </div>
@@ -94,14 +102,13 @@ h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
   <h2>// OPERATOR FILE</h2>
   <div class="term"><div class="bar"><span>cat /etc/operator</span><span>ACCESS_GRANTED</span></div>
 <pre>[+] handle ...... OSINTrahat
-[+] operator .... OS RAHAT
-[+] class ....... OSINT / CRYPTO CM / MOD</pre></div>
+[+] operator .... OS RAHAT</pre></div>
   <h2>// MODULES</h2>
   <div class="skills">
-    <article class="skill"><h3>OSINT</h3><p>Username trace. Image intel. SOCMINT.</p></article>
-    <article class="skill"><h3>CRYPTO CM</h3><p>Web3 community ops.</p></article>
-    <article class="skill"><h3>MOD</h3><p>Discord / Telegram control.</p></article>
-    <article class="skill"><h3>OG 2021</h3><p>In-network since 2021.</p></article>
+    <article class="skill"><h3>OSINT</h3><p>Public-source intel.</p></article>
+    <article class="skill"><h3>CRYPTO CM</h3><p>Community ops.</p></article>
+    <article class="skill"><h3>MOD</h3><p>Discord / Telegram.</p></article>
+    <article class="skill"><h3>OG 2021</h3><p>Since 2021.</p></article>
   </div>
   <h2>// LIVE TRACELOG</h2>
   <div class="panel"><div class="bar"><span>stream</span><span>READ_ONLY</span></div><div class="feed" id="feed"></div></div>
@@ -113,39 +120,40 @@ h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
   </div>
 </div>
 <script>
-function doorSound(){
+function quakeSound(){
   var A=window.AudioContext||window.webkitAudioContext; if(!A)return;
   var ctx=new A(); var t=ctx.currentTime;
-  function tone(freq,start,dur,type,vol){
+  function rumble(start,dur,vol,freq){
     var o=ctx.createOscillator(),g=ctx.createGain();
-    o.type=type; o.frequency.setValueAtTime(freq,t+start);
-    if(type==="sawtooth") o.frequency.exponentialRampToValueAtTime(Math.max(30,freq*0.4),t+start+dur);
+    o.type="sawtooth"; o.frequency.setValueAtTime(freq,t+start);
+    o.frequency.linearRampToValueAtTime(freq*0.6,t+start+dur);
     g.gain.setValueAtTime(vol,t+start); g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
     o.connect(g); g.connect(ctx.destination); o.start(t+start); o.stop(t+start+dur);
   }
-  function boom(start,dur,vol){
+  function noise(start,dur,vol){
     var n=ctx.createBufferSource(); var buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
-    var d=buf.getChannelData(0); for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2);
-    n.buffer=buf; var f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=180;
+    var d=buf.getChannelData(0); for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*(1-i/d.length);
+    n.buffer=buf; var f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=220;
     var g=ctx.createGain(); g.gain.setValueAtTime(vol,t+start); g.gain.exponentialRampToValueAtTime(0.0008,t+start+dur);
     n.connect(f); f.connect(g); g.connect(ctx.destination); n.start(t+start);
   }
-  boom(0,1.2,0.85);
-  tone(55,0,1.4,"sawtooth",0.45);
-  tone(38,0.05,1.6,"triangle",0.35);
-  boom(0.35,0.9,0.7);
-  tone(70,0.4,0.9,"sawtooth",0.28);
-  boom(0.95,0.7,0.95);
-  tone(28,0.95,0.8,"sine",0.4);
+  noise(0,1.4,0.9);
+  rumble(0,1.4,0.5,48);
+  rumble(0.05,1.2,0.35,32);
+  noise(0.2,0.25,0.7);
+  noise(0.45,0.2,0.65);
+  noise(0.7,0.22,0.6);
+  rumble(0.75,0.6,0.4,40);
 }
 document.getElementById("door").onclick=function(){
-  doorSound();
+  quakeSound();
+  document.body.classList.add("quake");
   var g=document.getElementById("gate");
-  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},250);
-  setTimeout(function(){g.classList.add("gone")},1900);
+  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},200);
+  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1600);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
-const cmds={help:"whoami neofetch ls contact social skills clear",whoami:"OSINTrahat",neofetch:"OS RAHAT // OG 2021",ls:"about.txt skills/",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
+const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
 function print(t){out.textContent+=(out.textContent?"\n":"")+t;out.scrollTop=out.scrollHeight}
 print("type help");
 document.getElementById("shell").onclick=function(){cmd.focus()};
