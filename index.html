@@ -150,7 +150,21 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
   <p class="foot">© 2026 OSINTrahat · OS RAHAT · original node · do not clone</p>
 </div>
 <script>
-var g=document.getElementById("gate"),st=document.getElementById("status"),fx=document.getElementById("fx"),wall=document.getElementById("wall"),opened=false;
+var g=document.getElementById("gate"),st=document.getElementById("status"),fx=document.getElementById("fx"),wall=document.getElementById("wall"),opened=false,mainReady=false,actx=null;
+function clickFx(){
+  try{
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+    if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();
+    var t=actx.currentTime,o=actx.createOscillator(),n=actx.createBufferSource(),len=actx.sampleRate*0.04,buf=actx.createBuffer(1,len,actx.sampleRate),d=buf.getChannelData(0);
+    for(var i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);
+    n.buffer=buf;var ng=actx.createGain();ng.gain.setValueAtTime(0.22,t);ng.gain.exponentialRampToValueAtTime(0.001,t+0.05);
+    n.connect(ng);ng.connect(actx.destination);n.start(t);
+    o.type="square";o.frequency.setValueAtTime(1900,t);o.frequency.exponentialRampToValueAtTime(220,t+0.04);
+    var og=actx.createGain();og.gain.setValueAtTime(0.09,t);og.gain.exponentialRampToValueAtTime(0.001,t+0.05);
+    o.connect(og);og.connect(actx.destination);o.start(t);o.stop(t+0.06);
+  }catch(e){}
+}
+document.addEventListener("pointerdown",function(e){if(!mainReady)return;if(e.target&&e.target.id==="cmd")return;clickFx();},true);
 var dump=["root@node:~# ./breach.sh","[!] unauthorized handshake","decrypting shadow ...","0x7ffe9a11  41 43 43 45 53 53","port 22 open","port 443 open","injecting payload ....","kernel panic avoided","watching camera /dev/video0","YOU SHOULD NOT HAVE CLICKED","session hijack ok","writing /etc/host.own","trace: OSINT RAHAT","socmint mapped","I SEE YOU","access root .............. yes"];
 function dumpRun(){
   var i=0,buf=[];
@@ -162,7 +176,7 @@ function dumpRun(){
     setTimeout(step,90);
   })();
 }
-function goMain(){g.classList.add("open");document.body.classList.remove("locked","quake");setTimeout(function(){g.classList.add("gone");try{fx.pause();fx.currentTime=0}catch(e){}},450)}
+function goMain(){g.classList.add("open");document.body.classList.remove("locked","quake");setTimeout(function(){g.classList.add("gone");mainReady=true;try{fx.pause();fx.currentTime=0}catch(e){}},450)}
 document.getElementById("door").onclick=function(){
   if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");dumpRun();
   try{fx.currentTime=0;fx.volume=1;var p=fx.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
