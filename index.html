@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
   <title>OSINTrahat — OSINT Operator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <canvas id="matrix"></canvas>
@@ -15,7 +16,7 @@
     <div class="logo">root@<span>OSINTrahat</span>:~#</div>
     <nav>
       <a href="#about">about</a>
-      <a href="#modules">modules</a>
+      <a href="#skills">skills</a>
       <a href="#contact">contact</a>
     </nav>
     <span class="status"><i></i> ONLINE</span>
@@ -24,73 +25,65 @@
     <section class="hero">
       <p class="eyebrow">&gt; whoami</p>
       <h1>OSINTrahat</h1>
-      <p class="role">OSINT OPERATOR · OS RAHAT</p>
+      <p class="role">OSINT OPERATOR · CRYPTO COMMUNITY MANAGER · MOD</p>
+      <p class="since">OG since 2021</p>
       <p class="tagline" id="typewriter"></p>
-      <div class="cta">
-        <a class="btn" href="#contact">open_secure_channel</a>
-        <a class="btn ghost" href="https://github.com/OSINTrahat" target="_blank" rel="noopener">github</a>
+      <div class="social-row">
+        <a class="bigbtn" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener">X / Twitter<br><small>@Rahatirtaza</small></a>
+        <a class="bigbtn" href="https://t.me/Rahatirtaza" target="_blank" rel="noopener">Telegram<br><small>t.me/Rahatirtaza</small></a>
+        <button class="bigbtn" type="button" id="discordBtn" data-copy="rahatirtaza">Discord<br><small>@rahatirtaza</small></button>
+        <a class="bigbtn" href="mailto:rahatearningyt@gmail.com">Email<br><small>rahatearningyt@gmail.com</small></a>
+        <a class="bigbtn ghost" href="https://github.com/OSINTrahat" target="_blank" rel="noopener">GitHub<br><small>OSINTrahat</small></a>
       </div>
+      <p class="copied" id="copiedMsg"></p>
     </section>
+
     <section id="about">
       <h2>$ cat about.txt</h2>
       <div class="card">
         <pre>+ handle   : OSINTrahat
 + operator : OS RAHAT
-+ role     : OSINT Expert
++ role     : OSINT Expert + Crypto Community Manager + MOD
++ since    : 2021 (OG)
 + status   : ONLINE
 + mission  : collect → verify → report</pre>
-        <p>Public noise → signal. Usernames, footprints, images, archives. Sources only.</p>
+        <p>Public noise → signal. Community first. Sources only.</p>
       </div>
     </section>
-    <section id="modules">
-      <h2>$ ls modules/</h2>
-      <div class="grid">
-        <article class="card"><h3>01 // USERNAME TRACE</h3><p>Map public handles across platforms.</p></article>
-        <article class="card"><h3>02 // IMAGE INTEL</h3><p>Reverse search + public metadata.</p></article>
-        <article class="card"><h3>03 // SOCMINT</h3><p>Public posts and connection patterns.</p></article>
-        <article class="card"><h3>04 // CASE FILE</h3><p>Source-first notes. Clean reports.</p></article>
+
+    <section id="skills">
+      <h2>$ ls skills/</h2>
+      <div class="skills">
+        <article class="skill">
+          <h3>OSINT</h3>
+          <p>Username trace, image intel, SOCMINT, archives. Collect, verify, report.</p>
+        </article>
+        <article class="skill">
+          <h3>Crypto Community Manager</h3>
+          <p>Web3 community building, collabs, member support, public comms.</p>
+        </article>
+        <article class="skill">
+          <h3>MOD</h3>
+          <p>Discord / Telegram moderation. Keep rooms clean and on-mission.</p>
+        </article>
+        <article class="skill">
+          <h3>OG since 2021</h3>
+          <p>In the space since 2021. Long-run community + OSINT work.</p>
+        </article>
       </div>
     </section>
+
     <section id="contact">
-      <h2>$ cat channels.txt</h2>
-      <p class="contact-intro">Reach OS RAHAT on any of these channels. Each card is a live link.</p>
-      <div class="channels">
-        <a class="channel" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener">
-          <span class="ch-icon">X</span>
-          <span class="ch-meta">
-            <span class="ch-label">Twitter / X</span>
-            <span class="ch-value">@Rahatirtaza</span>
-            <span class="ch-hint">Open profile →</span>
-          </span>
-        </a>
-        <a class="channel" href="https://t.me/Rahatirtaza" target="_blank" rel="noopener">
-          <span class="ch-icon">TG</span>
-          <span class="ch-meta">
-            <span class="ch-label">Telegram</span>
-            <span class="ch-value">t.me/Rahatirtaza</span>
-            <span class="ch-hint">Message on Telegram →</span>
-          </span>
-        </a>
-        <button class="channel" type="button" id="discordBtn" data-copy="rahatirtaza">
-          <span class="ch-icon">DC</span>
-          <span class="ch-meta">
-            <span class="ch-label">Discord</span>
-            <span class="ch-value">@rahatirtaza</span>
-            <span class="ch-hint" id="discordHint">Click to copy username</span>
-          </span>
-        </button>
-        <a class="channel" href="mailto:rahatearningyt@gmail.com">
-          <span class="ch-icon">@</span>
-          <span class="ch-meta">
-            <span class="ch-label">Email</span>
-            <span class="ch-value">rahatearningyt@gmail.com</span>
-            <span class="ch-hint">Send an email →</span>
-          </span>
-        </a>
+      <h2>$ open channels</h2>
+      <div class="social-row">
+        <a class="bigbtn" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener">X / Twitter<br><small>@Rahatirtaza</small></a>
+        <a class="bigbtn" href="https://t.me/Rahatirtaza" target="_blank" rel="noopener">Telegram<br><small>t.me/Rahatirtaza</small></a>
+        <button class="bigbtn" type="button" id="discordBtn2" data-copy="rahatirtaza">Discord<br><small>@rahatirtaza — copy</small></button>
+        <a class="bigbtn" href="mailto:rahatearningyt@gmail.com">Email<br><small>rahatearningyt@gmail.com</small></a>
       </div>
     </section>
   </main>
-  <footer><p>OSINTrahat · collect | verify | connect the dots</p></footer>
-  <script src="script.js"></script>
+  <footer><p>OSINTrahat · OG 2021 · OSINT + Crypto CM + MOD</p></footer>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
