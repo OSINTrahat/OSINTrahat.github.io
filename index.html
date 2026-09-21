@@ -29,62 +29,68 @@ h1 em{font-style:normal;color:var(--g)}
 .bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
 pre{padding:16px;color:var(--g)}
 .skills,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-.skill,.stat{padding:16px}
-.stat{text-align:center}
+.skill,.stat{padding:16px}.stat{text-align:center}
 .stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem}
 .feed{height:150px;overflow:hidden;padding:12px}
 h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
 .sh .line{display:flex;gap:8px;padding:10px}
 .sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
-#gate{position:fixed;inset:0;z-index:95;background:#000}
-#gate.gone{display:none}#gate.open{opacity:0;transition:opacity .45s}
-#boot{position:absolute;inset:0;padding:16px;color:#39ff14;font-size:12px;line-height:1.3;overflow:hidden;white-space:pre}
-#skull{position:absolute;inset:0;z-index:94;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,.88)}
-#skull.show{display:flex}
-#skull svg{width:min(240px,62vw);filter:drop-shadow(0 0 18px #ff1a1a);animation:shake .12s linear infinite}
-#skull p{margin-top:16px;color:#ff2a2a;font-family:Orbitron,sans-serif;letter-spacing:.18em;animation:blink .28s step-end infinite}
+#gate{position:fixed;inset:0;z-index:95;background:#02080f;overflow:hidden}
+#gate.gone{display:none}#gate.open{opacity:0;transition:opacity .5s}
+#gate video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85}
+.tunnel{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 20%,#000 78%),repeating-linear-gradient(90deg,transparent 0 46%,rgba(0,200,255,.18) 47%,transparent 49%);transform:perspective(500px) rotateX(70deg) scale(1.6);animation:rush 6s linear infinite;opacity:.35;pointer-events:none}
+.redlight{position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,rgba(255,0,0,.28),transparent 42%);animation:redpulse 1.1s ease-in-out infinite;pointer-events:none}
+.lockbox{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:96;text-align:center;pointer-events:none}
+.lockbox svg{width:min(160px,42vw);filter:drop-shadow(0 0 18px #ff1a1a);animation:lockpulse 1.2s ease-in-out infinite}
+.lockbox p{margin-top:10px;color:#ff3b3b;letter-spacing:.2em;font-family:Orbitron,sans-serif;font-size:.8rem;text-shadow:0 0 12px #ff0000}
 #door{position:absolute;inset:0;z-index:97;border:0;background:transparent;cursor:pointer}
-#hud{position:fixed;inset:0;z-index:80;background:#02080e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 36v8M36 40h8' stroke='%23113a44' stroke-width='1'/%3E%3C/svg%3E");color:var(--c);display:grid;grid-template-rows:78px 1fr 78px;padding:10px 16px 12px}
+#hud{position:fixed;inset:0;z-index:80;background:#02080e;color:var(--c);display:grid;grid-template-rows:78px 1fr 78px;padding:10px 16px}
 #hud.out{animation:hudOut 1.8s ease forwards;pointer-events:none}#hud.gone{display:none}
-.hud-top{margin:0 auto;width:min(640px,86%);border:1px solid var(--c);clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);display:flex;align-items:center;justify-content:center;gap:12px;background:rgba(0,40,50,.35)}
-.hud-top .d{font-family:Orbitron,sans-serif;font-size:clamp(1.4rem,5vw,2.4rem);color:#dff;font-weight:900}
+.hud-top{margin:0 auto;width:min(640px,86%);border:1px solid var(--c);clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);display:flex;align-items:center;justify-content:center}
+.hud-top .d{font-family:Orbitron,sans-serif;font-size:clamp(1.4rem,5vw,2.4rem);color:#dff}
 .hud-top .d i{font-style:normal;color:var(--o);margin-left:8px}
-.hud-mid{display:grid;grid-template-columns:220px 1fr 220px;gap:10px;align-items:center;min-height:0}
+.hud-mid{display:grid;grid-template-columns:220px 1fr 220px;gap:10px;align-items:center}
 .side{display:flex;flex-direction:column;gap:10px}
 .w{border:1px solid rgba(46,233,255,.4);padding:7px;background:rgba(0,16,22,.75)}
 .w-row{display:flex;gap:6px}
-.mini{width:54px;height:36px;border:1px solid rgba(46,233,255,.35);background:repeating-linear-gradient(90deg,transparent 0 6px,rgba(46,233,255,.15) 6px 7px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(46,233,255,.12) 6px 7px)}
+.mini{width:54px;height:36px;border:1px solid rgba(46,233,255,.35)}
 .sparks{flex:1;display:flex;align-items:end;gap:2px;height:36px}
-.sparks i{flex:1;background:var(--c);opacity:.8;display:block;animation:bar 1.2s ease-in-out infinite alternate}
-.sparks i:nth-child(2){animation-delay:.1s}.sparks i:nth-child(3){animation-delay:.2s}.sparks i:nth-child(4){animation-delay:.3s}.sparks i:nth-child(5){animation-delay:.15s}
-.meter{height:11px;margin-top:6px;background:#07343d}
-.meter b{display:block;height:100%;background:var(--c);width:70%}
-.w:nth-child(2) .meter b{width:46%}.w:nth-child(3) .meter b{width:81%}
+.sparks i{flex:1;background:var(--c);display:block;animation:bar 1.2s ease-in-out infinite alternate}
+.meter{height:11px;margin-top:6px;background:#07343d}.meter b{display:block;height:100%;background:var(--c);width:70%}
 .ring-wrap{position:relative;width:min(420px,54vw);aspect-ratio:1;margin:0 auto}
-.ring-wrap svg{width:100%;height:100%;filter:drop-shadow(0 0 10px rgba(46,233,255,.35))}
+.ring-wrap svg{width:100%;height:100%}
 .spin{transform-origin:200px 200px;animation:spin 16s linear infinite}
 .spin2{transform-origin:200px 200px;animation:spin 9s linear infinite reverse}
-.open-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:28%;aspect-ratio:1;border-radius:50%;border:2px solid var(--c);background:radial-gradient(circle at 40% 30%,#0a3a44,#000);color:#fff;font-family:Orbitron,sans-serif;letter-spacing:.18em;font-size:clamp(.85rem,2.4vw,1.25rem);cursor:pointer;box-shadow:0 0 24px rgba(46,233,255,.4)}
-.hud-bot{margin:0 auto;width:min(720px,92%);border:1px solid var(--c);clip-path:polygon(0 0,100% 0,93% 100%,7% 100%);display:flex;align-items:end;justify-content:center;gap:3px;padding:10px 30px 8px;background:rgba(0,40,50,.3)}
+.open-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:28%;aspect-ratio:1;border-radius:50%;border:2px solid var(--c);background:#021018;color:#fff;font-family:Orbitron,sans-serif;letter-spacing:.18em;cursor:pointer}
+.hud-bot{margin:0 auto;width:min(720px,92%);border:1px solid var(--c);clip-path:polygon(0 0,100% 0,93% 100%,7% 100%);display:flex;align-items:end;justify-content:center;gap:3px;padding:10px 30px}
 .hud-bot i{width:6px;background:var(--c);display:block;animation:bar 1s ease-in-out infinite alternate}
-.hud-bot i:nth-child(odd){background:var(--o)}
 @keyframes hudOut{to{opacity:0;clip-path:circle(0 at 50% 50%)}}
 @keyframes bar{from{height:30%}to{height:100%}}
 @keyframes pan{to{transform:translateX(-50%)}}
-@keyframes blink{50%{opacity:.2}}
-@keyframes shake{50%{transform:translate(3px,-2px)}}
 @keyframes quake{0%,100%{transform:none}40%{transform:translate(10px,-8px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}.hud-mid{grid-template-columns:1fr}.side{display:none}}
+@keyframes rush{to{transform:perspective(500px) rotateX(70deg) scale(2.2) translateY(-8%)}}
+@keyframes redpulse{0%,100%{opacity:.35}50%{opacity:.9}}
+@keyframes lockpulse{50%{filter:drop-shadow(0 0 28px #ff0000)}}
+@media(max-width:980px){.hero,.row,.skills,.stats,.hud-mid{grid-template-columns:1fr}.monitor{margin:12px auto}.side{display:none}}
 </style>
 </head>
 <body class="locked hudon">
 <div id="gate">
-  <pre id="boot"></pre>
-  <div id="skull">
-    <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="88" rx="72" ry="70" fill="#1a1a1a" stroke="#eee" stroke-width="3"/><ellipse cx="70" cy="88" rx="18" ry="22" fill="#000"/><ellipse cx="130" cy="88" rx="18" ry="22" fill="#000"/><polygon points="100,100 88,128 112,128" fill="#000"/><rect x="58" y="148" width="84" height="36" rx="8" fill="#1a1a1a" stroke="#eee" stroke-width="3"/><path d="M70 148 v36 M85 148 v36 M100 148 v36 M115 148 v36 M130 148 v36" stroke="#eee" stroke-width="3"/></svg>
-    <p>YOU ARE HACKED</p>
+  <video autoplay muted loop playsinline poster="">
+    <source src="intro.mp4" type="video/mp4"/>
+  </video>
+  <div class="tunnel"></div>
+  <div class="redlight"></div>
+  <div class="lockbox">
+    <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+      <path d="M35 62 V40 a25 25 0 0 1 50 0 v22" fill="none" stroke="#ff2a2a" stroke-width="8"/>
+      <rect x="22" y="60" width="76" height="62" rx="8" fill="#1a0000" stroke="#ff2a2a" stroke-width="4"/>
+      <circle cx="60" cy="88" r="8" fill="#ff2a2a"/>
+      <rect x="57" y="88" width="6" height="18" fill="#ff2a2a"/>
+    </svg>
+    <p>DANGER</p>
   </div>
   <button id="door" type="button"></button>
 </div>
@@ -95,10 +101,8 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
     <div class="ring-wrap">
       <svg viewBox="0 0 400 400">
         <circle cx="200" cy="200" r="188" fill="none" stroke="#2ee9ff" stroke-width="2" opacity=".35"/>
-        <circle class="spin" cx="200" cy="200" r="168" fill="none" stroke="#2ee9ff" stroke-width="10" stroke-dasharray="28 18" opacity=".85"/>
+        <circle class="spin" cx="200" cy="200" r="168" fill="none" stroke="#2ee9ff" stroke-width="10" stroke-dasharray="28 18"/>
         <circle class="spin2" cx="200" cy="200" r="148" fill="none" stroke="#2ee9ff" stroke-width="4" stroke-dasharray="8 14"/>
-        <circle cx="200" cy="200" r="118" fill="none" stroke="#2ee9ff" stroke-width="16" stroke-dasharray="22 10" opacity=".55"/>
-        <circle class="spin" cx="200" cy="200" r="96" fill="none" stroke="#ff6a00" stroke-width="6" stroke-dasharray="40 220"/>
         <circle cx="200" cy="200" r="70" fill="none" stroke="#2ee9ff" stroke-width="3"/>
       </svg>
       <button class="open-btn" id="open" type="button">OPEN</button>
@@ -153,32 +157,22 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
-function card(){return '<div class="w"><div class="w-row"><div class="mini"></div><div class="sparks"><i style="height:40%"></i><i style="height:70%"></i><i style="height:35%"></i><i style="height:85%"></i><i style="height:50%"></i></div></div><div class="meter"><b></b></div></div>';}
+function card(){return '<div class="w"><div class="w-row"><div class="mini"></div><div class="sparks"><i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i></div></div><div class="meter"><b></b></div></div>';}
 document.getElementById("L").innerHTML=card()+card()+card();
 document.getElementById("R").innerHTML=card()+card()+card();
-var w="";for(var i=0;i<42;i++) w+="<i style=\"height:"+(20+Math.random()*80)+"%\"></i>";
-document.getElementById("wave").innerHTML=w;
-var AC=window.AudioContext||window.webkitAudioContext,actx=null,ready=false,opened=false,alarmOn=true;
+var wv="";for(var i=0;i<42;i++) wv+="<i style=\"height:"+(20+Math.random()*80)+"%\"></i>";
+document.getElementById("wave").innerHTML=wv;
+var AC=window.AudioContext||window.webkitAudioContext,actx=null,opened=false;
 function ctx(){if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();return actx;}
-function beep(freq,dur,vol){try{var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type="square";o.frequency.value=freq;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0008,t+dur);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}catch(e){}}
 function robotVoice(){
   try{var u=new SpeechSynthesisUtterance("you are hacked");u.rate=0.55;u.pitch=0.01;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}
-  var c=ctx(),t=c.currentTime;
-  [0,0.24,0.48,0.76].forEach(function(s,i){var o=c.createOscillator(),g=c.createGain();o.type="sawtooth";o.frequency.setValueAtTime(110-i*10,t+s);g.gain.setValueAtTime(0.001,t+s);g.gain.exponentialRampToValueAtTime(0.4,t+s+0.03);g.gain.exponentialRampToValueAtTime(0.0008,t+s+0.2);o.connect(g);g.connect(c.destination);o.start(t+s);o.stop(t+s+0.22);});
 }
-var lines=["[  OK  ] Started Load Kernel Modules.","[FAILED] Failed to start Display Manager.","[ALERT] unauthorized remote session"];
-var boot=document.getElementById("boot"),log=[],n=0;
-function dump(){log.push(lines[Math.floor(Math.random()*lines.length)]);if(log.length>26)log.shift();boot.textContent=log.join("\n");}
-setInterval(dump,55);
-function alarmTick(){if(!alarmOn)return;beep(880,0.055,0.13);n++;setTimeout(alarmTick,n%3===0?340:150);}
-alarmTick();
-setTimeout(function(){document.getElementById("skull").classList.add("show");ready=true;},2500);
 document.getElementById("door").onclick=function(){
-  if(!ready||opened)return; opened=true; alarmOn=false; robotVoice();
+  if(opened)return; opened=true; robotVoice();
   document.body.classList.add("quake");
   var g=document.getElementById("gate");
-  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},900);
-  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1600);
+  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},700);
+  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1400);
 };
 document.getElementById("open").onclick=function(){
   var h=document.getElementById("hud"); h.classList.add("out");
