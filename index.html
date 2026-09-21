@@ -36,16 +36,15 @@ pre{padding:16px;color:var(--g);line-height:1.7}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{padding:6px 10px;color:var(--g);font-size:.75rem;border:1px solid rgba(57,255,20,.3)}
 .feed{height:150px;overflow:hidden;padding:12px;font-size:.78rem}
-.ops{display:grid;gap:8px}
-.op{display:grid;grid-template-columns:90px 1fr auto;gap:10px;padding:10px;font-size:.8rem}
 h2{margin:28px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.88rem}
-.sh .out{height:280px;overflow:auto;padding:12px;white-space:pre-wrap;line-height:1.55;font-size:.82rem}
-.sh .line{display:flex;gap:8px;padding:8px 12px;border-top:1px solid rgba(57,255,20,.15)}
-.sh input{flex:1;background:transparent;border:0;color:var(--g);font:inherit;outline:none}
+.sh{position:relative;z-index:8;pointer-events:auto}
+.sh .out{height:240px;overflow:auto;padding:12px;white-space:pre-wrap;line-height:1.55;font-size:.82rem}
+.sh .line{display:flex;gap:8px;align-items:center;padding:10px}
+.sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;caret-color:#39ff14;font:inherit;outline:none;padding:8px 10px;pointer-events:auto;position:relative;z-index:9}
 .prompt{color:var(--g);white-space:nowrap}
 footer{margin-top:36px;opacity:.6;font-size:.75rem}
 @keyframes pan{to{transform:translateX(-50%)}}
-@media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}.op{grid-template-columns:1fr}}
+@media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}}
 </style>
 </head>
 <body>
@@ -55,7 +54,7 @@ footer{margin-top:36px;opacity:.6;font-size:.75rem}
   <div class="top"><span>NODE // OSINTrahat</span><span class="live">LINK ACTIVE</span><span>tty1</span></div>
   <section class="hero">
     <div>
-      <p class="kicker" style="color:var(--g2);letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
+      <p style="color:var(--g2);letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
       <h1>OSINT<br><em>RAHAT</em></h1>
       <p class="sub">OSINT OPERATOR · CRYPTO CM · MOD · OG 2021</p>
       <p class="typed" id="tw"></p>
@@ -94,72 +93,53 @@ footer{margin-top:36px;opacity:.6;font-size:.75rem}
   <div class="panel"><div class="bar"><span>stream://public-sources</span><span>READ_ONLY</span></div><div class="feed" id="feed"></div></div>
 
   <h2>// tty1 — LINUX SHELL</h2>
-  <div class="sh">
-    <div class="bar"><span>rahat@osint-node:~</span><span>bash 5.2</span></div>
+  <div class="sh" id="shell">
+    <div class="bar"><span>rahat@osint-node:~</span><span>CLICK BOX AND TYPE</span></div>
     <div class="out" id="out"></div>
-    <div class="line"><span class="prompt">rahat@osint-node:~$</span><input id="cmd" autocomplete="off" autofocus/></div>
+    <div class="line">
+      <span class="prompt">$</span>
+      <input id="cmd" type="text" autocomplete="off" placeholder="type help then Enter"/>
+    </div>
   </div>
-  <footer>type help inside the shell</footer>
+  <footer>green box e click kore type koro</footer>
 </div>
 <script>
 const out=document.getElementById("out");
 const cmd=document.getElementById("cmd");
+const shell=document.getElementById("shell");
 const hist=[];let hi=-1;
-const neo=`
-      .--.      rahat@osint-node
-     |o_o |     -----------
-     |:_/ |     OS: OSINT Linux x86_64
-    //   \ \    Host: OS RAHAT
-   (|     | )   Kernel: 5.15.0-node
-  /'\\_   _/`\\  Uptime: since 2021
-  \___)=(___/   Shell: bash
-                Role: OSINT / CM / MOD
-                Status: ONLINE`;
-const cmds={
-help:"whoami  id  uname  neofetch  ls  cat  pwd  date  contact  social  skills  echo  clear  history",
-whoami:"OSINTrahat",
-id:"uid=0(rahat) gid=0(osint) groups=osint,crypto,mod,og2021",
-uname:"Linux osint-node 5.15.0-node #1 SMP x86_64 GNU/Linux",
-pwd:"/home/rahat",
-date:()=>new Date().toString(),
-ls:"about.txt  skills/  social/  dossier.log  README.md",
-cat:"use: cat about | cat dossier",
-contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza\nmail rahatearningyt@gmail.com",
-social:"https://x.com/Rahatirtaza\nhttps://t.me/Rahatirtaza\nhttps://discord.com/users/1111896493599768589\nhttps://github.com/OSINTrahat",
-skills:"OSINT\nCrypto Community Manager\nMOD\nOG since 2021",
-neofetch:neo
-};
+const neo="rahat@osint-node\nOS: OSINT Linux\nHost: OS RAHAT\nUptime: since 2021\nRole: OSINT / CM / MOD\nStatus: ONLINE";
+const cmds={help:"whoami  id  uname  neofetch  ls  cat about  pwd  date  contact  social  skills  echo  clear  history",whoami:"OSINTrahat",id:"uid=0(rahat) groups=osint,crypto,mod,og2021",uname:"Linux osint-node 5.15.0-node x86_64",pwd:"/home/rahat",date:function(){return new Date().toString()},ls:"about.txt  skills/  social/  dossier.log",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza\nmail rahatearningyt@gmail.com",social:"https://x.com/Rahatirtaza\nhttps://t.me/Rahatirtaza\nhttps://github.com/OSINTrahat",skills:"OSINT\nCrypto CM\nMOD\nOG since 2021",neofetch:neo};
 function print(t){out.textContent+=(out.textContent?"\n":"")+t;out.scrollTop=out.scrollHeight}
-print(neo+"\n\ntype 'help' to list commands.");
-cmd.addEventListener("keydown",e=>{
+print(neo+"\n\ntype help");
+function focusIn(){cmd.focus()}
+shell.addEventListener("click",focusIn);
+setTimeout(focusIn,200);
+cmd.addEventListener("keydown",function(e){
   if(e.key==="ArrowUp"){e.preventDefault();if(hist.length){hi=Math.max(0,hi<0?hist.length-1:hi-1);cmd.value=hist[hi]}return}
   if(e.key==="ArrowDown"){e.preventDefault();if(hi>=0){hi++;cmd.value=hi<hist.length?hist[hi]:"";if(hi>=hist.length)hi=-1}return}
   if(e.key!=="Enter")return;
-  const raw=cmd.value.trim();cmd.value="";if(!raw)return;
-  hist.push(raw);hi=-1;print("rahat@osint-node:~$ "+raw);
-  const [a,...rest]=raw.split(/\s+/);const arg=rest.join(" ");
+  var raw=cmd.value.trim();cmd.value="";if(!raw)return;
+  hist.push(raw);hi=-1;print("$ "+raw);
+  var parts=raw.split(/\s+/);var a=parts[0];var arg=parts.slice(1).join(" ");
   if(a==="clear"){out.textContent="";return}
-  if(a==="history"){print(hist.map((h,i)=>i+"  "+h).join("\n"));return}
+  if(a==="history"){print(hist.join("\n"));return}
   if(a==="echo"){print(arg);return}
-  if(a==="sudo"){print("rahat is not in the sudoers file. This incident will be reported.");return}
-  if(a==="cat"){
-    if(arg==="about"||arg==="about.txt"){print("OS RAHAT — public-source operator. collect > verify > report.");return}
-    if(arg==="dossier"||arg==="dossier.log"){print(cmds.contact);return}
-    print("cat: "+arg+": No such file");return;
-  }
-  const v=cmds[a];
+  if(a==="sudo"){print("permission denied");return}
+  if(a==="cat"){print(arg.indexOf("about")===0?"OS RAHAT — collect > verify > report.":(cmds.contact||"no file"));return}
+  var v=cmds[a];
   if(typeof v==="function")print(v());
   else if(v)print(v);
   else print("bash: "+a+": command not found");
 });
 const el=document.getElementById("tw");const lines=["collect | verify | connect the dots","OG since 2021"];let li=0,ci=0,del=false;
-(function tick(){const cur=lines[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%lines.length;setTimeout(tick,200)})();
+(function tick(){var cur=lines[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%lines.length;setTimeout(tick,200)})();
 const feed=document.getElementById("feed");const logs=["[ok] public source mapped","[ok] archive hit","[ok] socmint graph updated"];let fi=0;
-(function push(){const d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(push,1600)})();
+(function push(){var d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(push,1600)})();
 const c=document.getElementById("matrix"),x=c.getContext("2d");
 function sz(){c.width=innerWidth;c.height=innerHeight}sz();addEventListener("resize",sz);
-const g="01$#OSINT";const f=14;let cols=Math.ceil(innerWidth/f);let d=Array.from({length:cols},()=>0);
-(function draw(){x.fillStyle="rgba(1,3,2,.14)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#39ff14";x.font=f+"px monospace";for(let i=0;i<cols;i++){x.fillText(g[Math.floor(Math.random()*g.length)],i*f,d[i]*f);if(d[i]*f>c.height&&Math.random()>0.975)d[i]=0;d[i]++}requestAnimationFrame(draw)})();
+const g="01$#OSINT";const f=14;let cols=Math.ceil(innerWidth/f);let drops=Array.from({length:cols},function(){return 0});
+(function draw(){x.fillStyle="rgba(1,3,2,.14)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#39ff14";x.font=f+"px monospace";for(var i=0;i<cols;i++){x.fillText(g[Math.floor(Math.random()*g.length)],i*f,drops[i]*f);if(drops[i]*f>c.height&&Math.random()>0.975)drops[i]=0;drops[i]++}requestAnimationFrame(draw)})();
 </script>
 </body>
 </html>
