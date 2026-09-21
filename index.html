@@ -3,65 +3,82 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OSINTrahat // SECURE NODE</title>
+<title>OSINTrahat // HACKER SCREEN</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
 <style>
-:root{--g:#39ff14}
+:root{--g:#39ff14;--c:#2ee9ff}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Share Tech Mono",monospace;background:radial-gradient(900px 500px at 80% 0,rgba(57,255,20,.1),transparent 55%),#010302;color:#b7ffc4;min-height:100vh}
-body.locked{overflow:hidden}
-body.quake{animation:quake 2.2s linear}
-#matrix{position:fixed;inset:0;z-index:0;opacity:.28;pointer-events:none}
-.scanline{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.2) 3px);opacity:.4}
+body{font-family:"Share Tech Mono",monospace;background:#010302;color:#b7ffc4;min-height:100vh}
+body.locked{overflow:hidden;background:#000}
+body.quake{animation:quake 1.6s linear}
+#matrix{position:fixed;inset:0;z-index:0;opacity:.22;pointer-events:none}
+.scanline{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.2) 3px);opacity:.35}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
 .top{display:flex;justify-content:space-between;margin-bottom:24px;font-size:.75rem;color:#6fbb7d}
-h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef;text-shadow:0 0 22px rgba(57,255,20,.45);animation:glitch 2.6s infinite}
+h1{font-family:Orbitron,sans-serif;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.9;color:#edffef}
 h1 em{font-style:normal;color:var(--g)}
 .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center}
-.monitor{width:176px;margin-left:auto;border:1px solid #2a3d2e;padding:6px;animation:monGlow 2.2s ease-in-out infinite}
+.monitor{width:176px;margin-left:auto;border:1px solid #2a3d2e;padding:6px}
 .screen{position:relative;aspect-ratio:16/10;overflow:hidden;background:#020805}
 .globe{position:absolute;width:52%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden}
 .map{width:200%;height:100%;background:url("https://unpkg.com/three-globe/example/img/earth-night.jpg") repeat-x center/auto 100%;filter:sepia(1) hue-rotate(75deg) saturate(3.2);animation:pan 20s linear infinite}
 .row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:32px 0}
-.btn{position:relative;overflow:hidden;min-height:88px;padding:14px;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.12);color:var(--g);text-decoration:none;font-weight:700}
-.btn span{display:block;margin-top:6px;font-size:.75rem;font-weight:400;color:#8cff9f}
+.btn{min-height:88px;padding:14px;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.12);color:var(--g);text-decoration:none;font-weight:700}
+.btn span{display:block;margin-top:6px;font-size:.75rem;color:#8cff9f}
 .term,.skill,.panel,.stat,.sh{background:rgba(2,12,7,.75);border:1px solid rgba(57,255,20,.22)}
 .bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
-pre.op{padding:16px;color:var(--g);line-height:1.55}
+pre.op{padding:16px;color:var(--g);line-height:1.5}
 .skills,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .skill,.stat{padding:16px}.stat{text-align:center}
 .stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem}
-.skill h3{color:#edffef;margin-bottom:8px}.skill p{color:#8cff9f;font-size:.82rem}
-.feed{height:150px;overflow:hidden;padding:12px;font-size:.8rem;color:#8cff9f}
+.feed{height:150px;overflow:hidden;padding:12px}
 h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
 .sh .line{display:flex;gap:8px;padding:10px}
 .sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
-#gate{position:fixed;inset:0;z-index:95;background:#000;display:grid;grid-template-columns:1fr 280px;color:#33ff66}
-#gate.gone{display:none}#gate.open{opacity:0;transition:opacity .45s}
-#code{padding:18px 20px 70px;overflow:hidden;white-space:pre-wrap;word-break:break-all;font-size:13px;line-height:1.35;text-shadow:0 0 6px #0f0}
-#hint{position:absolute;left:20px;bottom:16px;z-index:98;color:#8cff9f;font-size:.78rem;letter-spacing:.08em}
-.sys{border-left:1px solid #145;background:#020806;display:flex;flex-direction:column}
-.sys h4{padding:10px 12px;border-bottom:1px solid #145;color:#39ff14;font-size:.75rem;letter-spacing:.14em}
-#slog{flex:1;overflow:hidden;padding:10px;font-size:11px;color:#7dff95;line-height:1.5}
-.go{margin:10px;min-height:44px;border:1px solid #39ff14;background:#03140a;color:#39ff14;font:inherit;cursor:pointer}
-@media(max-width:800px){#gate{grid-template-columns:1fr}.sys{display:none}}
+#gate{position:fixed;inset:0;z-index:95;background:#000d12;color:#7dffc2;display:grid;grid-template-rows:auto 1fr auto;padding:8px;gap:6px}
+#gate.gone{display:none}#gate.open{opacity:0;transition:opacity .4s}
+.hs{display:grid;grid-template-columns:220px 1fr 240px;gap:6px;min-height:0}
+.col{display:flex;flex-direction:column;gap:6px;min-height:0}
+.w{border:1px solid #145c4a;background:#03140f;padding:8px;font-size:11px}
+.w b{display:block;color:#39ff14;letter-spacing:.08em;margin-bottom:6px;font-size:10px}
+.meter{height:8px;background:#062;margin:4px 0}
+.meter i{display:block;height:100%;background:#39ff14;width:45%;animation:fill 2s ease-in-out infinite alternate}
+#code{height:100%;overflow:hidden;white-space:pre-wrap;word-break:break-all;color:#33ff66;font-size:12px;line-height:1.3;text-shadow:0 0 5px #0f0}
+.center{display:flex;flex-direction:column;min-height:0;border:1px solid #145c4a;background:#010a07;padding:8px}
+.center h3{font-family:Orbitron,sans-serif;color:#39ff14;text-align:center;margin-bottom:6px}
+.foot{font-size:10px;color:#6fbb7d;white-space:nowrap;overflow:hidden;border:1px solid #145c4a;padding:6px}
+.go{margin-top:6px;border:1px solid #39ff14;background:#021;color:#39ff14;font:inherit;min-height:36px;cursor:pointer}
+@keyframes fill{to{width:92%}}
 @keyframes pan{to{transform:translateX(-50%)}}
-@keyframes quake{0%,100%{transform:none}30%{transform:translate(10px,-8px)}60%{transform:translate(-8px,6px)}}
-@keyframes glitch{0%,90%,100%{transform:none}93%{transform:translate(-2px,1px)}}
-@keyframes monGlow{50%{box-shadow:0 0 36px rgba(57,255,20,.35)}}
-@media(max-width:980px){.hero,.row,.skills,.stats{grid-template-columns:1fr}.monitor{margin:12px auto}}
+@keyframes quake{0%,100%{transform:none}40%{transform:translate(8px,-6px)}}
+@media(max-width:980px){.hero,.row,.skills,.stats,.hs{grid-template-columns:1fr}.col:first-child,.col:last-child{display:none}.monitor{margin:12px auto}}
 </style>
 </head>
 <body class="locked">
 <div id="gate">
-  <pre id="code">START TYPING TO INITIATE THE SEQUENCE ...</pre>
-  <aside class="sys">
-    <h4>SYS MONITOR</h4>
-    <div id="slog"></div>
-    <button class="go" id="enter" type="button">ENTER NODE</button>
-  </aside>
-  <div id="hint">ANY KEY = CODE DUMP &nbsp;//&nbsp; ENTER NODE = PORTFOLIO</div>
+  <div class="hs">
+    <div class="col">
+      <div class="w"><b>◉ THREAT ACTIVITY</b>Attack Level: <span id="atk">45</span>%<div class="meter"><i></i></div></div>
+      <div class="w"><b>◉ PROCESSOR USAGE</b>CPU-1 98%<div class="meter"><i style="width:98%"></i></div>CPU-2 43%<div class="meter"><i style="width:43%"></i></div></div>
+      <div class="w"><b>◉ MEMORY USAGE</b>SWAP |=======| 16GB</div>
+      <div class="w"><b>◉ NETWORK TRAFFIC</b><div id="net">pkt 0</div></div>
+      <div class="w"><b>◉ CONNECTIONS</b>FIREWALL: ACTIVE</div>
+    </div>
+    <div class="center">
+      <h3>HACKER TYPER</h3>
+      <div style="font-size:11px;color:#8cff9f;text-align:center;margin-bottom:6px">Press any key to begin</div>
+      <pre id="code"></pre>
+      <button class="go" id="enter" type="button">ENTER NODE</button>
+    </div>
+    <div class="col">
+      <div class="w"><b>◉ CURRENT LOCAL TIME</b><span id="clk"></span></div>
+      <div class="w"><b>◉ GLOBAL NETWORK MAP</b>Range: SAT // OSINT NODE</div>
+      <div class="w"><b>◉ THREAT ASSESSMENT</b>CYBER 71%<div class="meter"><i style="width:71%"></i></div>KINETIC 38%<div class="meter"><i style="width:38%"></i></div>EW / JAM 85%<div class="meter"><i style="width:85%"></i></div></div>
+      <div class="w"><b>◉ TELEMETRY FEED</b><div id="tel">SIGINT: 3 ACTIVE</div></div>
+    </div>
+  </div>
+  <div class="foot" id="tick">HANDLES: 30875  THREADS: 4092  PROCESSES: 86  CPU CORE: 8  MEMORY: 64GB  COMMS: AES-256  UPLINK: NOMINAL</div>
 </div>
 <canvas id="matrix"></canvas>
 <div class="scanline"></div>
@@ -69,7 +86,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   <div class="top"><span>NODE // OSINTrahat</span><span>GREEN NODE ONLINE</span></div>
   <section class="hero">
     <div>
-      <p style="color:#00ffc3;letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL // PUBLIC SOURCE ONLY</p>
+      <p style="color:#00ffc3;letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
       <h1>OSINT<br><em>RAHAT</em></h1>
       <p id="tw"></p>
     </div>
@@ -94,81 +111,51 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 [+] operator ........... OS RAHAT
 [+] lane ............... OSINT + SOCMINT
 [+] also ............... crypto community manager
-[+] role ............... MOD // Discord + Telegram
+[+] role ............... MOD
 [+] status ............. OG science since 2021
-[+] contact.x .......... https://x.com/Rahatirtaza
-[+] contact.tg ......... https://t.me/Rahatirtaza
-[+] contact.discord .... https://discord.com/users/1111896493599768589
-[+] contact.mail ....... rahatearningyt@gmail.com
-[+] note ............... public-source only</pre></div>
+[+] x .................. https://x.com/Rahatirtaza
+[+] tg ................. https://t.me/Rahatirtaza
+[+] discord ............ https://discord.com/users/1111896493599768589
+[+] mail ............... rahatearningyt@gmail.com</pre></div>
   <h2>// MODULES</h2>
   <div class="skills">
-    <article class="skill"><h3>OSINT</h3><p>Public-source intelligence. Collect, verify, connect the dots.</p></article>
-    <article class="skill"><h3>CRYPTO CM</h3><p>Community manager for crypto rooms.</p></article>
-    <article class="skill"><h3>MOD</h3><p>Discord and Telegram moderation.</p></article>
-    <article class="skill"><h3>OG 2021</h3><p>In the space since 2021. Still online.</p></article>
+    <article class="skill"><h3>OSINT</h3><p>Public-source intelligence.</p></article>
+    <article class="skill"><h3>CRYPTO CM</h3><p>Community ops.</p></article>
+    <article class="skill"><h3>MOD</h3><p>Discord / Telegram.</p></article>
+    <article class="skill"><h3>OG 2021</h3><p>Since 2021.</p></article>
   </div>
   <h2>// LIVE TRACELOG</h2>
   <div class="panel"><div class="bar"><span>stream</span><span>READ_ONLY</span></div><div class="feed" id="feed"></div></div>
   <h2>// tty1</h2>
   <div class="sh" id="shell">
-    <div class="bar"><span>rahat@osint-node:~</span><span>TYPE HERE</span></div>
+    <div class="bar"><span>rahat@osint-node</span><span>TYPE HERE</span></div>
     <div class="out" id="out"></div>
     <div class="line"><span>$</span><input id="cmd" type="text" autocomplete="off" placeholder="type help then Enter"/></div>
   </div>
 </div>
 <script>
-var src="#include <linux/module.h>\nstatic int init_osint(void){\n  printk(KERN_INFO \"OSINTrahat node online\\n\");\n  return 0;\n}\nvoid dump_socmint(char *h){\n  unsigned char buf[256];\n  memcpy(buf,h,64);\n  xor_stream(buf,64,0x3F);\n}\nint main(){\n  char *targets[]={\"x.com/Rahatirtaza\",\"t.me/Rahatirtaza\"};\n  for(int i=0;i<2;i++) resolve(targets[i]);\n  access_granted();\n  return 0;\n}\n.section .text\n.global _start\n_start:\n  mov $1,%rax\n  mov $1,%rdi\n  syscall\nmodule_init(init_osint);\nstatic irqreturn_t isr(int irq,void *d){return IRQ_HANDLED;}\nuint32_t hash=0xC0FFEE;\nwhile(running){poll_feed();}\n";
-var pos=0,keys=0,opened=false;
-var code=document.getElementById("code"),slog=document.getElementById("slog");
-var slines=["[net] iface up","[mem] dump 0x7ffe","[sys] tty hijack watch","[ok] public source only","[net] dns resolve","[sys] node ping"];
-function chunk(){
-  var n=12+Math.floor(Math.random()*28);
-  var t=src.substr(pos,n); pos=(pos+n)%src.length;
-  if(code.textContent.indexOf("START TYPING")===0) code.textContent="";
-  code.textContent+=t;
-  if(code.textContent.length>4200) code.textContent=code.textContent.slice(-3200);
-  code.scrollTop=code.scrollHeight;
-}
-function logline(){
-  var d=document.createElement("div");
-  d.textContent=slines[Math.floor(Math.random()*slines.length)];
-  slog.prepend(d); while(slog.children.length>14)slog.lastChild.remove();
-}
-function enter(){
-  if(opened)return; opened=true;
-  document.body.classList.add("quake");
-  var g=document.getElementById("gate");
-  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},500);
-  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1200);
-}
-window.addEventListener("keydown",function(e){
-  if(opened)return;
-  if(e.key==="Escape"){enter();return;}
-  e.preventDefault(); keys++; chunk(); if(keys%3===0)logline();
-});
-window.addEventListener("touchstart",function(){if(!opened){chunk();logline();}});
+var src="#include <linux/module.h>\nprintk(\"OSINTrahat online\\n\");\nint dump(char *h){xor_stream(h,64,0x3F);return 0;}\n_start: mov $1,%rax; syscall;\nmodule_init(init);\nwhile(1){poll_feed();}\n";
+var pos=0,opened=false,code=document.getElementById("code");
+function chunk(){var n=16+Math.floor(Math.random()*24);code.textContent+=src.substr(pos,n);pos=(pos+n)%src.length;if(code.textContent.length>3800)code.textContent=code.textContent.slice(-2800);}
+function enter(){if(opened)return;opened=true;document.body.classList.add("quake");var g=document.getElementById("gate");setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},400);setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1100);}
+window.addEventListener("keydown",function(e){if(opened)return;if(e.key==="Escape"){enter();return;}e.preventDefault();chunk();});
+window.addEventListener("touchstart",function(){if(!opened)chunk();});
 document.getElementById("enter").onclick=enter;
+setInterval(function(){document.getElementById("clk").textContent=new Date().toLocaleString();document.getElementById("atk").textContent=30+Math.floor(Math.random()*50);document.getElementById("net").textContent="pkt "+Math.floor(Math.random()*9000);document.getElementById("tel").textContent="SIGINT "+(1+Math.floor(Math.random()*5))+" ACTIVE";},900);
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
-const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat // OS RAHAT",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza\nrahatearningyt@gmail.com",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD / OG 2021"};
+const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
 function print(t){out.textContent+=(out.textContent?"\n":"")+t;out.scrollTop=out.scrollHeight}
 print("type help");
 document.getElementById("shell").onclick=function(){cmd.focus()};
-cmd.addEventListener("keydown",function(e){
-  if(e.key!=="Enter")return;
-  var raw=cmd.value.trim();cmd.value="";if(!raw)return;print("$ "+raw);
-  var a=raw.split(/\s+/)[0];
-  if(a==="clear"){out.textContent="";return}
-  print(cmds[a]||("bash: "+a+": command not found"));
-});
-const el=document.getElementById("tw"),twl=["collect | verify | connect the dots","OSINT + crypto CM + MOD","OG science // since 2021"];let li=0,ci=0,del=false;
-(function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1200)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%twl.length;setTimeout(tick,200)})();
-const feed=document.getElementById("feed"),logs=["[ok] public source mapped","[ok] archive snapshot","[ok] socmint lane idle"];let fi=0;
-(function push(){var d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(push,1400)})();
+cmd.addEventListener("keydown",function(e){if(e.key!=="Enter")return;var raw=cmd.value.trim();cmd.value="";if(!raw)return;print("$ "+raw);var a=raw.split(/\s+/)[0];if(a==="clear"){out.textContent="";return}print(cmds[a]||("bash: "+a+": command not found"));});
+const el=document.getElementById("tw"),twl=["collect | verify | connect the dots","OG since 2021"];let li=0,ci=0,del=false;
+(function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%twl.length;setTimeout(tick,200)})();
+const feed=document.getElementById("feed"),logs=["[ok] mapped","[ok] archive"];let fi=0;
+(function push(){var d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(push,1600)})();
 const cnv=document.getElementById("matrix"),x=cnv.getContext("2d");
 function sz(){cnv.width=innerWidth;cnv.height=innerHeight}sz();addEventListener("resize",sz);
 const gg="01$#OSINT";const f=14;let cols=Math.ceil(innerWidth/f);let drops=Array.from({length:cols},function(){return 0});
-(function draw(){x.fillStyle="rgba(1,3,2,.12)";x.fillRect(0,0,cnv.width,cnv.height);x.fillStyle="#39ff14";x.font=f+"px monospace";for(var i=0;i<cols;i++){x.fillText(gg[Math.floor(Math.random()*gg.length)],i*f,drops[i]*f);if(drops[i]*f>cnv.height&&Math.random()>0.97)drops[i]=0;drops[i]++}requestAnimationFrame(draw)})();
+(function draw(){x.fillStyle="rgba(1,3,2,.14)";x.fillRect(0,0,cnv.width,cnv.height);x.fillStyle="#39ff14";x.font=f+"px monospace";for(var i=0;i<cols;i++){x.fillText(gg[Math.floor(Math.random()*gg.length)],i*f,drops[i]*f);if(drops[i]*f>cnv.height&&Math.random()>0.975)drops[i]=0;drops[i]++}requestAnimationFrame(draw)})();
 </script>
 </body>
 </html>
