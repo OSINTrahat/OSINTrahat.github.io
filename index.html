@@ -49,8 +49,10 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 #gate.gone{display:none}#gate.open{opacity:0;transition:opacity .7s ease}
 #gate.boom{animation:flick .07s linear infinite}
 #gate.boom .box{opacity:0;pointer-events:none}
-#gate.grant .gterm,#gate.grant .mask,#gate.grant .warn{opacity:.12}
-#grant{position:absolute;z-index:8;opacity:0;font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.35rem,9vw,4.4rem);color:#39ff14;text-align:center;padding:0 12px;text-shadow:0 0 18px #39ff14;pointer-events:none}
+#gate.grant .gterm,#gate.grant .mask,#gate.grant .warn,#gate.grant .flash,#gate.grant .box{
+  filter:blur(10px);opacity:.5;transition:filter .35s,opacity .35s
+}
+#grant{position:absolute;z-index:20;opacity:0;font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.2rem,8vw,3.6rem);color:#39ff14;text-align:center;padding:18px 22px;letter-spacing:.08em;text-shadow:0 0 18px #39ff14;pointer-events:none;border:3px solid #39ff14;background:rgba(0,0,0,.55);box-shadow:0 0 0 1px #000,0 0 28px rgba(57,255,20,.55);filter:none}
 #gate.grant #grant{opacity:1;animation:grantIn .9s cubic-bezier(.2,1.3,.3,1) both,grantGlow .4s steps(2) infinite}
 .gterm{position:absolute;color:#39ff14;font-size:clamp(.72rem,3.2vw,1.15rem);font-weight:700;padding:8px;white-space:pre-wrap;overflow:hidden;opacity:0;z-index:3;background:rgba(0,8,2,.78)}
 .gterm.L{left:0;top:0;bottom:0;width:26%;transform:translateX(-110%)}
@@ -81,7 +83,7 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
 @keyframes maskPulse{50%{filter:drop-shadow(0 0 40px #39ff14) brightness(1.4)}}
 @keyframes grantIn{0%{opacity:0;transform:scale(.55)}70%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
-@keyframes grantGlow{50%{text-shadow:0 0 80px #39ff14}}
+@keyframes grantGlow{50%{text-shadow:0 0 80px #39ff14;box-shadow:0 0 0 1px #000,0 0 40px rgba(57,255,20,.9)}}
 @media(max-width:900px){.hero,.grid,.mods{grid-template-columns:1fr}.monitor{margin:14px auto;width:min(220px,70vw)}.bezel{height:132px}.row{grid-template-columns:1fr 1fr}.gterm.L,.gterm.R{width:22%}.gterm.T,.gterm.B{height:14%}}
 @media(max-width:520px){.row{grid-template-columns:1fr}.gterm.L,.gterm.R{width:20%}}
 </style>
@@ -163,12 +165,11 @@ function loadVoice(){
 }
 function playGrant(){
   try{fx.volume=0.05}catch(e){}
-  var ok=false;
   try{
     var c=ac();
     if(c&&grantBuf){
       var s=c.createBufferSource();s.buffer=grantBuf;s.playbackRate.value=1.28;
-      var g2=c.createGain();g2.gain.value=2.4;s.connect(g2);g2.connect(c.destination);s.start();ok=true;
+      var g2=c.createGain();g2.gain.value=2.4;s.connect(g2);g2.connect(c.destination);s.start();
     }
   }catch(e){}
   try{voice.volume=1;voice.currentTime=0;voice.playbackRate=1.25;var p=voice.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
