@@ -155,29 +155,27 @@ function clickFx(){
 }
 function loadVoice(){
   var url="https://api.streamelements.com/kappa/v2/speech?voice=Brian&text="+encodeURIComponent("Access granted");
-  voice.src=url;voice.load();
+  voice.src=url;voice.volume=1;voice.load();
   try{
     var c=ac();if(!c)return;
     fetch(url).then(function(r){return r.arrayBuffer()}).then(function(b){return c.decodeAudioData(b)}).then(function(buf){grantBuf=buf}).catch(function(){});
   }catch(e){}
 }
 function playGrant(){
-  try{fx.volume=0.12}catch(e){}
+  try{fx.volume=0.05}catch(e){}
   var ok=false;
   try{
     var c=ac();
     if(c&&grantBuf){
-      var s=c.createBufferSource();s.buffer=grantBuf;s.playbackRate.value=0.82;
-      var g2=c.createGain();g2.gain.value=1.2;s.connect(g2);g2.connect(c.destination);s.start();ok=true;
+      var s=c.createBufferSource();s.buffer=grantBuf;s.playbackRate.value=1.28;
+      var g2=c.createGain();g2.gain.value=2.4;s.connect(g2);g2.connect(c.destination);s.start();ok=true;
     }
   }catch(e){}
-  if(!ok){
-    try{voice.currentTime=0;voice.playbackRate=0.85;var p=voice.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
-  }
+  try{voice.volume=1;voice.currentTime=0;voice.playbackRate=1.25;var p=voice.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
   try{
     if(window.speechSynthesis){
       speechSynthesis.cancel();
-      var u=new SpeechSynthesisUtterance("Access granted");u.rate=0.7;u.pitch=0.2;u.lang="en-US";speechSynthesis.speak(u);
+      var u=new SpeechSynthesisUtterance("Access granted");u.rate=1.05;u.pitch=1.35;u.volume=1;u.lang="en-US";speechSynthesis.speak(u);
     }
   }catch(e){}
 }
