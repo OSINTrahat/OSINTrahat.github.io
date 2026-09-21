@@ -69,6 +69,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
   <button id="door" type="button"></button>
 </div>
+<audio id="fx" preload="auto" playsinline></audio>
 <canvas id="matrix"></canvas>
 <div class="scanline"></div>
 <div class="wrap">
@@ -123,14 +124,16 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
+var fx=document.getElementById("fx");
+fx.src="click.mp3";
+function playFx(){try{fx.currentTime=0;var p=fx.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
 var AC=window.AudioContext||window.webkitAudioContext,actx=null,opened=false,alarmOn=true,n=0;
 function ctx(){if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();return actx;}
 function beep(f,d,v,type){try{var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type=type||"square";o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.0008,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d);}catch(e){}}
-function alarm(){if(!alarmOn)return;beep(880,0.05,0.13);n++;setTimeout(alarm,n%3===0?360:140);}
-function boom(){beep(90,0.35,0.28,"sawtooth");beep(40,0.5,0.2,"square");}
-document.getElementById("gate").addEventListener("pointerdown",function(){try{ctx();if(n===0)alarm();}catch(e){}},{once:true});
+function alarm(){if(!alarmOn)return;beep(880,0.05,0.08);n++;setTimeout(alarm,n%3===0?360:140);}
+document.getElementById("gate").addEventListener("pointerdown",function(){try{ctx();playFx();if(n===0)alarm();}catch(e){}},{once:true});
 document.getElementById("door").onclick=function(){
-  if(opened)return; opened=true; alarmOn=false; boom();
+  if(opened)return; opened=true; alarmOn=false; playFx();
   document.body.classList.add("quake");
   var g=document.getElementById("gate");
   setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},800);
