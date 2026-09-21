@@ -6,19 +6,23 @@
 <title>OSINTrahat | OS RAHAT</title>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--g:#00ff41;--bg:#020805;--card:#06140c}
+:root{--g:#00ff41;--bg:#020805;--card:rgba(6,20,12,.88)}
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{font-family:"Fira Code",monospace;background:var(--bg);color:#b6ffc4;min-height:100vh}
-.wrap{max-width:980px;margin:0 auto;padding:28px 20px 60px}
-h1{font-size:clamp(2.6rem,10vw,5rem);color:var(--g);text-shadow:0 0 22px rgba(0,255,65,.45);line-height:1}
-.sub{margin:.7rem 0 1.4rem;letter-spacing:.06em}
-.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:18px 0 34px}
-.btn{display:block;min-height:84px;padding:18px 16px;border:2px solid var(--g);background:var(--g);color:#021208;text-decoration:none;font-weight:700;font-size:1.2rem;font-family:inherit;cursor:pointer;text-align:left}
-.btn span{display:block;margin-top:6px;font-size:.78rem;font-weight:400}
+#matrix{position:fixed;inset:0;z-index:0;opacity:.22;pointer-events:none}
+.scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.12) 3px)}
+.wrap{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:36px 20px 70px}
+h1{font-size:clamp(2.6rem,10vw,5.2rem);color:var(--g);text-shadow:0 0 24px rgba(0,255,65,.45);line-height:1}
+.sub{margin:.7rem 0 .4rem;letter-spacing:.07em;font-size:.85rem}
+.typed{min-height:1.4em;margin:10px 0 18px;color:var(--g)}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:8px 0 36px}
+.btn{display:block;min-height:88px;padding:18px 16px;border:2px solid var(--g);background:var(--g);color:#021208;text-decoration:none;font-weight:700;font-size:1.15rem;font-family:inherit;cursor:pointer;text-align:left}
+.btn span{display:block;margin-top:6px;font-size:.76rem;font-weight:400}
 .btn.alt{background:transparent;color:var(--g)}
-.btn:hover{filter:brightness(1.12)}
-h2{color:var(--g);margin:8px 0 14px}
-.box,.skill{background:var(--card);border:2px solid rgba(0,255,65,.35);padding:16px}
+.btn:hover{filter:brightness(1.12);transform:translateY(-2px)}
+h2{color:var(--g);margin:10px 0 14px}
+.box,.skill{background:var(--card);border:2px solid rgba(0,255,65,.32);padding:16px}
 .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
 .skill h3{color:var(--g);margin-bottom:8px}
 pre{color:var(--g);white-space:pre-wrap;margin-bottom:10px}
@@ -26,10 +30,13 @@ footer{margin-top:40px;opacity:.7;font-size:.8rem}
 </style>
 </head>
 <body>
+<canvas id="matrix"></canvas>
+<div class="scan"></div>
 <div class="wrap">
-  <p>> whoami</p>
+  <p>&gt; whoami</p>
   <h1>OSINTrahat</h1>
-  <p class="sub">OSINT · Crypto Community Manager · MOD · OG since 2021</p>
+  <p class="sub">OSINT · CRYPTO COMMUNITY MANAGER · MOD · OG SINCE 2021</p>
+  <p class="typed" id="tw"></p>
   <div class="row">
     <a class="btn" href="https://x.com/Rahatirtaza" target="_blank" rel="noopener">X / Twitter<span>@Rahatirtaza</span></a>
     <a class="btn" href="https://t.me/Rahatirtaza" target="_blank" rel="noopener">Telegram<span>t.me/Rahatirtaza</span></a>
@@ -53,15 +60,22 @@ footer{margin-top:40px;opacity:.7;font-size:.8rem}
     <div class="skill"><h3>MOD</h3><p>Discord / Telegram moderation.</p></div>
     <div class="skill"><h3>OG since 2021</h3><p>In the space since 2021.</p></div>
   </div>
-  <footer>OSINTrahat · OG 2021</footer>
+  <footer>OSINTrahat · OG 2021 · collect | verify | connect the dots</footer>
 </div>
 <script>
-document.getElementById('dc').onclick=function(e){
-  e.preventDefault();
-  navigator.clipboard.writeText('rahatirtaza').then(function(){
-    e.currentTarget.querySelector('span').textContent='copied @rahatirtaza';
-  });
-};
+const lines=["collect | verify | connect the dots","OSINT + crypto community + MOD","OG since 2021"];
+const el=document.getElementById("tw");let li=0,ci=0,del=false;
+function tick(){const cur=lines[li];el.textContent="> "+cur.slice(0,ci);
+if(!del&&ci<cur.length){ci++;setTimeout(tick,48);return}
+if(!del&&ci===cur.length){del=true;setTimeout(tick,1300);return}
+if(del&&ci>0){ci--;setTimeout(tick,24);return}
+del=false;li=(li+1)%lines.length;setTimeout(tick,220)}
+tick();
+const c=document.getElementById("matrix"),x=c.getContext("2d");
+function sz(){c.width=innerWidth;c.height=innerHeight}sz();addEventListener("resize",sz);
+const g="01OSINTCRYPTOMOD$#";const f=14;let cols=Math.ceil(innerWidth/f);let d=Array.from({length:cols},()=>Math.random()*-40);
+(function draw(){x.fillStyle="rgba(2,8,5,0.12)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#00ff41";x.font=f+"px monospace";cols=Math.ceil(c.width/f);if(d.length<cols)d=d.concat(Array(cols-d.length).fill(0));for(let i=0;i<cols;i++){x.fillText(g[Math.floor(Math.random()*g.length)],i*f,d[i]*f);if(d[i]*f>c.height&&Math.random()>0.975)d[i]=0;d[i]++}requestAnimationFrame(draw)})();
+document.getElementById("dc").onclick=function(e){e.preventDefault();navigator.clipboard.writeText("rahatirtaza").then(()=>{e.currentTarget.querySelector("span").textContent="copied @rahatirtaza"})};
 </script>
 </body>
 </html>
