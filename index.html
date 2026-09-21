@@ -40,11 +40,10 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 #gate.gone{display:none}
 #gate.open{opacity:0;transition:opacity .45s}
 #boot{position:absolute;inset:0;padding:16px;color:#39ff14;font-size:12px;line-height:1.3;overflow:hidden;white-space:pre}
-#alert{position:absolute;left:50%;top:18%;transform:translateX(-50%);z-index:95;color:#ff2a2a;text-align:center;pointer-events:none;font-family:Orbitron,sans-serif;letter-spacing:.14em;font-size:clamp(1.1rem,4.5vw,2rem);text-shadow:0 0 16px #ff0000;animation:blink .25s step-end infinite}
-#skull{position:absolute;inset:0;z-index:94;display:none;align-items:center;justify-content:center;background:#000;flex-direction:column}
+#skull{position:absolute;inset:0;z-index:94;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);flex-direction:column}
 #skull.show{display:flex}
 #skull svg{width:min(280px,70vw);filter:drop-shadow(0 0 18px #ff1a1a);animation:shake .12s linear infinite}
-#skull p{margin-top:16px;color:#ff2a2a;letter-spacing:.2em}
+#skull p{margin-top:16px;color:#ff2a2a;letter-spacing:.18em;font-family:Orbitron,sans-serif;font-size:clamp(1.1rem,4vw,1.8rem);text-shadow:0 0 14px #ff0000;animation:blink .28s step-end infinite}
 #door{position:absolute;inset:0;z-index:97;background:transparent;border:0;cursor:pointer}
 @keyframes pan{to{transform:translateX(-50%)}}
 @keyframes blink{50%{opacity:.2}}
@@ -55,8 +54,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 </head>
 <body class="locked">
 <div id="gate">
-  <pre id="boot">CLICK ONCE</pre>
-  <div id="alert">HACKING ALERT</div>
+  <pre id="boot"></pre>
   <div id="skull">
     <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <ellipse cx="100" cy="88" rx="72" ry="70" fill="#1a1a1a" stroke="#eee" stroke-width="3"/>
@@ -66,7 +64,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
       <rect x="58" y="148" width="84" height="36" rx="8" fill="#1a1a1a" stroke="#eee" stroke-width="3"/>
       <path d="M70 148 v36 M85 148 v36 M100 148 v36 M115 148 v36 M130 148 v36" stroke="#eee" stroke-width="3"/>
     </svg>
-    <p>ACCESS GRANTED</p>
+    <p>YOU ARE HACKED</p>
   </div>
   <button id="door" type="button"></button>
 </div>
@@ -95,7 +93,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
     <div class="stat"><b>CLEAR</b><span>PUBLIC SOURCE</span></div>
   </div>
   <h2>// OPERATOR FILE</h2>
-  <div class="term"><div class="bar"><span>cat /etc/operator</span><span>ACCESS_GRANTED</span></div>
+  <div class="term"><div class="bar"><span>cat /etc/operator</span><span>ONLINE</span></div>
 <pre>[+] handle ...... OSINTrahat
 [+] operator .... OS RAHAT</pre></div>
   <h2>// MODULES</h2>
@@ -115,36 +113,36 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
-var AC=window.AudioContext||window.webkitAudioContext,actx=null,done=false;
+var AC=window.AudioContext||window.webkitAudioContext,actx=null,ready=false,opened=false,alarmOn=true;
 function ctx(){if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();return actx;}
-function beep(freq,dur,vol,type){var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type=type||"square";o.frequency.value=freq;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0008,t+dur);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}
-function robotLaugh(){
+function beep(freq,dur,vol){try{var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type="square";o.frequency.value=freq;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0008,t+dur);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}catch(e){}}
+function robotVoice(){
+  try{var u=new SpeechSynthesisUtterance("you are hacked");u.rate=0.55;u.pitch=0.01;u.volume=1;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}
   var c=ctx(),t=c.currentTime;
-  [0,0.22,0.44,0.7,0.95].forEach(function(s,i){
+  [0,0.24,0.48,0.76].forEach(function(s,i){
     var o=c.createOscillator(),g=c.createGain();
-    o.type="sawtooth"; o.frequency.setValueAtTime(140-i*12,t+s); o.frequency.linearRampToValueAtTime(70-i*6,t+s+0.16);
-    g.gain.setValueAtTime(0.001,t+s); g.gain.exponentialRampToValueAtTime(0.35,t+s+0.03); g.gain.exponentialRampToValueAtTime(0.0008,t+s+0.18);
-    o.connect(g); g.connect(c.destination); o.start(t+s); o.stop(t+s+0.2);
+    o.type="sawtooth"; o.frequency.setValueAtTime(110-i*10,t+s);
+    g.gain.setValueAtTime(0.001,t+s); g.gain.exponentialRampToValueAtTime(0.4,t+s+0.03); g.gain.exponentialRampToValueAtTime(0.0008,t+s+0.2);
+    o.connect(g); g.connect(c.destination); o.start(t+s); o.stop(t+s+0.22);
   });
 }
-function sayGranted(){try{var u=new SpeechSynthesisUtterance("access granted");u.rate=0.68;u.pitch=0.25;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
-var lines=["[  OK  ] Started Load Kernel Modules.","[  OK  ] Reached target Local File Systems.","[FAILED] Failed to start Display Manager.","[  OK  ] Started Network Manager.","root@node:~# systemctl stop graphical.target","[ALERT] unauthorized remote session","[ALERT] privilege escalation","root@node:~# chmod 777 /dev/console","[WARN] tty hijack","[ALERT] HACKING ALERT"];
-var boot=document.getElementById("boot"),log=[],nBeep=0,alarmT,dumpT;
+var lines=["[  OK  ] Started Load Kernel Modules.","[  OK  ] Reached target Local File Systems.","[FAILED] Failed to start Display Manager.","[  OK  ] Started Network Manager.","root@node:~# systemctl stop graphical.target","[ALERT] unauthorized remote session","[ALERT] privilege escalation","root@node:~# chmod 777 /dev/console","[WARN] tty hijack"];
+var boot=document.getElementById("boot"),log=[],n=0;
 function dump(){log.push(lines[Math.floor(Math.random()*lines.length)]);if(log.length>26)log.shift();boot.textContent=log.join("\n");}
-function alarmTick(){beep(880,0.055,0.14);nBeep++;if(nBeep<18)alarmT=setTimeout(alarmTick,nBeep%3===0?320:140);}
+setInterval(dump,55);
+function alarmTick(){if(!alarmOn)return;beep(880,0.055,0.13);n++;setTimeout(alarmTick,n%3===0?340:150);}
+alarmTick();
+setTimeout(function(){
+  document.getElementById("skull").classList.add("show");
+  ready=true;
+},2500);
 document.getElementById("door").onclick=function(){
-  if(done)return; done=true;
-  dumpT=setInterval(dump,55); alarmTick();
-  setTimeout(function(){
-    clearInterval(dumpT); clearTimeout(alarmT);
-    document.getElementById("skull").classList.add("show");
-    document.getElementById("alert").style.display="none";
-    robotLaugh(); sayGranted();
-    document.body.classList.add("quake");
-    var g=document.getElementById("gate");
-    setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},1100);
-    setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1800);
-  },900);
+  if(!ready||opened)return; opened=true; alarmOn=false;
+  robotVoice();
+  document.body.classList.add("quake");
+  var g=document.getElementById("gate");
+  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},900);
+  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1600);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
 const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
