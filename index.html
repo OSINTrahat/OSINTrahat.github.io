@@ -26,7 +26,10 @@ h1 em{font-style:normal;color:var(--g)}
 .ring2{inset:-10px;animation-duration:34s;animation-direction:reverse;border-style:solid;border-width:1px;border-color:rgba(0,255,195,.18)}
 .globe{position:absolute;inset:36px;border-radius:50%;overflow:hidden;border:2px solid rgba(57,255,20,.5);box-shadow:0 0 50px rgba(57,255,20,.2),inset -30px -16px 40px rgba(0,0,0,.7)}
 .map{width:200%;height:100%;background:url("https://unpkg.com/three-globe/example/img/earth-night.jpg") repeat-x center/auto 100%;filter:sepia(1) hue-rotate(75deg) saturate(3.4) brightness(1.2);animation:pan 20s linear infinite}
-.face{position:absolute;left:50%;top:50%;width:36%;height:36%;transform:translate(-50%,-50%);border-radius:50%;object-fit:cover;border:2px solid #39ff14;box-shadow:0 0 18px rgba(57,255,20,.4);z-index:3;filter:grayscale(.2) contrast(1.05)}
+.acrylic{position:absolute;left:50%;top:50%;width:46%;height:46%;transform:translate(-50%,-50%);border-radius:50%;z-index:3;padding:5px;background:linear-gradient(145deg,rgba(255,255,255,.38),rgba(255,255,255,.04) 32%,rgba(57,255,20,.12) 70%,rgba(255,255,255,.22));box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 24px rgba(57,255,20,.2),inset 0 1px 0 rgba(255,255,255,.55)}
+.acrylic img{width:100%;height:100%;object-fit:cover;border-radius:50%;filter:contrast(1.08) saturate(.85);opacity:.92}
+.acrylic:before{content:"";position:absolute;inset:5px;border-radius:50%;background:linear-gradient(125deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.08) 28%,transparent 48%);pointer-events:none;z-index:4}
+.acrylic:after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),inset -8px -10px 16px rgba(0,0,0,.25);pointer-events:none}
 .row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:36px 0 44px}
 .btn{min-height:92px;padding:16px;border:1px solid rgba(57,255,20,.45);background:linear-gradient(180deg,rgba(57,255,20,.16),rgba(0,20,8,.7));color:var(--g);text-decoration:none;font-weight:700;transition:.25s}
 .btn span{display:block;margin-top:8px;color:#8cff9f;font-weight:400;font-size:.75rem}
@@ -63,7 +66,7 @@ footer{margin-top:40px;opacity:.6;font-size:.75rem;letter-spacing:.12em}
       <div class="ring"></div><div class="ring2"></div>
       <div class="globe">
         <div class="map"></div>
-        <img class="face" src="https://github.com/OSINTrahat.png" alt="OS RAHAT"/>
+        <div class="acrylic"><img src="https://github.com/OSINTrahat.png" alt="OS RAHAT"/></div>
       </div>
     </div>
   </section>
