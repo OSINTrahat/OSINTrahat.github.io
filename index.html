@@ -6,7 +6,7 @@
 <title>OSINTrahat // SECURE NODE</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@600;800&display=swap" rel="stylesheet"/>
 <style>
-:root{--g:#39ff14;--g2:#00ffc3;--bg:#010302}
+:root{--g:#39ff14;--g2:#00ffc3}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Share Tech Mono",monospace;background:radial-gradient(900px 500px at 80% 10%,rgba(0,255,120,.08),transparent 50%),#010302;color:#b7ffc4;min-height:100vh}
 #matrix{position:fixed;inset:0;z-index:0;opacity:.16;pointer-events:none}
@@ -15,21 +15,22 @@ body{font-family:"Share Tech Mono",monospace;background:radial-gradient(900px 50
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;font-size:.75rem;letter-spacing:.16em;color:#6fbb7d}
 .live{display:flex;align-items:center;gap:8px;color:var(--g)}
 .live i{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 10px var(--g);animation:blink 1s infinite}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;min-height:62vh}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;min-height:62vh}
 .kicker{color:var(--g2);letter-spacing:.28em;font-size:.72rem;margin-bottom:10px}
 h1{font-family:Orbitron,sans-serif;font-size:clamp(2.8rem,8vw,5.6rem);line-height:.9;color:#edffef;text-shadow:0 0 18px rgba(57,255,20,.45)}
 h1 em{font-style:normal;color:var(--g)}
 .sub{margin:14px 0 10px;color:#86e89a;letter-spacing:.08em}
 .typed{min-height:1.4em;color:var(--g)}
-.globe-box{position:relative;width:min(420px,86vw);height:min(420px,86vw);margin:0 auto}
-.ring,.ring2{position:absolute;inset:8px;border-radius:50%;border:1px dashed rgba(57,255,20,.28);animation:spin 22s linear infinite}
-.ring2{inset:-10px;animation-duration:34s;animation-direction:reverse;border-style:solid;border-width:1px;border-color:rgba(0,255,195,.18)}
-.globe{position:absolute;inset:36px;border-radius:50%;overflow:hidden;border:2px solid rgba(57,255,20,.5);box-shadow:0 0 50px rgba(57,255,20,.2),inset -30px -16px 40px rgba(0,0,0,.7)}
+.monitor{width:min(460px,92vw);margin:0 auto;background:#0a120d;border:3px solid #1c2a1f;border-radius:18px;padding:16px 16px 12px;box-shadow:0 20px 50px rgba(0,0,0,.55),0 0 30px rgba(57,255,20,.12),inset 0 0 0 1px #2a3d2e}
+.bezel{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.68rem;letter-spacing:.14em;color:#6fbb7d}
+.screen{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#020805;border:1px solid rgba(57,255,20,.35);box-shadow:inset 0 0 40px rgba(0,0,0,.65)}
+.globe{position:absolute;inset:8%;border-radius:50%;overflow:hidden;border:2px solid rgba(57,255,20,.4);box-shadow:0 0 30px rgba(57,255,20,.18),inset -20px -12px 28px rgba(0,0,0,.6)}
 .map{width:200%;height:100%;background:url("https://unpkg.com/three-globe/example/img/earth-night.jpg") repeat-x center/auto 100%;filter:sepia(1) hue-rotate(75deg) saturate(3.4) brightness(1.2);animation:pan 20s linear infinite}
-.acrylic{position:absolute;left:50%;top:50%;width:46%;height:46%;transform:translate(-50%,-50%);border-radius:50%;z-index:3;padding:5px;background:linear-gradient(145deg,rgba(255,255,255,.38),rgba(255,255,255,.04) 32%,rgba(57,255,20,.12) 70%,rgba(255,255,255,.22));box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 24px rgba(57,255,20,.2),inset 0 1px 0 rgba(255,255,255,.55)}
-.acrylic img{width:100%;height:100%;object-fit:cover;border-radius:50%;filter:contrast(1.08) saturate(.85);opacity:.92}
-.acrylic:before{content:"";position:absolute;inset:5px;border-radius:50%;background:linear-gradient(125deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.08) 28%,transparent 48%);pointer-events:none;z-index:4}
-.acrylic:after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),inset -8px -10px 16px rgba(0,0,0,.25);pointer-events:none}
+.scanline{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.16) 3px);pointer-events:none}
+.osint{margin-top:10px;min-height:1.3em;color:var(--g);letter-spacing:.28em;font-size:.95rem;text-align:center;text-shadow:0 0 10px rgba(57,255,20,.4)}
+.osint:after{content:"_";animation:blink .8s step-end infinite}
+.stand{width:70px;height:16px;margin:10px auto 0;background:#1c2a1f;border-radius:0 0 6px 6px}
+.base{width:150px;height:8px;margin:0 auto;background:#24352a;border-radius:8px}
 .row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:36px 0 44px}
 .btn{min-height:92px;padding:16px;border:1px solid rgba(57,255,20,.45);background:linear-gradient(180deg,rgba(57,255,20,.16),rgba(0,20,8,.7));color:var(--g);text-decoration:none;font-weight:700;transition:.25s}
 .btn span{display:block;margin-top:8px;color:#8cff9f;font-weight:400;font-size:.75rem}
@@ -45,8 +46,7 @@ pre{padding:18px;color:var(--g);line-height:1.8}
 h2{margin:8px 0 12px;color:var(--g);letter-spacing:.1em;font-size:.9rem}
 footer{margin-top:40px;opacity:.6;font-size:.75rem;letter-spacing:.12em}
 @keyframes pan{to{transform:translateX(-50%)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes blink{50%{opacity:.3}}
+@keyframes blink{50%{opacity:.25}}
 @media(max-width:980px){.hero,.row,.skills{grid-template-columns:1fr}}
 </style>
 </head>
@@ -62,12 +62,15 @@ footer{margin-top:40px;opacity:.6;font-size:.75rem;letter-spacing:.12em}
       <p class="sub">OSINT OPERATOR &nbsp;·&nbsp; CRYPTO CM &nbsp;·&nbsp; MOD &nbsp;·&nbsp; OG 2021</p>
       <p class="typed" id="tw"></p>
     </div>
-    <div class="globe-box">
-      <div class="ring"></div><div class="ring2"></div>
-      <div class="globe">
-        <div class="map"></div>
-        <div class="acrylic"><img src="https://github.com/OSINTrahat.png" alt="OS RAHAT"/></div>
+    <div class="monitor">
+      <div class="bezel"><span>MON-01</span><span>LIVE FEED</span></div>
+      <div class="screen">
+        <div class="globe"><div class="map"></div></div>
+        <div class="scanline"></div>
       </div>
+      <div class="osint" id="os">&gt; </div>
+      <div class="stand"></div>
+      <div class="base"></div>
     </div>
   </section>
   <div class="row">
@@ -105,6 +108,15 @@ if(!del&&ci===cur.length){del=true;return setTimeout(tick,1200)}
 if(del&&ci>0){ci--;return setTimeout(tick,22)}
 del=false;li=(li+1)%lines.length;setTimeout(tick,200)}
 tick();
+const word="OSINT";const os=document.getElementById("os");let o=0,od=false;
+function typeOs(){
+  os.textContent="> "+word.slice(0,o);
+  if(!od&&o<word.length){o++;return setTimeout(typeOs,160)}
+  if(!od&&o===word.length){od=true;return setTimeout(typeOs,900)}
+  if(od&&o>0){o--;return setTimeout(typeOs,80)}
+  od=false;setTimeout(typeOs,250)
+}
+typeOs();
 const c=document.getElementById("matrix"),x=c.getContext("2d");
 function sz(){c.width=innerWidth;c.height=innerHeight}sz();addEventListener("resize",sz);
 const g="01$#OSINT";const f=14;let cols=Math.ceil(innerWidth/f);let d=Array.from({length:cols},()=>Math.random()*-40);
