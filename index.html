@@ -69,7 +69,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
   <button id="door" type="button"></button>
 </div>
-<audio id="fx" preload="auto" playsinline></audio>
+<audio id="fx" src="click.mp3" preload="auto" autoplay loop playsinline></audio>
 <canvas id="matrix"></canvas>
 <div class="scanline"></div>
 <div class="wrap">
@@ -125,19 +125,19 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 </div>
 <script>
 var fx=document.getElementById("fx");
-fx.src="click.mp3";
-function playFx(){try{fx.currentTime=0;var p=fx.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
-var AC=window.AudioContext||window.webkitAudioContext,actx=null,opened=false,alarmOn=true,n=0;
-function ctx(){if(!actx)actx=new AC();if(actx.state==="suspended")actx.resume();return actx;}
-function beep(f,d,v,type){try{var c=ctx(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type=type||"square";o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.0008,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d);}catch(e){}}
-function alarm(){if(!alarmOn)return;beep(880,0.05,0.08);n++;setTimeout(alarm,n%3===0?360:140);}
-document.getElementById("gate").addEventListener("pointerdown",function(){try{ctx();playFx();if(n===0)alarm();}catch(e){}},{once:true});
+function playFx(){try{if(fx.paused){var p=fx.play();if(p&&p.catch)p.catch(function(){});}}catch(e){}}
+fx.addEventListener("canplay",playFx);
+window.addEventListener("load",playFx);
+setTimeout(playFx,200);
+["pointerdown","keydown","touchstart","click"].forEach(function(ev){window.addEventListener(ev,playFx,true);});
+var opened=false;
 document.getElementById("door").onclick=function(){
-  if(opened)return; opened=true; alarmOn=false; playFx();
+  if(opened)return; opened=true;
+  playFx();
   document.body.classList.add("quake");
   var g=document.getElementById("gate");
   setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},800);
-  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1600);
+  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake");try{fx.pause();}catch(e){}},1600);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
 const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat // OS RAHAT",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza\nrahatearningyt@gmail.com",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD / OG 2021"};
