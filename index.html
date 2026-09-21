@@ -49,10 +49,12 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 #gate.gone{display:none}#gate.open{opacity:0;transition:opacity .7s ease}
 #gate.boom{animation:flick .07s linear infinite}
 #gate.boom .box{opacity:0;pointer-events:none}
-#gate.grant .gterm,#gate.grant .mask,#gate.grant .warn,#gate.grant .flash,#gate.grant .box{
-  filter:blur(10px);opacity:.5;transition:filter .35s,opacity .35s
-}
-#grant{position:absolute;z-index:20;opacity:0;font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.2rem,8vw,3.6rem);color:#39ff14;text-align:center;padding:18px 22px;letter-spacing:.08em;text-shadow:0 0 18px #39ff14;pointer-events:none;border:3px solid #39ff14;background:rgba(0,0,0,.55);box-shadow:0 0 0 1px #000,0 0 28px rgba(57,255,20,.55);filter:none}
+.warn{position:absolute;top:max(10px,env(safe-area-inset-top));width:100%;text-align:center;color:#ff2424;font-family:Orbitron,sans-serif;font-weight:900;letter-spacing:.14em;font-size:clamp(.7rem,3.6vw,1.15rem);animation:blink .55s steps(2) infinite;z-index:12;text-shadow:0 0 16px #f00;padding:0 8px}
+.redlive{position:absolute;bottom:max(14px,env(safe-area-inset-bottom));width:100%;text-align:center;color:#ff1a1a;font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(.85rem,4.2vw,1.35rem);letter-spacing:.1em;z-index:12;opacity:0;text-shadow:0 0 18px #f00;animation:blink .4s steps(2) infinite}
+#gate.boom .redlive{opacity:1}
+#gate.grant .gterm,#gate.grant .mask,#gate.grant .flash,#gate.grant .box{filter:blur(10px);opacity:.5}
+#gate.grant .warn,#gate.grant .redlive{filter:blur(8px);opacity:.45}
+#grant{position:absolute;z-index:20;opacity:0;font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.15rem,7.5vw,3.4rem);color:#39ff14;text-align:center;padding:16px 18px;letter-spacing:.08em;text-shadow:0 0 18px #39ff14;pointer-events:none;border:3px solid #39ff14;background:#000;box-shadow:0 0 0 2px #000,0 0 28px rgba(57,255,20,.6);filter:none}
 #gate.grant #grant{opacity:1;animation:grantIn .9s cubic-bezier(.2,1.3,.3,1) both,grantGlow .4s steps(2) infinite}
 .gterm{position:absolute;color:#39ff14;font-size:clamp(.72rem,3.2vw,1.15rem);font-weight:700;padding:8px;white-space:pre-wrap;overflow:hidden;opacity:0;z-index:3;background:rgba(0,8,2,.78)}
 .gterm.L{left:0;top:0;bottom:0;width:26%;transform:translateX(-110%)}
@@ -68,7 +70,6 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 .box svg.lock{width:64px}
 .box b{color:#ff2424;font-family:Orbitron,sans-serif;text-align:center;font-size:clamp(.95rem,5vw,1.4rem);animation:blink .5s steps(2) infinite}
 .box span,#status{color:#ffd0d0;font-size:.72rem;letter-spacing:.16em}
-.warn{position:absolute;top:max(10px,env(safe-area-inset-top));width:100%;text-align:center;color:#ff3b3b;font-family:Orbitron,sans-serif;font-weight:900;animation:blink .55s steps(2) infinite;z-index:7}
 #door{position:absolute;inset:0;z-index:97;border:0;background:transparent}
 @keyframes shine{0%{transform:translateX(-120%)}55%,100%{transform:translateX(130%)}}
 @keyframes cell{50%{box-shadow:0 0 22px rgba(57,255,20,.28)}}
@@ -83,14 +84,14 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
 @keyframes maskPulse{50%{filter:drop-shadow(0 0 40px #39ff14) brightness(1.4)}}
 @keyframes grantIn{0%{opacity:0;transform:scale(.55)}70%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
-@keyframes grantGlow{50%{text-shadow:0 0 80px #39ff14;box-shadow:0 0 0 1px #000,0 0 40px rgba(57,255,20,.9)}}
+@keyframes grantGlow{50%{text-shadow:0 0 80px #39ff14;box-shadow:0 0 0 2px #000,0 0 40px rgba(57,255,20,.9)}}
 @media(max-width:900px){.hero,.grid,.mods{grid-template-columns:1fr}.monitor{margin:14px auto;width:min(220px,70vw)}.bezel{height:132px}.row{grid-template-columns:1fr 1fr}.gterm.L,.gterm.R{width:22%}.gterm.T,.gterm.B{height:14%}}
 @media(max-width:520px){.row{grid-template-columns:1fr}.gterm.L,.gterm.R{width:20%}}
 </style>
 </head>
 <body class="locked">
 <div id="gate">
-  <div class="warn">⚠ DON'T CLICK · DANGER ⚠</div>
+  <div class="warn">⚠ DON'T CLICK · IT'S DANGER ⚠</div>
   <div class="flash"></div>
   <pre class="gterm L" id="gtL"></pre>
   <pre class="gterm R" id="gtR"></pre>
@@ -98,6 +99,7 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
   <pre class="gterm B" id="gtB"></pre>
   <div class="mask"><svg viewBox="0 0 160 210" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="led" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.15" fill="#7CFF7C"/></pattern><clipPath id="sk"><path d="M80 8c-34 0-58 26-58 62 0 18 6 32 16 42v18c0 8 6 16 16 20l6 18c2 6 8 10 16 10h8c8 0 14-4 16-10l6-18c10-4 16-12 16-20v-18c10-10 16-24 16-42C138 34 114 8 80 8z"/></clipPath></defs><rect width="160" height="210" fill="url(#led)" clip-path="url(#sk)"/><path d="M52 78l18 8-20 10zM108 78l-18 8 20 10z" fill="#000"/><path d="M58 128h44v6H58zM62 136h6v10h-6zM72 136h6v12h-6zM82 136h6v12h-6zM92 136h6v10h-6z" fill="#000"/></svg></div>
   <div id="grant">ACCESS GRANTED</div>
+  <div class="redlive">DON'T CLICK HERE · IT'S DANGER</div>
   <div class="box">
     <svg class="lock" viewBox="0 0 120 140"><path d="M35 62 V40 a25 25 0 0 1 50 0 v22" fill="none" stroke="#ff2a2a" stroke-width="8"/><rect x="22" y="60" width="76" height="62" rx="8" fill="#1a0000" stroke="#ff2a2a" stroke-width="4"/><circle cx="60" cy="88" r="8" fill="#ff2a2a"/><rect x="57" y="88" width="6" height="18" fill="#ff2a2a"/></svg>
     <b>DON'T CLICK HERE<br>IT'S DANGER</b>
@@ -158,44 +160,24 @@ function clickFx(){
 function loadVoice(){
   var url="https://api.streamelements.com/kappa/v2/speech?voice=Brian&text="+encodeURIComponent("Access granted");
   voice.src=url;voice.volume=1;voice.load();
-  try{
-    var c=ac();if(!c)return;
-    fetch(url).then(function(r){return r.arrayBuffer()}).then(function(b){return c.decodeAudioData(b)}).then(function(buf){grantBuf=buf}).catch(function(){});
-  }catch(e){}
+  try{var c=ac();if(!c)return;fetch(url).then(function(r){return r.arrayBuffer()}).then(function(b){return c.decodeAudioData(b)}).then(function(buf){grantBuf=buf}).catch(function(){})}catch(e){}
 }
 function playGrant(){
   try{fx.volume=0.05}catch(e){}
-  try{
-    var c=ac();
-    if(c&&grantBuf){
-      var s=c.createBufferSource();s.buffer=grantBuf;s.playbackRate.value=1.28;
-      var g2=c.createGain();g2.gain.value=2.4;s.connect(g2);g2.connect(c.destination);s.start();
-    }
-  }catch(e){}
+  try{var c=ac();if(c&&grantBuf){var s=c.createBufferSource();s.buffer=grantBuf;s.playbackRate.value=1.28;var g2=c.createGain();g2.gain.value=2.4;s.connect(g2);g2.connect(c.destination);s.start()}}catch(e){}
   try{voice.volume=1;voice.currentTime=0;voice.playbackRate=1.25;var p=voice.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
-  try{
-    if(window.speechSynthesis){
-      speechSynthesis.cancel();
-      var u=new SpeechSynthesisUtterance("Access granted");u.rate=1.05;u.pitch=1.35;u.volume=1;u.lang="en-US";speechSynthesis.speak(u);
-    }
-  }catch(e){}
+  try{if(window.speechSynthesis){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance("Access granted");u.rate=1.05;u.pitch=1.35;u.volume=1;u.lang="en-US";speechSynthesis.speak(u)}}catch(e){}
 }
 document.addEventListener("pointerdown",function(e){if(!mainReady)return;if(e.target&&e.target.id==="cmd")return;clickFx();},true);
 var lines=["breach.sh","handshake fail","decrypt shadow","port 22 open","I SEE YOU","osint map","root yes","YOU CLICKED"];
 function fillSide(el,max){var b=[],i=0;(function step(){if(!opened)return;b.push(lines[i++%lines.length]+" "+Math.random().toString(16).slice(2,7));if(b.length>max)b.shift();el.textContent=b.join("\n");setTimeout(step,80)})()}
 function dumpRun(){fillSide(document.getElementById("gtL"),18);fillSide(document.getElementById("gtR"),18);fillSide(document.getElementById("gtT"),4);fillSide(document.getElementById("gtB"),4)}
 function goMain(){
-  document.body.classList.remove("quake");
-  g.classList.add("grant");
-  playGrant();
-  setTimeout(function(){
-    g.classList.add("open");document.body.classList.remove("locked");document.body.classList.add("in");
-    setTimeout(function(){g.classList.add("gone");mainReady=true;try{speechSynthesis.cancel();voice.pause();fx.pause();fx.currentTime=0;fx.volume=1}catch(e){}},800);
-  },2000);
+  document.body.classList.remove("quake");g.classList.add("grant");playGrant();
+  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked");document.body.classList.add("in");setTimeout(function(){g.classList.add("gone");mainReady=true;try{speechSynthesis.cancel();voice.pause();fx.pause();fx.currentTime=0;fx.volume=1}catch(e){}},800)},2000);
 }
 document.getElementById("door").onclick=function(){
-  if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");dumpRun();
-  ac();loadVoice();
+  if(opened)return;opened=true;st.textContent="BREACHING...";document.body.classList.add("quake");g.classList.add("boom");dumpRun();ac();loadVoice();
   try{fx.currentTime=0;fx.volume=1;var p=fx.play();if(p&&p.catch)p.catch(function(){})}catch(e){}
   var wait=10400;try{if(fx.duration&&isFinite(fx.duration))wait=Math.max(9000,fx.duration*1000)}catch(e){}
   setTimeout(function(){st.textContent="ACCESS";goMain()},wait);
@@ -203,8 +185,7 @@ document.getElementById("door").onclick=function(){
 var out=document.getElementById("out"),cmd=document.getElementById("cmd");
 var cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat // OS RAHAT",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD / OG 2021"};
 function print(t){out.textContent+=(out.textContent?"\n":"")+t;out.scrollTop=out.scrollHeight}
-print("root shell ready");
-document.getElementById("shell").onclick=function(){cmd.focus()};
+print("root shell ready");document.getElementById("shell").onclick=function(){cmd.focus()};
 cmd.addEventListener("keydown",function(e){if(e.key!=="Enter")return;var raw=cmd.value.trim();cmd.value="";if(!raw)return;print("$ "+raw);var a=raw.split(/\s+/)[0];if(a==="clear"){out.textContent="";return}print(cmds[a]||("bash: "+a+": not found"))});
 var el=document.getElementById("tw"),twl=["root access · public source","OSINT + crypto CM + MOD","OG science // 2021"],li=0,ci=0,del=false;
 (function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,36)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,16)}del=false;li=(li+1)%twl.length;setTimeout(tick,150)})();
