@@ -34,11 +34,13 @@ h1 em{font-style:normal;color:var(--g)}
 .stat:nth-child(3),.skill:nth-child(3){animation-delay:.16s}
 .stat:nth-child(4),.skill:nth-child(4){animation-delay:.24s}
 .bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(57,255,20,.18);font-size:.72rem;color:#6fbb7d}
-pre{padding:16px;color:var(--g)}
+pre{padding:16px;color:var(--g);line-height:1.55}
 .skills,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .skill,.stat{padding:16px}.stat{text-align:center}
 .stat b{display:block;font-family:Orbitron,sans-serif;color:var(--g);font-size:1.4rem;text-shadow:0 0 12px rgba(57,255,20,.5);animation:pulse 2s ease-in-out infinite}
-.feed{height:150px;overflow:hidden;padding:12px}
+.skill h3{color:#edffef;margin-bottom:8px}
+.skill p{color:#8cff9f;font-size:.82rem;line-height:1.45}
+.feed{height:150px;overflow:hidden;padding:12px;font-size:.8rem;color:#8cff9f}
 h2{margin:28px 0 12px;color:var(--g);font-size:.88rem;letter-spacing:.1em;text-shadow:0 0 8px rgba(57,255,20,.35)}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
 .sh .line{display:flex;gap:8px;padding:10px}
@@ -84,7 +86,7 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem;letter-spacing:.1em;text-s
   <div class="top"><span>NODE // OSINTrahat</span><span>GREEN NODE ONLINE</span></div>
   <section class="hero">
     <div>
-      <p style="color:#00ffc3;letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL</p>
+      <p style="color:#00ffc3;letter-spacing:.2em;font-size:.72rem">SECURE CHANNEL // PUBLIC SOURCE ONLY</p>
       <h1>OSINT<br><em>RAHAT</em></h1>
       <p id="tw"></p>
     </div>
@@ -104,21 +106,30 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem;letter-spacing:.1em;text-s
     <div class="stat"><b>CLEAR</b><span>PUBLIC SOURCE</span></div>
   </div>
   <h2>// OPERATOR FILE</h2>
-  <div class="term"><div class="bar"><span>cat /etc/operator</span><span>ONLINE</span></div>
-<pre>[+] handle ...... OSINTrahat
-[+] operator .... OS RAHAT</pre></div>
+  <div class="term"><div class="bar"><span>cat /etc/operator</span><span>ACCESS_GRANTED</span></div>
+<pre>[+] handle ............. OSINTrahat
+[+] operator ........... OS RAHAT
+[+] lane ............... OSINT + SOCMINT
+[+] also ............... crypto community manager
+[+] role ............... MOD // Discord + Telegram
+[+] status ............. OG science since 2021
+[+] contact.x .......... https://x.com/Rahatirtaza
+[+] contact.tg ......... https://t.me/Rahatirtaza
+[+] contact.discord .... https://discord.com/users/1111896493599768589
+[+] contact.mail ....... rahatearningyt@gmail.com
+[+] note ............... public-source only // no private intrusion</pre></div>
   <h2>// MODULES</h2>
   <div class="skills">
-    <article class="skill"><h3>OSINT</h3><p>Public-source intel.</p></article>
-    <article class="skill"><h3>CRYPTO CM</h3><p>Community ops.</p></article>
-    <article class="skill"><h3>MOD</h3><p>Discord / Telegram.</p></article>
-    <article class="skill"><h3>OG 2021</h3><p>Since 2021.</p></article>
+    <article class="skill"><h3>OSINT</h3><p>Public-source intelligence. Collect, verify, connect the dots.</p></article>
+    <article class="skill"><h3>CRYPTO CM</h3><p>Community manager for crypto rooms. Ops, flow, people.</p></article>
+    <article class="skill"><h3>MOD</h3><p>Discord and Telegram moderation. Keep the node clean.</p></article>
+    <article class="skill"><h3>OG 2021</h3><p>In the space since 2021. Science lane. Still online.</p></article>
   </div>
   <h2>// LIVE TRACELOG</h2>
   <div class="panel"><div class="bar"><span>stream</span><span>READ_ONLY</span></div><div class="feed" id="feed"></div></div>
   <h2>// tty1</h2>
   <div class="sh" id="shell">
-    <div class="bar"><span>rahat@osint-node</span><span>TYPE HERE</span></div>
+    <div class="bar"><span>rahat@osint-node:~</span><span>TYPE HERE</span></div>
     <div class="out" id="out"></div>
     <div class="line"><span>$</span><input id="cmd" type="text" autocomplete="off" placeholder="type help then Enter"/></div>
   </div>
@@ -138,9 +149,9 @@ document.getElementById("door").onclick=function(){
   setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake")},1600);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
-const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat",contact:"X @Rahatirtaza",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD"};
+const cmds={help:"whoami  contact  social  skills  clear",whoami:"OSINTrahat // OS RAHAT\nOSINT + crypto CM + MOD\nOG since 2021",contact:"X        @Rahatirtaza\nTelegram t.me/Rahatirtaza\nDiscord  @rahatirtaza\nEmail    rahatearningyt@gmail.com",social:"https://x.com/Rahatirtaza\nhttps://t.me/Rahatirtaza\nhttps://discord.com/users/1111896493599768589",skills:"OSINT / SOCMINT / crypto community manager / MOD / OG 2021"};
 function print(t){out.textContent+=(out.textContent?"\n":"")+t;out.scrollTop=out.scrollHeight}
-print("type help");
+print("rahat@osint-node:~ type help");
 document.getElementById("shell").onclick=function(){cmd.focus()};
 cmd.addEventListener("keydown",function(e){
   if(e.key!=="Enter")return;
@@ -149,9 +160,9 @@ cmd.addEventListener("keydown",function(e){
   if(a==="clear"){out.textContent="";return}
   print(cmds[a]||("bash: "+a+": command not found"));
 });
-const el=document.getElementById("tw"),twl=["collect | verify | connect the dots","OG since 2021"];let li=0,ci=0,del=false;
-(function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1100)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%twl.length;setTimeout(tick,200)})();
-const feed=document.getElementById("feed"),logs=["[ok] mapped","[ok] archive","[ok] socmint","[ok] node ping"];let fi=0;
+const el=document.getElementById("tw"),twl=["collect | verify | connect the dots","OSINT + crypto community manager + MOD","OG science // online since 2021"];let li=0,ci=0,del=false;
+(function tick(){var cur=twl[li];el.textContent="> "+cur.slice(0,ci);if(!del&&ci<cur.length){ci++;return setTimeout(tick,46)}if(!del){del=true;return setTimeout(tick,1200)}if(ci>0){ci--;return setTimeout(tick,22)}del=false;li=(li+1)%twl.length;setTimeout(tick,200)})();
+const feed=document.getElementById("feed"),logs=["[ok] public source mapped","[ok] archive snapshot","[ok] socmint lane idle","[ok] node ping 12ms","[ok] telegram link live","[ok] discord user resolved"];let fi=0;
 (function push(){var d=document.createElement("div");d.textContent="> "+logs[fi++%logs.length];feed.prepend(d);while(feed.children.length>6)feed.lastChild.remove();setTimeout(push,1400)})();
 const cnv=document.getElementById("matrix"),x=cnv.getContext("2d");
 function sz(){cnv.width=innerWidth;cnv.height=innerHeight}sz();addEventListener("resize",sz);
