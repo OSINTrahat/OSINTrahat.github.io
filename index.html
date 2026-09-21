@@ -10,7 +10,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Share Tech Mono",monospace;background:radial-gradient(900px 500px at 80% 0,rgba(57,255,20,.1),transparent 55%),#010302;color:#b7ffc4;min-height:100vh}
 body.locked{overflow:hidden}
-body.quake{animation:quake 2s linear}
+body.quake{animation:quake .18s linear infinite}
 #matrix{position:fixed;inset:0;z-index:0;opacity:.26;pointer-events:none}
 .scanline{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.2) 3px);opacity:.38}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:34px 28px 80px}
@@ -39,16 +39,25 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 .sh .out{height:220px;overflow:auto;padding:12px;white-space:pre-wrap}
 .sh .line{display:flex;gap:8px;padding:10px}
 .sh input{flex:1;min-height:42px;background:#03140a;border:1px solid #39ff14;color:#39ff14;font:inherit;outline:none;padding:8px}
-#gate{position:fixed;inset:0;z-index:95;background:#050000;display:flex;align-items:center;justify-content:center}
-#gate.gone{display:none}#gate.open{opacity:0;transition:opacity .55s}
-.box{width:min(360px,86vw);aspect-ratio:1;border:3px solid #ff2a2a;background:rgba(28,0,0,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:0 0 50px rgba(255,0,0,.4),inset 0 0 40px rgba(255,0,0,.12);animation:boxpulse 1.15s ease-in-out infinite}
+#gate{position:fixed;inset:0;z-index:95;background:#050000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#gate.gone{display:none}
+#gate.open{opacity:0;transition:opacity .7s}
+#gate.boom .box{animation:unlock 1.1s ease-in forwards}
+#gate.boom .flash{opacity:1}
+#gate.boom .ring{animation:rings 10s linear}
+.flash{position:absolute;inset:0;background:radial-gradient(circle,rgba(255,40,40,.35),transparent 55%);opacity:0;pointer-events:none;animation:none}
+.ring{position:absolute;width:120px;height:120px;border:2px solid rgba(255,40,40,.0);border-radius:50%;pointer-events:none}
+.box{position:relative;z-index:2;width:min(360px,86vw);aspect-ratio:1;border:3px solid #ff2a2a;background:rgba(28,0,0,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:0 0 50px rgba(255,0,0,.4),inset 0 0 40px rgba(255,0,0,.12);animation:boxpulse 1.15s ease-in-out infinite}
 .box svg{width:96px;filter:drop-shadow(0 0 16px #ff1a1a)}
 .box b{color:#ff3b3b;font-family:Orbitron,sans-serif;letter-spacing:.08em;text-align:center;font-size:clamp(.95rem,3.5vw,1.2rem);text-shadow:0 0 12px #f00}
 .box span{color:#ffb3b3;font-size:.72rem;letter-spacing:.18em}
+#status{min-height:1.2em;color:#ffd0d0;font-size:.7rem;letter-spacing:.2em}
 #door{position:absolute;inset:0;z-index:97;border:0;background:transparent;cursor:pointer}
 @keyframes pan{to{transform:translateX(-50%)}}
-@keyframes quake{0%,100%{transform:none}20%{transform:translate(-14px,8px)}45%{transform:translate(12px,-10px)}70%{transform:translate(-8px,6px)}}
+@keyframes quake{0%,100%{transform:none}25%{transform:translate(-10px,6px)}50%{transform:translate(12px,-8px)}75%{transform:translate(-6px,4px)}}
 @keyframes boxpulse{50%{box-shadow:0 0 80px rgba(255,0,0,.6),inset 0 0 50px rgba(255,0,0,.2)}}
+@keyframes unlock{0%{transform:scale(1) rotate(0)}30%{transform:scale(1.08) rotate(-3deg)}70%{transform:scale(.92) rotate(4deg)}100%{transform:scale(0) rotate(12deg);opacity:0}}
+@keyframes rings{0%{box-shadow:0 0 0 0 rgba(255,30,30,.55)}100%{box-shadow:0 0 0 70vmax rgba(255,30,30,0)}}
 @keyframes glitch{0%,90%,100%{transform:none}93%{transform:translate(-2px,1px)}}
 @keyframes shine{0%{transform:translateX(-130%)}60%,100%{transform:translateX(130%)}}
 @keyframes monGlow{50%{box-shadow:0 0 36px rgba(57,255,20,.35)}}
@@ -57,6 +66,8 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
 </head>
 <body class="locked">
 <div id="gate">
+  <div class="flash"></div>
+  <div class="ring"></div>
   <div class="box">
     <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
       <path d="M35 62 V40 a25 25 0 0 1 50 0 v22" fill="none" stroke="#ff2a2a" stroke-width="8"/>
@@ -66,10 +77,11 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
     </svg>
     <b>DON'T CLICK HERE<br>IT'S DANGER</b>
     <span>LOCKED NODE</span>
+    <div id="status">CLICK TO BREACH</div>
   </div>
   <button id="door" type="button"></button>
 </div>
-<audio id="fx" src="click.mp3" preload="auto" autoplay loop playsinline></audio>
+<audio id="fx" src="click.mp3" preload="auto" playsinline></audio>
 <canvas id="matrix"></canvas>
 <div class="scanline"></div>
 <div class="wrap">
@@ -124,20 +136,22 @@ h2{margin:28px 0 12px;color:var(--g);font-size:.88rem}
   </div>
 </div>
 <script>
-var fx=document.getElementById("fx");
-function playFx(){try{if(fx.paused){var p=fx.play();if(p&&p.catch)p.catch(function(){});}}catch(e){}}
-fx.addEventListener("canplay",playFx);
-window.addEventListener("load",playFx);
-setTimeout(playFx,200);
-["pointerdown","keydown","touchstart","click"].forEach(function(ev){window.addEventListener(ev,playFx,true);});
-var opened=false;
+var fx=document.getElementById("fx"),g=document.getElementById("gate"),st=document.getElementById("status"),opened=false;
+function goMain(){
+  g.classList.add("open");
+  document.body.classList.remove("locked","quake");
+  setTimeout(function(){g.classList.add("gone");try{fx.pause();}catch(e){}},700);
+}
 document.getElementById("door").onclick=function(){
   if(opened)return; opened=true;
-  playFx();
+  st.textContent="BREACHING...";
   document.body.classList.add("quake");
-  var g=document.getElementById("gate");
-  setTimeout(function(){g.classList.add("open");document.body.classList.remove("locked")},800);
-  setTimeout(function(){g.classList.add("gone");document.body.classList.remove("quake");try{fx.pause();}catch(e){}},1600);
+  g.classList.add("boom");
+  try{fx.currentTime=0;var p=fx.play();if(p&&p.catch)p.catch(function(){});}catch(e){}
+  var done=false;
+  function finish(){if(done)return;done=true;st.textContent="ACCESS";goMain();}
+  fx.onended=finish;
+  setTimeout(finish,10500);
 };
 const out=document.getElementById("out"),cmd=document.getElementById("cmd");
 const cmds={help:"whoami contact social skills clear",whoami:"OSINTrahat // OS RAHAT",contact:"X @Rahatirtaza\nTG t.me/Rahatirtaza\nDC @rahatirtaza\nrahatearningyt@gmail.com",social:"https://x.com/Rahatirtaza",skills:"OSINT / CM / MOD / OG 2021"};
