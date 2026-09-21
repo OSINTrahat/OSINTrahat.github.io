@@ -15,7 +15,8 @@ body.quake{animation:quake .12s linear infinite}
 .scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.4) 3px);animation:scan 8s linear infinite}
 .wrap{position:relative;z-index:2;max-width:1220px;margin:0 auto;padding:30px 22px 90px;animation:pageIn 1s ease both}
 .top{display:flex;justify-content:space-between;color:#5f9;font-size:.72rem;letter-spacing:.2em;margin-bottom:16px;font-weight:700}
-h1{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(3.2rem,9vw,6.6rem);line-height:.8;color:var(--g);letter-spacing:-.03em;text-shadow:0 0 8px #39ff14,0 0 28px #39ff14,0 0 60px rgba(0,255,80,.35);animation:glitch 1.8s infinite}
+h1{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(3.2rem,9vw,6.6rem);line-height:.8;color:var(--g);letter-spacing:-.03em;text-shadow:0 0 8px #39ff14,0 0 28px #39ff14;animation:glitch 1.8s infinite}
+h1 .w{color:#fff;text-shadow:0 0 10px #fff,0 0 28px rgba(255,255,255,.35);display:block}
 #tw{margin-top:14px;color:#7dff9a;font-size:1.05rem;font-weight:700;min-height:1.4em}
 .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center}
 .monitor{width:min(280px,100%);margin-left:auto;background:#0a0a0a;border:6px solid #1a1a1a;border-radius:10px 10px 14px 14px;box-shadow:0 18px 40px #000,0 0 24px rgba(57,255,20,.2);padding:8px 8px 16px;animation:mon 2.4s ease-in-out infinite}
@@ -107,7 +108,7 @@ pre.op{padding:16px;color:var(--g);line-height:1.62;font-weight:700}
   <div class="top"><span>root@osintrahat:~#</span><span>ACCESS GRANTED</span></div>
   <section class="hero">
     <div>
-      <h1>OSINT<br>RAHAT</h1>
+      <h1><span class="w">OSINT</span>RAHAT</h1>
       <p id="tw"></p>
     </div>
     <div class="monitor">
